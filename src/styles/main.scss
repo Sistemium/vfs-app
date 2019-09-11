@@ -1,0 +1,14 @@
+@import "variables";
+
+body {
+  margin: 0;
+}
+
+.tab-content {
+  //padding: 5px;
+  > h2 {
+    background-color: $gray-background;
+    margin: 0 auto;
+    padding: 6px;
+  }
+}
