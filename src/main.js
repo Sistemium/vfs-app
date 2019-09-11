@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import '@/config/libs';
+import '@/config/element-ui';
 
 import App from './App.vue';
 import router from './router';

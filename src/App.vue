@@ -1,10 +1,9 @@
 <template lang="pug">
 
-#app
-  //#nav
-    router-link(to="/") Home
-    span |
-    router-link(to="/about") About
+#app(
+  v-loading.fullscreen.lock="authorizing"
+  element-loading-text="Авторизация ..."
+)
   router-view(v-if="authorized")
   auth(v-else)
 
@@ -12,16 +11,16 @@
 <script>
 
 import { createNamespacedHelpers } from 'vuex';
-import { IS_AUTHORIZED } from '@/vuex/auth/getters';
+import { IS_AUTHORIZED, IS_AUTHORIZING } from '@/vuex/auth/getters';
 import Auth from '@/views/Auth.vue';
 
 const { mapGetters } = createNamespacedHelpers('auth');
-
 
 export default {
   components: { Auth },
   computed: {
     ...mapGetters({
+      authorizing: IS_AUTHORIZING,
       authorized: IS_AUTHORIZED,
     }),
   },
