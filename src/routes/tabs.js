@@ -1,18 +1,26 @@
 import TabsPage from '@/views/TabsPage.vue';
 import About from '@/views/About.vue';
-import Points from '@/views/Points.vue';
+import ServicePoints from '@/views/ServicePoints.vue';
 import Tasks from '@/views/Tasks.vue';
+import ServicePoint from '@/views/ServicePoint.vue';
 
 
 const tabs = [
   {
-    path: 'points',
-    name: 'points',
-    component: Points,
+    path: 'servicePoints',
+    name: 'ServicePoints',
+    component: ServicePoints,
     meta: {
       title: 'Taškai',
       img: 'images/icons8-shop.png',
     },
+    children: [
+      {
+        path: ':servicePointId',
+        name: 'ServicePoint',
+        component: ServicePoint,
+      },
+    ],
   },
   {
     path: 'tasks',

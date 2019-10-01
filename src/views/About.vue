@@ -1,6 +1,6 @@
 <template lang="pug">
 
 .about
-  h2 Apie programėlę
+  nav-header(title="Apie programėlę")
 
 </template>

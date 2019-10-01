@@ -5,4 +5,9 @@ import Vue from 'vue';
 import Mint from 'mint-ui';
 import 'mint-ui/lib/style.css';
 
+import ListItem from '@/components/ListItem.vue';
+import NavHeader from '@/components/NavHeader.vue';
+
 Vue.use(Mint);
+Vue.component(NavHeader.name, NavHeader);
+Vue.component(ListItem.name, ListItem);

@@ -18,6 +18,8 @@ $margin-top: 7px;
 $border-radius: 6px;
 $list-cell-borders: solid 1px $gray-border-color;
 
+$gray-border: $list-cell-borders;
+
 %list-cell-bordered {
   border-top: $list-cell-borders;
   border-bottom: $list-cell-borders;

@@ -1,7 +1,7 @@
 <template lang="pug">
 
 .tasks
-  h2 Užduotys
+  nav-header(title="Užduotys")
 
 </template>
 <script>
