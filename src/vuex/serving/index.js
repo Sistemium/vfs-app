@@ -15,6 +15,7 @@ export default {
       roles: null,
       error: null,
       [g.SERVICE_POINTS]: [],
+      [g.CURRENT_SERVICE_POINT]: null,
     };
   },
 
