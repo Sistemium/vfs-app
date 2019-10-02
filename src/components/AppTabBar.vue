@@ -1,12 +1,10 @@
 <template lang="pug">
 
-.app-tab-bar
+mt-tabbar.app-tab-bar(v-model="selected")
 
-  mt-tabbar(v-model="selected")
-
-    mt-tab-item(v-for="tab in tabs" v-bind:id="tab.name" :key="tab.name")
-      img(slot="icon" v-bind:src="tab.meta.img")
-      .title {{ tab.meta.title }}
+  mt-tab-item(v-for="tab in tabs" v-bind:id="tab.name" :key="tab.name")
+    img(slot="icon" v-bind:src="tab.meta.img")
+    .title {{ tab.meta.title }}
 
 </template>
 <script>
@@ -50,15 +48,15 @@ export default {
 };
 
 </script>
-<style>
+<style scoped>
 
 @media (max-height: 414px) and (orientation: landscape) {
-  .mint-tab-item-icon {
+  .app-tab-bar >>> .mint-tab-item-icon {
     display: none;
   }
 }
 
-.mint-tabbar {
+.app-tab-bar {
   position: static;
 }
 
