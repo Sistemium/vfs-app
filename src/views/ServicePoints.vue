@@ -6,7 +6,6 @@
 
     nav-header(title="Aptarnavimo taškai")
     service-point-list.list(
-      v-if="isRootState"
       :service-points="servicePoints"
       @click="servicePointClick"
     )
@@ -30,7 +29,6 @@ const { debug } = log(NAME);
 export default {
 
   methods: {
-    loadServicePoints: serving.actions.loadServicePoints,
     servicePointClick(servicePoint) {
       this.$router.push({
         name: 'ServicePoint',
@@ -50,7 +48,7 @@ export default {
   },
 
   async beforeRouteEnter(to, from, next) {
-    debug('beforeRouteEnter', to, from);
+    debug('beforeRouteEnter', to.fullPath, from.fullPath);
     await store.dispatch(`serving/${LOAD_SERVICE_POINTS}`);
     next();
   },
@@ -66,10 +64,8 @@ export default {
 @import "../styles/variables";
 
 .service-points {
-
   display: flex;
   flex-direction: column;
-
 }
 
 .list {

@@ -1,33 +1,25 @@
 <template lang="pug">
 
-.service-point-list.cell-list
-
-  list-item(
-    v-for= "servicePoint in servicePoints"
-    :key="servicePoint.id"
-    :gray="servicePoint.address"
-    :title="servicePoint.name"
-    @click="$emit('click', servicePoint)"
-  )
+items-list.service-point-list(
+  :items="servicePoints"
+  gray-prop="address"
+  title-prop="name"
+  @click="onClick"
+)
 
 </template>
 <script>
 
-const NAME = 'ServicePointList';
-
 export default {
 
   props: { servicePoints: Array },
-
-  methods: {},
-
-  name: NAME,
+  name: 'ServicePointList',
+  methods: {
+    onClick(servicePoint) {
+      this.$emit('click', servicePoint);
+    },
+  },
 
 };
 
 </script>
-<style scoped lang="scss">
-
-@import "../styles/variables";
-
-</style>
