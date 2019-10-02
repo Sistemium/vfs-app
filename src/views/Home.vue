@@ -2,7 +2,7 @@
 
 .home
 
-  img(alt="Vue logo" src="../assets/logo.png")
+  img(alt="Vue logo" src="../assets/vfs-1024.png")
 
   hello-world(msg="Welcome to VFS")
 
@@ -23,3 +23,9 @@ export default {
 };
 
 </script>
+
+<style lang="css">
+img {
+  max-width: 200px;
+}
+</style>

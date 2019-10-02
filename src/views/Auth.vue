@@ -2,7 +2,7 @@
 
 .auth-page
 
-  h1 Authorization
+  nav-header(title="Autorizacija")
 
   .oauth-buttons
     oauth-button(label="Google" image="icons8-google_plus")
@@ -21,11 +21,12 @@
 import { createNamespacedHelpers } from 'vuex';
 import OauthButton from '@/components/OauthButton.vue';
 import * as actions from '@/vuex/auth/actions';
+import * as getters from '@/vuex/auth/getters';
 import log from 'sistemium-telegram/services/log';
 
 const { debug } = log('auth');
 
-const { mapActions } = createNamespacedHelpers('auth');
+const { mapActions, mapGetters } = createNamespacedHelpers('auth');
 
 export default {
   name: 'Auth',
@@ -34,25 +35,37 @@ export default {
     accessToken() {
       return this.$route.query['access-token'];
     },
+    ...mapGetters({
+      isAuthorized: getters.IS_AUTHORIZED,
+    }),
   },
   methods: {
     ...mapActions({
       login: actions.AUTH_INIT,
     }),
-    // ...mapGetters({
-    //   campaigns: getters.CAMPAIGNS,
+    onAuth() {
+      const to = this.$route.query.from || '/';
+      debug('isAuthorized', this.$route);
+      this.$router.push(to);
+    },
+  },
+  watch: {
+    isAuthorized(yes) {
+      debug('isAuthorized', yes);
+      if (yes) {
+        this.onAuth();
+      }
+    },
   },
   async created() {
+    if (this.isAuthorized) {
+      this.onAuth();
+    }
     if (!this.accessToken) {
       return;
     }
     const isLogged = await this.login(this.accessToken);
     debug(isLogged);
-    if (isLogged) {
-      const { location } = window;
-      const url = `${location.protocol}//${location.host}${location.pathname}/#/`;
-      window.history.pushState({}, document.title, url);
-    }
   },
 };
 

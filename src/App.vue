@@ -1,28 +1,36 @@
 <template lang="pug">
 
 #app(
-  v-loading.fullscreen.lock="authorizing"
-  element-loading-text="Įgaliojimas ..."
+  v-loading.fullscreen.lock="busy"
+  :element-loading-text="`${busy} ...`"
 )
-  router-view(v-if="authorized")
-  auth(v-else)
+  router-view
 
 </template>
 <script>
 
+import serving from '@/vuex/serving/maps';
 import { createNamespacedHelpers } from 'vuex';
 import { IS_AUTHORIZED, IS_AUTHORIZING } from '@/vuex/auth/getters';
-import Auth from '@/views/Auth.vue';
 
 const { mapGetters } = createNamespacedHelpers('auth');
 
 export default {
-  components: { Auth },
   computed: {
     ...mapGetters({
       authorizing: IS_AUTHORIZING,
       authorized: IS_AUTHORIZED,
     }),
+    busyServing: serving.getters.busy,
+    busy() {
+      if (this.authorizing) {
+        return 'Autorizacija';
+      }
+      if (this.busyServing) {
+        return 'Įkeliami duomenys';
+      }
+      return '';
+    },
   },
 };
 

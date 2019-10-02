@@ -2,6 +2,7 @@ import { servicePointByIds } from '@/services/servicePoints';
 
 export const SERVICE_POINTS = 'ServicePoints';
 export const CURRENT_SERVICE_POINT = 'currentServicePoint';
+export const BUSY = 'busy';
 
 export default {
 
@@ -11,6 +12,10 @@ export default {
 
   [CURRENT_SERVICE_POINT](state) {
     return state[CURRENT_SERVICE_POINT];
+  },
+
+  [BUSY](state) {
+    return state[BUSY];
   },
 
 };

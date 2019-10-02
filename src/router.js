@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
+import Auth from './views/Auth.vue';
 
 import tabs from '@/routes/tabs';
 
@@ -17,11 +18,12 @@ export default new Router({
       name: 'home',
       component: Home,
     },
-    // {
-    //   path: '/login',
-    //   name: 'login',
-    //   component: Home,
-    // },
+    {
+      path: '/auth',
+      alias: '/login',
+      name: 'Auth',
+      component: Auth,
+    },
     // {
     //   path: '/about',
     //   name: 'about',

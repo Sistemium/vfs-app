@@ -1,31 +1,37 @@
 <template lang="pug">
 
-.points
+.service-points
 
-  nav-header(v-if="isRootState" title="Aptarnavimo taškai")
+  template(v-if="isRootState")
+
+    nav-header(title="Aptarnavimo taškai")
+    service-point-list.list(
+      v-if="isRootState"
+      :service-points="servicePoints"
+      @click="servicePointClick"
+    )
+
   nav-header(v-else title="Aptarnavimo taškas" :prev="backClick")
-
-  service-point-list.list(
-    v-if="isRootState"
-    :service-points="servicePoints"
-    @click="setCurrentServicePoint"
-  )
 
   router-view
 
 </template>
 <script>
 
+import store from '@/store';
 import serving from '@/vuex/serving/maps';
+import { LOAD_SERVICE_POINTS } from '@/vuex/serving/actions';
 import ServicePointList from '@/components/ServicePointList.vue';
+import log from 'sistemium-telegram/services/log';
 
 const NAME = 'ServicePoints';
+const { debug } = log(NAME);
 
 export default {
 
   methods: {
     loadServicePoints: serving.actions.loadServicePoints,
-    setCurrentServicePoint(servicePoint) {
+    servicePointClick(servicePoint) {
       this.$router.push({
         name: 'ServicePoint',
         params: { servicePointId: servicePoint.id },
@@ -43,8 +49,10 @@ export default {
     },
   },
 
-  async created() {
-    await this.loadServicePoints();
+  async beforeRouteEnter(to, from, next) {
+    debug('beforeRouteEnter', to, from);
+    await store.dispatch(`serving/${LOAD_SERVICE_POINTS}`);
+    next();
   },
 
   components: { ServicePointList },
@@ -57,14 +65,10 @@ export default {
 
 @import "../styles/variables";
 
-.points {
+.service-points {
 
   display: flex;
   flex-direction: column;
-
-  > h2 {
-    margin: 0;
-  }
 
 }
 

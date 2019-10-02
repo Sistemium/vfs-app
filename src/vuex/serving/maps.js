@@ -15,6 +15,7 @@ export default {
   getters: mapGetters({
     currentServicePoint: g.CURRENT_SERVICE_POINT,
     servicePoints: g.SERVICE_POINTS,
+    busy: g.BUSY,
   }),
 
 };

@@ -4,6 +4,10 @@ import ServicePoints from '@/views/ServicePoints.vue';
 import Tasks from '@/views/Tasks.vue';
 import ServicePoint from '@/views/ServicePoint.vue';
 
+import vuex from '@/store';
+import log from 'sistemium-telegram/services/log';
+
+const { debug } = log('router:tabs');
 
 const tabs = [
   {
@@ -46,8 +50,20 @@ export default {
   path: '/tabs',
   name: 'tabs',
   component: TabsPage,
-  // 'route' is default tab
-  redirect: '/tabs/about',
+  redirect: '/tabs/servicePoints',
   children: tabs,
   props: { tabs },
+  beforeEnter(to, from, next) {
+    const authorized = vuex.getters['auth/IS_AUTHORIZED'];
+    debug(to.fullPath, 'from', from.fullPath, authorized);
+    // debug('q', to.query, from.query);
+    if (!authorized) {
+      next({
+        path: '/auth',
+        query: { ...from.query, from: to.fullPath },
+      });
+      return;
+    }
+    next();
+  },
 };
