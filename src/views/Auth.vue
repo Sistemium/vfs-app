@@ -14,7 +14,6 @@
       code="sms"
     )
 
-
 </template>
 <script>
 
@@ -75,13 +74,14 @@ export default {
 @import "../styles/variables";
 
 .oauth-buttons {
+
   margin: $margin-right auto;
+  max-width: 250px;
 
   .oauth-button {
     margin: $margin-right 0;
   }
 
-  max-width: 250px;
 }
 
 </style>

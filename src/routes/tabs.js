@@ -47,12 +47,14 @@ const tabs = [
 ];
 
 export default {
+
   path: '/tabs',
   name: 'tabs',
   component: TabsPage,
   redirect: '/tabs/servicePoints',
   children: tabs,
   props: { tabs },
+
   beforeEnter(to, from, next) {
     const authorized = vuex.getters['auth/IS_AUTHORIZED'];
     // debug(to.fullPath, 'from', from.fullPath, authorized);
@@ -60,10 +62,14 @@ export default {
     if (!authorized) {
       next({
         path: '/auth',
-        query: { ...from.query, from: to.fullPath },
+        query: {
+          ...from.query,
+          from: to.fullPath,
+        },
       });
       return;
     }
     next();
   },
+
 };
