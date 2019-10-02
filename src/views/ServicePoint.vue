@@ -16,7 +16,9 @@ export default {
     return { servicePoint: null };
   },
   created() {
-    ServicePoint.bindOne(this, this.$route.params.servicePointId, 'servicePoint');
+    this.$watch('$route.params.servicePointId', servicePointId => {
+      ServicePoint.bindOne(this, servicePointId, 'servicePoint');
+    }, { immediate: true });
   },
   name: NAME,
 };
