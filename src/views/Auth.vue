@@ -45,7 +45,7 @@ export default {
     }),
     onAuth() {
       const to = this.$route.query.from || '/';
-      debug('isAuthorized', this.$route);
+      // debug('isAuthorized', this.$route);
       this.$router.push(to);
     },
   },
@@ -81,10 +81,7 @@ export default {
     margin: $margin-right 0;
   }
 
-  /*display: flex;*/
-  /*flex-direction: column;*/
   max-width: 250px;
-  /*justify-content: center;*/
 }
 
 </style>

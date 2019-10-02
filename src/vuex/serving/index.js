@@ -11,9 +11,6 @@ export default {
 
   state() {
     return {
-      account: null,
-      roles: null,
-      error: null,
       [g.SERVICE_POINTS]: [],
       [g.CURRENT_SERVICE_POINT]: null,
       [g.BUSY]: false,

@@ -5,9 +5,9 @@ import Tasks from '@/views/Tasks.vue';
 import ServicePoint from '@/views/ServicePoint.vue';
 
 import vuex from '@/store';
-import log from 'sistemium-telegram/services/log';
+// import log from 'sistemium-telegram/services/log';
 
-const { debug } = log('router:tabs');
+// const { debug } = log('router:tabs');
 
 const tabs = [
   {
@@ -55,7 +55,7 @@ export default {
   props: { tabs },
   beforeEnter(to, from, next) {
     const authorized = vuex.getters['auth/IS_AUTHORIZED'];
-    debug(to.fullPath, 'from', from.fullPath, authorized);
+    // debug(to.fullPath, 'from', from.fullPath, authorized);
     // debug('q', to.query, from.query);
     if (!authorized) {
       next({
