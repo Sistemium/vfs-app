@@ -3,6 +3,8 @@
 .tasks
   nav-header(title="Užduotys")
 
+  p Čia bus darbuotojo užduotys
+
 </template>
 <script>
 
