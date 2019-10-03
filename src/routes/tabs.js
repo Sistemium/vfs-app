@@ -4,7 +4,7 @@ import ServicePoints from '@/views/ServicePoints.vue';
 import Tasks from '@/views/Tasks.vue';
 import ServicePoint from '@/views/ServicePoint.vue';
 
-import vuex from '@/store';
+import vuex from '@/vuex/store';
 // import log from 'sistemium-telegram/services/log';
 
 // const { debug } = log('router:tabs');

@@ -3,6 +3,7 @@ import { servicePointByIds } from '@/services/servicePoints';
 export const SERVICE_POINTS = 'ServicePoints';
 export const CURRENT_SERVICE_POINT = 'currentServicePoint';
 export const BUSY = 'busy';
+export const ERROR = 'error';
 
 export default {
 

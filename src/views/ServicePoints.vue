@@ -17,7 +17,7 @@
 </template>
 <script>
 
-import store from '@/store';
+import store from '@/vuex/index';
 import serving from '@/vuex/serving/maps';
 import { LOAD_SERVICE_POINTS } from '@/vuex/serving/actions';
 import ServicePointList from '@/components/ServicePointList.vue';
@@ -49,8 +49,16 @@ export default {
 
   async beforeRouteEnter(to, from, next) {
     debug('beforeRouteEnter', to.fullPath, from.fullPath);
-    await store.dispatch(`serving/${LOAD_SERVICE_POINTS}`);
-    next();
+    try {
+      await store.dispatch(`serving/${LOAD_SERVICE_POINTS}`);
+      next();
+    } catch (e) {
+      await store.dispatch('routingError', {
+        to,
+        from,
+        error: e,
+      });
+    }
   },
 
   components: { ServicePointList },
