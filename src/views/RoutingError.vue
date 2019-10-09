@@ -6,11 +6,12 @@
 
   img(alt="Vue logo" src="../assets/icons8-error-256.png")
 
-  p Nepavyko pereiti į:
-    b {{ routingError.to.name }}
+  template(v-if="routingError")
+    p Nepavyko pereiti į:
+      b {{ routingError.to.name }}
 
-  router-link(:to="routingError.to")
-    mt-button(type="primary") Pakartoti
+    router-link(:to="routingError.to")
+      mt-button(type="primary") Pakartoti
 
 </template>
 <script>
@@ -24,11 +25,20 @@ export default {
   computed: {
     ...mapGetters({ routingError: 'routingError' }),
   },
+  created() {
+    if (!this.routingError) {
+      this.$router.push('/');
+    }
+  },
 };
 
 </script>
 <style scoped lang="scss">
 
 @import "../styles/variables";
+
+p b {
+  margin-left: $margin-right;
+}
 
 </style>
