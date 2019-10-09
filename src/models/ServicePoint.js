@@ -1,4 +1,4 @@
-import Model from 'sistemium-vue/jsdata/Model';
+import Model from '@/lib/Model';
 
 export default new Model({
 
