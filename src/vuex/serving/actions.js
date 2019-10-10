@@ -8,25 +8,15 @@ export const SET_CURRENT_SERVICE_POINT = 'SET_CURRENT_SERVICE_POINT';
 
 export default {
 
-  async [LOAD_SERVING_MASTERS]({ commit }) {
-    // commit(m.SET_BUSY, true);
+  [LOAD_SERVING_MASTERS]: asyncAction(async ({ commit }) => {
     const data = await loadServingMasters();
     commit(m.SET_SERVING_MASTERS, data);
-    // commit(m.SET_BUSY, false);
-  },
+  }),
 
-  async [LOAD_SERVICE_POINTS]({ commit }) {
-    commit(m.SET_BUSY, true);
-    try {
-      const data = await loadServicePoints();
-      commit(m.SET_SERVICE_POINTS, data);
-    } catch (e) {
-      // dispatch(THROW_ERROR, e);
-      commit(m.SET_ERROR, e);
-      throw e;
-    }
-    commit(m.SET_BUSY, false);
-  },
+  [LOAD_SERVICE_POINTS]: asyncAction(async ({ commit }) => {
+    const data = await loadServicePoints();
+    commit(m.SET_SERVICE_POINTS, data);
+  }),
 
   [SET_CURRENT_SERVICE_POINT]({ commit }, servicePoint) {
     commit(m.SET_CURRENT_SERVICE_POINT, servicePoint);
@@ -38,3 +28,22 @@ export default {
   // },
 
 };
+
+/**
+ * Async action handler helper
+ * @param action
+ * @returns {Promise}
+ */
+
+function asyncAction(action) {
+  return async ({ commit }, ...args) => {
+    commit(m.SET_BUSY, true);
+    try {
+      await action({ commit }, ...args);
+    } catch (e) {
+      commit(m.SET_ERROR, e);
+      throw e;
+    }
+    commit(m.SET_BUSY, false);
+  };
+}
