@@ -55,7 +55,7 @@ export default {
   children: tabs,
   props: { tabs },
 
-  beforeEnter(to, from, next) {
+  async beforeEnter(to, from, next) {
     const authorized = vuex.getters['auth/IS_AUTHORIZED'];
     // debug(to.fullPath, 'from', from.fullPath, authorized);
     // debug('q', to.query, from.query);
@@ -69,7 +69,12 @@ export default {
       });
       return;
     }
-    next();
+    try {
+      await vuex.dispatch('serving/LOAD_SERVING_MASTERS');
+      next();
+    } catch (e) {
+      next(e);
+    }
   },
 
 };

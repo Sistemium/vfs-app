@@ -12,6 +12,7 @@ export default {
   state() {
     return {
       [g.SERVICE_POINTS]: [],
+      [g.SERVING_MASTERS]: [],
       [g.CURRENT_SERVICE_POINT]: null,
       [g.BUSY]: false,
       [g.ERROR]: null,

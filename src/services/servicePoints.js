@@ -1,9 +1,9 @@
 import ServicePoint from '@/models/ServicePoint';
 import ServiceItem from '@/models/ServiceItem';
+import Employee from '@/models/Employee';
+import filter from 'lodash/filter';
 import fpMap from 'lodash/fp/map';
 import uniq from 'lodash/uniq';
-
-import filter from 'lodash/filter';
 
 const mapServicePointId = fpMap('servicePointId');
 
@@ -19,4 +19,12 @@ export async function loadServicePoints(servingMasterId) {
 
 export function servicePointByIds(ids) {
   return ServicePoint.getMany(ids);
+}
+
+export function servingMastersByIds(ids) {
+  return Employee.getMany(ids);
+}
+
+export async function loadServingMasters() {
+  return Employee.findAll();
 }
