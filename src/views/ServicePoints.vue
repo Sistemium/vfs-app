@@ -5,6 +5,7 @@
   template(v-if="isRootState")
 
     nav-header(title="Aptarnavimo taškai")
+    current-serving-master
     service-point-list.list(
       :service-points="servicePoints"
       @click="servicePointClick"
@@ -23,6 +24,7 @@ import { LOAD_SERVICE_POINTS } from '@/vuex/serving/actions';
 import { CURRENT_SERVING_MASTER } from '@/vuex/serving/getters';
 import ServicePointList from '@/components/ServicePointList.vue';
 import log from 'sistemium-telegram/services/log';
+import CurrentServingMaster from '@/components/CurrentServingMaster.vue';
 
 const NAME = 'ServicePoints';
 const { debug } = log(NAME);
@@ -73,7 +75,11 @@ export default {
     }
   },
 
-  components: { ServicePointList },
+  components: {
+    CurrentServingMaster,
+    ServicePointList,
+  },
+
   name: NAME,
 
 };
@@ -91,6 +97,11 @@ export default {
 .list {
   flex: 1;
   overflow-y: scroll;
+}
+
+.current-serving-master {
+  background: $gray-background;
+  padding-bottom: $margin-top;
 }
 
 </style>

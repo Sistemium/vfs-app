@@ -2,12 +2,12 @@
 
 .current-serving-master
 
-  p(v-if="currentServingMaster")
+  .chosen(v-if="currentServingMaster")
     label Meistras:
     strong(v-text="currentServingMaster.name")
-    mt-button(small="small" @click="chooseMaster")
+    mt-button.change(small="small" @click="chooseMaster")
       i.el-icon-s-unfold
-  p(v-else)
+  .not-chosen(v-else)
     mt-button(type="primary" @click="chooseMaster") Pasirinkti meistrą
 
 </template>
@@ -37,6 +37,11 @@ export default {
 
 strong {
   margin: 0 $margin-right;
+}
+
+.change {
+  height: 30px;
+  padding: 0 5px;
 }
 
 </style>
