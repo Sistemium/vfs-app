@@ -1,8 +1,12 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import multiGuard from 'vue-router-multiguard';
 import RoutingError from '@/views/RoutingError.vue';
 import Home from '@/views/Home.vue';
 import Auth from '@/views/Auth.vue';
+import ChooseServingMaster from '@/views/ChooseServingMaster.vue';
+
+import * as vr from '@/services/vuexRouting';
 
 import tabs from '@/routes/tabs';
 
@@ -30,6 +34,12 @@ export default new Router({
       name: 'RoutingError',
       component: RoutingError,
     },
+    {
+      path: '/servingMaster',
+      name: ChooseServingMaster.name,
+      component: ChooseServingMaster,
+      beforeEnter: multiGuard([vr.authGuard, vr.loadServingMasters]),
+    },
     // {
     //   path: '/about',
     //   name: 'about',
@@ -38,6 +48,9 @@ export default new Router({
     //   // which is lazy-loaded when the route is visited.
     //   component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
     // },
-    tabs,
+    {
+      ...tabs,
+      beforeEnter: multiGuard([vr.authGuard, vr.loadServingMasters]),
+    },
   ],
 });

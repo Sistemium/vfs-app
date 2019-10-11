@@ -4,7 +4,6 @@ import ServicePoints from '@/views/ServicePoints.vue';
 import Tasks from '@/views/Tasks.vue';
 import ServicePoint from '@/views/ServicePoint.vue';
 
-import vuex from '@/vuex/store';
 // import log from 'sistemium-telegram/services/log';
 
 // const { debug } = log('router:tabs');
@@ -54,27 +53,5 @@ export default {
   redirect: '/tabs/servicePoints',
   children: tabs,
   props: { tabs },
-
-  async beforeEnter(to, from, next) {
-    const authorized = vuex.getters['auth/IS_AUTHORIZED'];
-    // debug(to.fullPath, 'from', from.fullPath, authorized);
-    // debug('q', to.query, from.query);
-    if (!authorized) {
-      next({
-        path: '/auth',
-        query: {
-          ...from.query,
-          from: to.fullPath,
-        },
-      });
-      return;
-    }
-    try {
-      await vuex.dispatch('serving/LOAD_SERVING_MASTERS');
-      next();
-    } catch (e) {
-      next(e);
-    }
-  },
 
 };
