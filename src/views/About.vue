@@ -3,9 +3,9 @@
 .about
   nav-header(title="Apie programėlę")
 
-  img(alt="Vue logo" src="../assets/vfs-1024.png")
-
   p Vandens Filtravimo Sistemos
+
+  img(alt="Vue logo" src="../assets/vfs-1024.png")
 
   account-info
   current-serving-master
@@ -25,3 +25,12 @@ export default {
 };
 
 </script>
+<style lang="scss" scoped>
+@import "../styles/variables";
+p {
+  color: $blue;
+  font-weight: bold;
+  padding: $margin-right;
+}
+
+</style>

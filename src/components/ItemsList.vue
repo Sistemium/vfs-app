@@ -8,6 +8,7 @@
     :gray="item[grayProp]"
     :title="item[titleProp]"
     @click="$emit('click', item)"
+    :class="currentItemId === item.id && 'active'"
   )
 
 </template>
@@ -19,7 +20,17 @@ export default {
     items: Array,
     titleProp: String,
     grayProp: String,
+    currentItemId: String,
   },
 };
 
 </script>
+<style lang="scss" scoped>
+
+@import "../styles/variables";
+
+.active {
+  background: $primary-color;
+}
+
+</style>
