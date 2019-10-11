@@ -7,11 +7,21 @@
 
   p Vandens Filtravimo Sistemos
 
+  account-info
+  current-serving-master
+
 </template>
 
 <script>
 
+import AccountInfo from '@/components/AccountInfo.vue';
+import CurrentServingMaster from '@/components/CurrentServingMaster.vue';
+
 export default {
+  components: {
+    AccountInfo,
+    CurrentServingMaster,
+  },
 };
 
 </script>

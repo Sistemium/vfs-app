@@ -4,7 +4,7 @@
   slot(name="title" v-text="title")
     .title(v-text="title")
   slot(name="gray")
-    .gray(v-text="gray")
+    .gray(v-text="gray" v-if="gray")
 
 
 </template>
@@ -27,6 +27,7 @@ export default {
 
 .list-item {
 
+  cursor: pointer;
   padding: 8px;
   text-align: left;
 

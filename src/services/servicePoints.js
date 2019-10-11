@@ -28,3 +28,7 @@ export function servingMastersByIds(ids) {
 export async function loadServingMasters() {
   return Employee.findAll();
 }
+
+export function servingMasterById(id) {
+  return id ? Employee.get(id) : null;
+}

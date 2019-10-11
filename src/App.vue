@@ -9,7 +9,7 @@
 </template>
 <script>
 
-import serving from '@/vuex/serving/maps';
+import { servingGetters } from '@/vuex/serving/maps';
 import { createNamespacedHelpers } from 'vuex';
 import { IS_AUTHORIZED, IS_AUTHORIZING } from '@/vuex/auth/getters';
 
@@ -21,7 +21,7 @@ export default {
       authorizing: IS_AUTHORIZING,
       authorized: IS_AUTHORIZED,
     }),
-    busyServing: serving.getters.busy,
+    busyServing: servingGetters.busy,
     busy() {
       if (this.authorizing) {
         return 'Autorizacija';

@@ -4,6 +4,7 @@ import * as m from './mutations';
 export const LOAD_SERVICE_POINTS = 'LOAD_SERVICE_POINTS';
 export const LOAD_SERVING_MASTERS = 'LOAD_SERVING_MASTERS';
 export const SET_CURRENT_SERVICE_POINT = 'SET_CURRENT_SERVICE_POINT';
+export const SET_CURRENT_SERVING_MASTER = 'SET_CURRENT_SERVING_MASTER';
 // const THROW_ERROR = 'error';
 
 export default {
@@ -13,13 +14,17 @@ export default {
     commit(m.SET_SERVING_MASTERS, data);
   }),
 
-  [LOAD_SERVICE_POINTS]: asyncAction(async ({ commit }) => {
-    const data = await loadServicePoints();
+  [LOAD_SERVICE_POINTS]: asyncAction(async ({ commit }, servingMasterId) => {
+    const data = await loadServicePoints(servingMasterId);
     commit(m.SET_SERVICE_POINTS, data);
   }),
 
   [SET_CURRENT_SERVICE_POINT]({ commit }, servicePoint) {
     commit(m.SET_CURRENT_SERVICE_POINT, servicePoint);
+  },
+
+  [SET_CURRENT_SERVING_MASTER]({ commit }, servingMaster) {
+    commit(m.SET_CURRENT_SERVING_MASTER, servingMaster);
   },
 
   // [THROW_ERROR]({ commit }, error) {

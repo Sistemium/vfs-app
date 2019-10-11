@@ -5,17 +5,16 @@ import * as a from './actions';
 
 const { mapActions, mapGetters } = createNamespacedHelpers('serving');
 
-export default {
+export const servingActions = mapActions({
+  setCurrentServingMaster: a.SET_CURRENT_SERVING_MASTER,
+  setCurrentServicePoint: a.SET_CURRENT_SERVICE_POINT,
+  loadServicePoints: a.LOAD_SERVICE_POINTS,
+});
 
-  actions: mapActions({
-    setCurrentServicePoint: a.SET_CURRENT_SERVICE_POINT,
-    loadServicePoints: a.LOAD_SERVICE_POINTS,
-  }),
-
-  getters: mapGetters({
-    currentServicePoint: g.CURRENT_SERVICE_POINT,
-    servicePoints: g.SERVICE_POINTS,
-    busy: g.BUSY,
-  }),
-
-};
+export const servingGetters = mapGetters({
+  currentServingMaster: g.CURRENT_SERVING_MASTER,
+  servingMasters: g.SERVING_MASTERS,
+  currentServicePoint: g.CURRENT_SERVICE_POINT,
+  servicePoints: g.SERVICE_POINTS,
+  busy: g.BUSY,
+});

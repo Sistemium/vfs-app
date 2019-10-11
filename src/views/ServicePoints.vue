@@ -18,8 +18,9 @@
 <script>
 
 import store from '@/vuex/index';
-import serving from '@/vuex/serving/maps';
+import { servingGetters } from '@/vuex/serving/maps';
 import { LOAD_SERVICE_POINTS } from '@/vuex/serving/actions';
+import { CURRENT_SERVING_MASTER } from '@/vuex/serving/getters';
 import ServicePointList from '@/components/ServicePointList.vue';
 import log from 'sistemium-telegram/services/log';
 
@@ -41,7 +42,7 @@ export default {
   },
 
   computed: {
-    servicePoints: serving.getters.servicePoints,
+    servicePoints: servingGetters.servicePoints,
     isRootState() {
       return this.$route.name === NAME;
     },
@@ -49,8 +50,19 @@ export default {
 
   async beforeRouteEnter(to, from, next) {
     debug('beforeRouteEnter', to.fullPath, from.fullPath);
+
+    const currentServingMaster = store.getters[`serving/${CURRENT_SERVING_MASTER}`];
+
+    if (!currentServingMaster) {
+      next({
+        name: 'ChooseServingMaster',
+        query: { from: to.fullPath },
+      });
+      return;
+    }
+
     try {
-      await store.dispatch(`serving/${LOAD_SERVICE_POINTS}`);
+      await store.dispatch(`serving/${LOAD_SERVICE_POINTS}`, currentServingMaster.id);
       next();
     } catch (e) {
       await store.dispatch('routingError', {
