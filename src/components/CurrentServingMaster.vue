@@ -6,7 +6,7 @@
     label Meistras:
     strong(v-text="currentServingMaster.name")
     mt-button.change(small="small" @click="chooseMaster")
-      i.el-icon-s-unfold
+      i.el-icon-files
   .not-chosen(v-else)
     mt-button(type="primary" @click="chooseMaster") Pasirinkti meistrą
 
