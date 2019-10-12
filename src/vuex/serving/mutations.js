@@ -1,4 +1,4 @@
-import fpMap from 'lodash/fp/map';
+import { mapId, orderByAddress, orderByName } from '@/lib/fp';
 import * as g from './getters';
 
 export const SET_SERVICE_POINTS = set(g.SERVICE_POINTS);
@@ -8,16 +8,14 @@ export const SET_CURRENT_SERVICE_POINT = set(g.CURRENT_SERVICE_POINT);
 export const SET_BUSY = set(g.BUSY);
 export const SET_ERROR = set(g.ERROR);
 
-const mapId = fpMap('id');
-
 export default {
 
   [SET_SERVING_MASTERS](state, data) {
-    state[g.SERVING_MASTERS] = mapId(data);
+    state[g.SERVING_MASTERS] = mapId(orderByName(data));
   },
 
   [SET_SERVICE_POINTS](state, data) {
-    state[g.SERVICE_POINTS] = mapId(data);
+    state[g.SERVICE_POINTS] = mapId(orderByAddress(data));
   },
 
   [SET_CURRENT_SERVICE_POINT](state, servicePoint) {
