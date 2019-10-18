@@ -1,10 +1,11 @@
 import { isNative, getRoles } from 'sistemium-vue/services/native';
 import { authorize as authorizeJSDataStore } from 'sistemium-telegram/jsdata/store';
 import http from 'axios';
+import * as ls from '@/services/localStorage';
 // import { roles } from 'sistemium-telegram/services/auth';
 import * as m from './mutations';
 
-const LS_KEY = 'vfsm.authorization';
+const LS_KEY = 'authorization';
 
 export const AUTH_INIT = 'AUTH_INIT';
 export const LOGOFF = 'LOGOFF';
@@ -18,7 +19,7 @@ export default {
 
   async [AUTH_INIT]({ commit }, accessToken) {
 
-    const token = isNative() ? true : accessToken || localStorage.getItem(LS_KEY);
+    const token = isNative() ? true : accessToken || ls.getLocalStorageItem(LS_KEY);
 
     if (!token) {
       return false;
@@ -28,7 +29,7 @@ export default {
 
     try {
       const { account, roles } = await (isNative() ? getRoles() : checkRoles(token));
-      localStorage.setItem(LS_KEY, token);
+      ls.setLocalStorageItem(LS_KEY, token);
       authorizeJSDataStore(token, 'vfs');
       commit(m.SET_AUTHORIZED, {
         token,

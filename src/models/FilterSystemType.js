@@ -2,13 +2,13 @@ import Model from '@/lib/Model';
 
 export default new Model({
 
-  name: 'Employee',
+  name: 'FilterSystemType',
 
   relations: {
     hasMany: {
-      ServiceItem: {
-        localField: 'serviceItems',
-        foreignKey: 'servingMasterId',
+      FilterSystem: {
+        localField: 'systems',
+        foreignKey: 'filterSystemTypeId',
       },
     },
   },

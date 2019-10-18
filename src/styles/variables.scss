@@ -1,9 +1,10 @@
-$black: #2c3e50;
+$black: #101010;
 $gray: #404040;
 $dark-gray: darken($gray, 10%);
 // #fafafa
 $gray-background: #f3f3f3;
 $gray-border-color: #f0f0f0;
+$white: white;
 
 $blue: #26a2ff;
 $primary-color: $blue;
@@ -15,6 +16,7 @@ $orange: orange;
 $icon-button-width: 40px;
 $margin-right: 7px;
 $margin-top: 7px;
+$padding: 6px;
 
 $border-radius: 6px;
 $list-cell-borders: solid 1px $gray-border-color;

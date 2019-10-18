@@ -3,7 +3,7 @@
 items-list.service-point-list(
   :items="servicePoints"
   gray-prop="address"
-  title-prop="name"
+  title-prop="serviceContract.customer.name"
   @click="onClick"
 )
 

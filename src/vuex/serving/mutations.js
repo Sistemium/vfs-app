@@ -23,7 +23,7 @@ export default {
   },
 
   [SET_CURRENT_SERVING_MASTER](state, servingMaster) {
-    state[g.CURRENT_SERVING_MASTER] = servingMaster ? servingMaster.id : null;
+    state[g.CURRENT_SERVING_MASTER] = servingMaster ? (servingMaster.id || servingMaster) : null;
   },
 
   [SET_BUSY](state, busy) {

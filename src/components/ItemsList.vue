@@ -6,13 +6,15 @@
     v-for="item in items"
     :key="item.id"
     :gray="item[grayProp]"
-    :title="item[titleProp]"
+    :title="title(item)"
     @click="$emit('click', item)"
     :class="currentItemId === item.id && 'active'"
   )
 
 </template>
 <script>
+
+import get from 'lodash/get';
 
 export default {
   name: 'ItemsList',
@@ -21,6 +23,11 @@ export default {
     titleProp: String,
     grayProp: String,
     currentItemId: String,
+  },
+  methods: {
+    title(item) {
+      return get(item, this.titleProp);
+    },
   },
 };
 
@@ -31,6 +38,18 @@ export default {
 
 .active {
   background: $primary-color;
+  color: $white;
+}
+
+.list-item {
+
+  border-top: $gray-border;
+
+  cursor: pointer;
+  &:last-child {
+    border-bottom: $gray-border;
+  }
+
 }
 
 </style>

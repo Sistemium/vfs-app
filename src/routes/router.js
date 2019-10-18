@@ -50,7 +50,7 @@ export default new Router({
     // },
     {
       ...tabs,
-      beforeEnter: multiGuard([vr.authGuard, vr.loadServingMasters]),
+      beforeEnter: multiGuard([vr.authGuard, vr.loadServingMasters, vr.preLoadCatalogue]),
     },
   ],
 });

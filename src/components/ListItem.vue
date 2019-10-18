@@ -1,10 +1,10 @@
 <template lang="pug">
 
 .list-item(@click="$emit('click')")
-  slot(name="title" v-text="title")
+  slot(name="title" v-if="title")
     .title(v-text="title")
-  slot(name="gray")
-    .gray(v-text="gray" v-if="gray")
+  slot(name="gray" v-if="gray")
+    .gray(v-text="gray")
 
 
 </template>
@@ -27,17 +27,8 @@ export default {
 
 .list-item {
 
-  cursor: pointer;
-  padding: 8px;
+  padding: 6px;
   text-align: left;
-
-  border-top: $gray-border;
-
-  &:last-child {
-    border-bottom: $gray-border;
-  }
-
-  cursor: pointer;
 
 }
 

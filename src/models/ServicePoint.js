@@ -15,6 +15,12 @@ export default new Model({
         foreignKey: 'servicePointId',
       },
     },
+    belongsTo: {
+      ServiceContract: {
+        localField: 'serviceContract',
+        localKey: 'currentServiceContractId',
+      },
+    },
   },
 
   methods: {},

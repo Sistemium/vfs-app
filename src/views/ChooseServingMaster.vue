@@ -1,7 +1,7 @@
 <template lang="pug">
 
 .current-serving-master
-  nav-header(title="Pasirinkite meistrą")
+  nav-header(title="Pasirinkite meistrą" :prev="goBack")
   serving-masters-choice
 
 </template>
@@ -17,12 +17,17 @@ export default {
   components: { ServingMastersChoice },
   watch: {
     chosen() {
-      const to = this.$route.query.from || '/';
-      this.$router.push(to);
+      this.goBack();
     },
   },
   computed: {
     chosen: servingGetters.currentServingMaster,
+  },
+  methods: {
+    goBack() {
+      const to = this.$route.query.from || '/';
+      this.$router.push(to);
+    },
   },
 };
 
