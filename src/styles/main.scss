@@ -3,3 +3,16 @@
 body {
   margin: 0;
 }
+
+.gray {
+  color: $gray;
+}
+
+
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: $black;
+}
