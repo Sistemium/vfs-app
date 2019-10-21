@@ -13,9 +13,8 @@ el-drawer.service-item-service-edit(
   service-item-service-form(:model="serviceItemService" v-if="serviceItemService")
 
   .buttons
-    el-button(type="danger" size="small" @click="cancelClick") Trinti
-    el-button(type="primary" size="small" @click="cancelClick") Saugoti
-    el-button(type="warning" size="small" @click="cancelClick") Atšaukti
+    el-button(type="primary" size="small" @click="saveClick" :disabled="loading") Saugoti
+    el-button(type="warning" size="small" @click="cancelClick" :disabled="loading") Atšaukti
 
 </template>
 <script>
@@ -28,15 +27,12 @@ const NAME = 'ServiceItemServiceEdit';
 export default {
   props: {
     serviceItemServiceId: String,
-    from: {
-      type: Object,
-      required: true,
-    },
+    from: Object,
   },
   data() {
     return {
+      loading: null,
       drawerOpen: false,
-      // from: null,
       serviceItemService: null,
     };
   },
@@ -56,6 +52,27 @@ export default {
     cancelClick() {
       const { drawer } = this.$refs;
       drawer.closeDrawer();
+    },
+    async saveClick() {
+      this.loading = true;
+      const loading = this.$message({
+        message: 'Saugomas ...',
+        duration: 0,
+      });
+      try {
+        await this.serviceItemService.save();
+        loading.close();
+        this.cancelClick();
+      } catch (e) {
+        loading.close();
+        this.$message.error({
+          message: e.message,
+          offset: 1,
+          duration: 15000,
+          showClose: true,
+        });
+      }
+      this.loading = null;
     },
   },
   name: NAME,
@@ -78,6 +95,10 @@ export default {
   margin: $margin-top auto;
   left: 0;
   right: 0;
+
+  > * + * {
+    margin-left: $margin-right;
+  }
 }
 
 
