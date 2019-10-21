@@ -12,29 +12,19 @@ el-drawer.service-item-service-edit(
 
   service-item-service-form(:model="model" v-if="serviceItemServiceId")
 
-  .buttons
-    confirm-button(
-      size="small" type="warning"
-      @confirm="deleteClick"
-      text="Trinti"
-      v-if="!changed"
-      :disabled="loading"
-    )
-    el-button(
-      type="default" size="small"
-      @click="cancelClick"
-      :disabled="loading"
-    ) Atšaukti
-    el-button(
-      type="primary" size="small"
-      @click="saveClick"
-      :disabled="loading"
-      v-if="changed"
-    ) Saugoti
+  form-buttons(
+    :loading="loading"
+    :changed="changed"
+    @deleteClick="deleteClick"
+    @cancelClick="cancelClick"
+    @saveClick="saveClick"
+  )
+
 
 </template>
 <script>
 
+import FormButtons from '@/lib/FormButtons.vue';
 import ServiceItemService from '@/models/ServiceItemService';
 import ServiceItemServiceForm from '@/components/ServiceItemServiceForm.vue';
 
@@ -109,7 +99,10 @@ export default {
     },
   },
   name: NAME,
-  components: { ServiceItemServiceForm },
+  components: {
+    FormButtons,
+    ServiceItemServiceForm,
+  },
 };
 
 </script>
@@ -120,24 +113,6 @@ export default {
 .service-item-service-form {
   margin: 0 $margin-right 65px;
 }
-
-.buttons {
-
-  display: flex;
-  justify-content: space-around;
-  text-align: center;
-  position: fixed;
-  bottom: 0;
-  padding: $margin-top;
-  left: 0;
-  right: 0;
-  background-color: $gray-background;
-
-  > * + * {
-    margin-left: $margin-right;
-  }
-}
-
 
 </style>
 <style>
