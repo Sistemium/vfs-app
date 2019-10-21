@@ -4,7 +4,7 @@
   .label
     label {{ text ? label : emptyText }}
     //label {{ label }}
-  span.text(v-text="text")
+  span(v-text="text" v-if="text")
 
 </template>
 <script>
@@ -34,6 +34,10 @@ export default {
   .label {
     flex: 1;
   }
+}
+
+span {
+  margin-left: $margin-right;
 }
 
 label {
