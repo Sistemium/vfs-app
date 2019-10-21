@@ -15,7 +15,7 @@ el-drawer.service-item-service-edit(
   .buttons
     confirm-button(
       size="small" type="warning"
-      @confirm="cancelClick"
+      @confirm="deleteClick"
       text="Trinti"
       v-if="!changed"
       :disabled="loading"
@@ -75,21 +75,25 @@ export default {
       // this.serviceItemService.revert();
       this.$router.push(this.from);
     },
+    deleteClick() {
+      const { serviceItemServiceId: id } = this;
+      this.performOperation(() => ServiceItemService.destroy({ id }));
+    },
     cancelClick() {
       const { drawer } = this.$refs;
       drawer.closeDrawer();
     },
-    saveData() {
-      return ServiceItemService.safeSave(this.model, true);
+    saveClick() {
+      this.performOperation(() => ServiceItemService.safeSave(this.model, true));
     },
-    async saveClick() {
+    async performOperation(op) {
       this.loading = true;
       const loading = this.$message({
         message: 'Saugomas ...',
         duration: 0,
       });
       try {
-        await this.saveData();
+        await op();
         loading.close();
         this.cancelClick();
       } catch (e) {
