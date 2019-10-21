@@ -2,7 +2,10 @@
 import Vue from 'vue';
 
 // MintUI
-import Mint from 'mint-ui';
+import MintButton from 'mint-ui/packages/button';
+import MintTabBar from 'mint-ui/packages/tabbar';
+import MintTabItem from 'mint-ui/packages/tab-item';
+
 import 'mint-ui/lib/style.css';
 
 import ListItem from '@/components/ListItem.vue';
@@ -10,7 +13,9 @@ import NavHeader from '@/components/NavHeader.vue';
 import ItemsList from '@/components/ItemsList.vue';
 import FormField from '@/components/FormField.vue';
 
-Vue.use(Mint);
+Vue.component(MintButton.name, MintButton);
+Vue.component(MintTabBar.name, MintTabBar);
+Vue.component(MintTabItem.name, MintTabItem);
 
 Vue.component(NavHeader.name, NavHeader);
 Vue.component(ItemsList.name, ItemsList);

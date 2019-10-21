@@ -3,6 +3,7 @@ import About from '@/views/About.vue';
 import ServicePoints from '@/views/ServicePoints.vue';
 import Tasks from '@/views/Tasks.vue';
 import ServicePoint from '@/views/ServicePoint.vue';
+import ServiceItemServiceEdit from '@/components/ServiceItemServiceEdit.vue';
 
 // import log from 'sistemium-telegram/services/log';
 
@@ -22,6 +23,20 @@ const tabs = [
         path: ':servicePointId',
         name: 'ServicePoint',
         component: ServicePoint,
+        children: [
+          {
+            path: ':serviceItemServiceId',
+            name: 'ServiceItemServiceEdit',
+            component: ServiceItemServiceEdit,
+            props: ({ params: { serviceItemServiceId, servicePointId } }) => ({
+              serviceItemServiceId,
+              from: {
+                name: 'ServicePoint',
+                params: { servicePointId },
+              },
+            }),
+          },
+        ],
       },
     ],
   },

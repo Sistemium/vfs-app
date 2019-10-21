@@ -81,6 +81,10 @@ h4 {
   background-color: $gray-background;
   padding: 3px 0;
   margin: 0;
+
+  // TODO: figure out why not working
+  position: static;
+
 }
 
 </style>

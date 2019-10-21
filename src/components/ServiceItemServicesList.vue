@@ -1,7 +1,10 @@
 <template lang="pug">
 
-.service-item-service-info
-  .service-item-service(v-for="service in services" :key:="service.id")
+.service-item-services-list
+  .service-item-service(
+    v-for="service in services" :key:="service.id"
+    @click="$emit('click', service)"
+  )
     i.type(:class="[service.typeIcon(), service.type]")
     .date(v-text="service.date")
     .info(v-text="service.info")
@@ -33,6 +36,7 @@ export default {
 .service-item-service {
 
   display: flex;
+  line-height: 1;
   /*align-items: center;*/
   padding: $padding 0;
 
@@ -47,9 +51,10 @@ export default {
       color: $green;
     }
 
-    &.pause {
+    &.install, &.pause {
       color: $dark-gray;
     }
+
   }
 
   .info {
@@ -65,7 +70,7 @@ export default {
 
 }
 
-.service-item-service-info {
+.service-item-services-list {
   width: 100%;
   //flex-direction: column;
   //align-items: flex-start;

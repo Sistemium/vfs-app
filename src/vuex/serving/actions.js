@@ -34,7 +34,7 @@ export default {
     commit(m.SET_CURRENT_SERVICE_POINT, servicePoint);
   },
 
-  [SET_CURRENT_SERVING_MASTER]({ commit, getters }, servingMaster) {
+  [SET_CURRENT_SERVING_MASTER]({ commit }, servingMaster) {
     commit(m.SET_CURRENT_SERVING_MASTER, servingMaster);
     ls.setLocalStorageItem(g.CURRENT_SERVING_MASTER, servingMaster.id);
   },

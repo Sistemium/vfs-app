@@ -1,10 +1,10 @@
 <template lang="pug">
 
-.form-field
+.form-field(v-if="text || emptyText")
   .label
-    //label {{ text || !emptyText ? label : emptyText }}
-    label(v-if="text || !emptyText") {{ label }}
-  span(v-text="text || emptyText")
+    label {{ text ? label : emptyText }}
+    //label {{ label }}
+  span.text(v-text="text")
 
 </template>
 <script>
@@ -42,7 +42,7 @@ label {
   border-radius: $border-radius;
   padding: 1px $padding;
   margin-right: $margin-right;
-  color: $dark-gray;
+  color: $blue;
 }
 
 </style>

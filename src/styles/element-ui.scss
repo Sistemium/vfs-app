@@ -1,0 +1,28 @@
+@import "variables";
+
+.el-drawer__header {
+  margin-bottom: 18px;
+}
+
+.el-form-item {
+  margin-bottom: 12px;
+}
+
+.el-form-item__label {
+  line-height: 30px;
+}
+
+.el-radio-button {
+  flex: 1;
+  > * {
+    display: block;
+  }
+}
+
+.el-date-picker__header, .el-picker-panel__content {
+  margin: 5px;
+}
+
+.el-picker-panel.el-date-picker {
+  max-width: 300px;
+}
