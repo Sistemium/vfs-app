@@ -80,7 +80,7 @@ export default {
       drawer.closeDrawer();
     },
     saveData() {
-      this.model.save();
+      return ServiceItemService.safeSave(this.model, true);
     },
     async saveClick() {
       this.loading = true;
