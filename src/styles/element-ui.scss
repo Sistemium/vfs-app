@@ -1,7 +1,15 @@
 @import "variables";
 
 .el-drawer__header {
-  margin-bottom: 18px;
+  margin-bottom: $margin-right;
+  padding: 13px;
+  background-color: $gray-background;
+  span {
+    font-weight: bold;
+  }
+  .el-dialog__close {
+    color: $blue;
+  }
 }
 
 .el-form-item {

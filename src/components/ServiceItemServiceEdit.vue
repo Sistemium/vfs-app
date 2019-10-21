@@ -10,11 +10,27 @@ el-drawer.service-item-service-edit(
   ref="drawer"
 )
 
-  service-item-service-form(:model="serviceItemService" v-if="serviceItemService")
+  service-item-service-form(:model="model" v-if="serviceItemServiceId")
 
   .buttons
-    el-button(type="primary" size="small" @click="saveClick" :disabled="loading") Saugoti
-    el-button(type="warning" size="small" @click="cancelClick" :disabled="loading") Atšaukti
+    confirm-button(
+      size="small" type="warning"
+      @confirm="cancelClick"
+      text="Trinti"
+      v-if="!changed"
+      :disabled="loading"
+    )
+    el-button(
+      type="default" size="small"
+      @click="cancelClick"
+      :disabled="loading"
+    ) Atšaukti
+    el-button(
+      type="primary" size="small"
+      @click="saveClick"
+      :disabled="loading"
+      v-if="changed"
+    ) Saugoti
 
 </template>
 <script>
@@ -33,25 +49,38 @@ export default {
     return {
       loading: null,
       drawerOpen: false,
-      serviceItemService: null,
+      // serviceItemService: null,
+      model: null,
     };
   },
   created() {
     this.$watch('serviceItemServiceId', serviceItemServiceId => {
-      ServiceItemService.bindOne(this, serviceItemServiceId, 'serviceItemService');
+      this.model = this.modelInstance(serviceItemServiceId);
     }, { immediate: true });
     this.$nextTick(() => {
       this.drawerOpen = true;
     });
   },
+  computed: {
+    changed() {
+      return this.model && this.model.hasChanges();
+    },
+  },
   methods: {
+    modelInstance(serviceItemServiceId) {
+      const serviceItemService = ServiceItemService.get(serviceItemServiceId);
+      return ServiceItemService.mapper.createRecord(serviceItemService.toJSON());
+    },
     handleClose() {
-      this.serviceItemService.revert();
+      // this.serviceItemService.revert();
       this.$router.push(this.from);
     },
     cancelClick() {
       const { drawer } = this.$refs;
       drawer.closeDrawer();
+    },
+    saveData() {
+      this.model.save();
     },
     async saveClick() {
       this.loading = true;
@@ -60,7 +89,7 @@ export default {
         duration: 0,
       });
       try {
-        await this.serviceItemService.save();
+        await this.saveData();
         loading.close();
         this.cancelClick();
       } catch (e) {
@@ -89,12 +118,16 @@ export default {
 }
 
 .buttons {
+
+  display: flex;
+  justify-content: space-around;
   text-align: center;
   position: fixed;
   bottom: 0;
-  margin: $margin-top auto;
+  padding: $margin-top;
   left: 0;
   right: 0;
+  background-color: $gray-background;
 
   > * + * {
     margin-left: $margin-right;
