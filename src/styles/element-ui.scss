@@ -1,4 +1,5 @@
 @import "variables";
+@import "forms";
 
 .el-drawer__header {
   margin-bottom: $margin-right;
@@ -17,7 +18,8 @@
 }
 
 .el-form-item__label {
-  line-height: 30px;
+  line-height: 25px;
+  color: $blue;
 }
 
 .el-radio-button {

@@ -23,7 +23,7 @@ export default {
 </script>
 <style scoped lang="scss">
 
-@import "../styles/variables";
+@import "../styles/forms";
 
 .form-field {
 
@@ -37,12 +37,7 @@ export default {
 }
 
 label {
-  font-size: 75%;
-  background: $gray-background;
-  border-radius: $border-radius;
-  padding: 1px $padding;
-  margin-right: $margin-right;
-  color: $blue;
+  @extend %field-label;
 }
 
 </style>
