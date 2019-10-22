@@ -5,6 +5,7 @@ el-drawer.service-item-service-edit(
   :visible="drawerOpen"
   :before-close="handleClose"
   direction="rtl"
+  :wrapper-closable="false"
   size="100%"
   :append-to-body="true"
   ref="drawer"
@@ -20,11 +21,11 @@ el-drawer.service-item-service-edit(
     @saveClick="saveClick"
   )
 
-
 </template>
 <script>
 
 import FormButtons from '@/lib/FormButtons.vue';
+import DrawerEditor from '@/lib/DrawerEditor';
 import ServiceItemService from '@/models/ServiceItemService';
 import ServiceItemServiceForm from '@/components/ServiceItemServiceForm.vue';
 
@@ -33,69 +34,23 @@ const NAME = 'ServiceItemServiceEdit';
 export default {
   props: {
     serviceItemServiceId: String,
-    from: Object,
-  },
-  data() {
-    return {
-      loading: null,
-      drawerOpen: false,
-      // serviceItemService: null,
-      model: null,
-    };
   },
   created() {
     this.$watch('serviceItemServiceId', serviceItemServiceId => {
       this.model = this.modelInstance(serviceItemServiceId);
     }, { immediate: true });
-    this.$nextTick(() => {
-      this.drawerOpen = true;
-    });
-  },
-  computed: {
-    changed() {
-      return this.model && this.model.hasChanges();
-    },
   },
   methods: {
     modelInstance(serviceItemServiceId) {
       const serviceItemService = ServiceItemService.get(serviceItemServiceId);
       return ServiceItemService.mapper.createRecord(serviceItemService.toJSON());
     },
-    handleClose() {
-      // this.serviceItemService.revert();
-      this.$router.push(this.from);
-    },
     deleteClick() {
       const { serviceItemServiceId: id } = this;
       this.performOperation(() => ServiceItemService.destroy({ id }));
     },
-    cancelClick() {
-      const { drawer } = this.$refs;
-      drawer.closeDrawer();
-    },
     saveClick() {
       this.performOperation(() => ServiceItemService.safeSave(this.model, true));
-    },
-    async performOperation(op) {
-      this.loading = true;
-      const loading = this.$message({
-        message: 'Saugomas ...',
-        duration: 0,
-      });
-      try {
-        await op();
-        loading.close();
-        this.cancelClick();
-      } catch (e) {
-        loading.close();
-        this.$message.error({
-          message: e.message,
-          offset: 1,
-          duration: 15000,
-          showClose: true,
-        });
-      }
-      this.loading = null;
     },
   },
   name: NAME,
@@ -103,6 +58,7 @@ export default {
     FormButtons,
     ServiceItemServiceForm,
   },
+  mixins: [DrawerEditor],
 };
 
 </script>
