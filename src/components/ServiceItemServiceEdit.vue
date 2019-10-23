@@ -67,7 +67,7 @@ export default {
       this.performOperation(() => ServiceItemService.destroy({ id }));
     },
     saveClick() {
-      if (this.model.type !== 'service') {
+      if (this.model.type !== 'forward') {
         this.model.nextServiceDate = null;
       }
       this.performOperation(() => ServiceItemService.safeSave(this.model, true));
