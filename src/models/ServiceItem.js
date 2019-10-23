@@ -1,5 +1,7 @@
 import Model from '@/lib/Model';
 import get from 'lodash/get';
+import filter from 'lodash/filter';
+import maxBy from 'lodash/maxBy';
 import isNumber from 'lodash/isNumber';
 import { Record } from 'js-data';
 import { addMonths } from '@/lib/dates';
@@ -51,18 +53,48 @@ export default new Model({
   },
 
   methods: {
-    guaranteePeriodFn() {
 
-      const { guaranteePeriod, filterSystem } = this;
+    nextServiceDateFn() {
 
-      if (isNumber(guaranteePeriod)) {
-        return guaranteePeriod;
+      const { services, installingDate } = this;
+      const matchingServices = filter(services, dateAffectingService);
+      const lastService = maxBy(matchingServices, 'date');
+      const { nextServiceDate, date = installingDate, type } = lastService || {};
+
+      switch (type) {
+        case 'forward':
+          return nextServiceDate || addMonths(date, 1);
+        case 'service':
+          return addMonths(date, this.serviceFrequencyFn());
+        default:
+          return null;
       }
 
-      return get(filterSystem, 'guaranteePeriod')
-        || get(filterSystem, 'filterSystemType.guaranteePeriod');
-
     },
+
+    serviceFrequencyFn() {
+      return this.inheritedSystemProp('serviceFrequency');
+    },
+
+    guaranteePeriodFn() {
+      return this.inheritedSystemProp('guaranteePeriod');
+    },
+
+    inheritedSystemProp(name) {
+      const { [name]: value, filterSystem } = this;
+
+      if (isNumber(value)) {
+        return value;
+      }
+
+      return get(filterSystem, name)
+        || get(filterSystem, `filterSystemType.${name}`);
+    },
+
   },
 
 });
+
+function dateAffectingService({ type }) {
+  return /service|forward|pause/.test(type);
+}
