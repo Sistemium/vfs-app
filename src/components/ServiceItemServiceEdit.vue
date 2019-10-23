@@ -11,7 +11,7 @@ el-drawer.service-item-service-edit(
   ref="drawer"
 )
 
-  service-item-service-form(:model="model")
+  service-item-service-form(:model="model" :serving-masters="servingMasters")
 
   form-buttons(
     :loading="loading"
@@ -40,6 +40,7 @@ export default {
   },
   computed: {
     currentServingMaster: servingGetters.currentServingMaster,
+    servingMasters: servingGetters.servingMasters,
   },
   created() {
     this.$watch('serviceItemServiceId', serviceItemServiceId => {
@@ -66,6 +67,9 @@ export default {
       this.performOperation(() => ServiceItemService.destroy({ id }));
     },
     saveClick() {
+      if (this.model.type !== 'service') {
+        this.model.nextServiceDate = null;
+      }
       this.performOperation(() => ServiceItemService.safeSave(this.model, true));
     },
   },

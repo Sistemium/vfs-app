@@ -6,10 +6,10 @@ export default new Model({
 
   relations: {
     hasMany: {
-      ServiceItem: {
-        localField: 'serviceItems',
-        foreignKey: 'servingMasterId',
-      },
+      // ServiceItem: {
+      //   localField: 'serviceItems',
+      //   foreignKey: 'servingMasterId',
+      // },
     },
   },
 

@@ -23,17 +23,38 @@ el-form.service-item-service-form(
       type="date"
       :editable="false"
       :clearable="false"
-      placeholder="Pick a Date"
+      placeholder="Spauskite kad pasirinkti"
       format="yyyy-MM-dd"
       value-format="yyyy-MM-dd"
     )
-    //el-input(v-model="model.date")
+
+  el-form-item(label="Perkelti į" prop="nextServiceDate" v-if="isForward")
+    el-date-picker(
+      v-model="model.nextServiceDate"
+      type="date"
+      :editable="false"
+      :clearable="false"
+      placeholder="Spauskite kad pasirinkti"
+      format="yyyy-MM-dd"
+      value-format="yyyy-MM-dd"
+    )
 
   el-form-item(label="Papildomai aptarnavo" prop="info")
     el-input(v-model="model.info" type="textarea")
 
   el-form-item(label="Pastaba sekančiam aptarnavimui" prop="nextServiceInfo")
     el-input(v-model="model.nextServiceInfo" type="textarea")
+
+  el-form-item(label="Meistras")
+    el-select(
+      v-model="model.servingMasterId"
+      placeholder="Pasirinkite apranavimo meistrą"
+      :disabled="true"
+    )
+      el-option(
+        v-for="master in servingMasters" :key="master.id"
+        :label="master.name" :value="master.id"
+      )
 
 </template>
 <script>
@@ -44,6 +65,13 @@ const NAME = 'ServiceItemServiceForm';
 
 const rules = {
   date: [
+    {
+      required: true,
+      message: 'Pasirinkite datą',
+      trigger: 'change',
+    },
+  ],
+  nextServiceDate: [
     {
       required: true,
       message: 'Pasirinkite datą',
@@ -62,9 +90,15 @@ export default {
   },
   props: {
     model: Object,
+    servingMasters: Array,
   },
   methods: {
     serviceTypeIcon,
+  },
+  computed: {
+    isForward() {
+      return this.model.type === 'forward';
+    },
   },
 };
 
@@ -77,7 +111,7 @@ export default {
   display: flex;
 }
 
-.el-date-editor.el-input {
+.el-date-editor.el-input, .el-select {
   width: 100%;
 }
 

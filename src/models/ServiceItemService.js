@@ -28,10 +28,10 @@ export default new Model({
         localField: 'serviceItem',
         localKey: 'serviceItemId',
       },
-      Employee: {
-        localField: 'servingMaster',
-        localKey: 'servingMasterId',
-      },
+      // Employee: {
+      //   localField: 'servingMaster',
+      //   localKey: 'servingMasterId',
+      // },
     },
   },
 
