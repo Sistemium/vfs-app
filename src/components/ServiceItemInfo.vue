@@ -10,12 +10,12 @@
   //form-field(label="Sumontuota" :text="serviceItem.installingDate")
   //form-field(label="Aptarnauta" :text="serviceItem.lastServiceDate")
   form-field(label="Garantija iki" :text="serviceItem.guaranteeEnd" empty-text="Nera garatijos")
-  form-field(label="Pastaba" :text="serviceItem.additionalServiceInfo")
-  form-field(label="Kitam aptarnavimui" :text="serviceItem.serviceInfo")
+  form-field.small(label="Pastaba" :text="serviceItem.additionalServiceInfo")
+  form-field.small(label="Kitam aptarnavimui" :text="serviceItem.serviceInfo")
 
   template(v-if="serviceItem.services.length")
     .services-header
-      mt-button.add-service(size="small" type="default" @click="addServiceClick")
+      mt-button.add-service(size="small" type="primary" @click="addServiceClick")
         i.el-icon-circle-plus-outline
       h4 Aptarnavimo istorija
     .services
@@ -109,7 +109,7 @@ small {
 .services-header {
   display: flex;
   align-items: center;
-  padding-right: 30px;
+  padding-right: 27px;
 }
 
 .add-service {
@@ -120,7 +120,7 @@ small {
 
   i {
     font-size: 130%;
-    color: $blue;
+    //color: $blue;
     font-weight: bold;
   }
 }

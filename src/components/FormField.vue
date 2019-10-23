@@ -34,6 +34,11 @@ export default {
   .label {
     flex: 1;
   }
+
+  &.small span {
+    font-size: 75%;
+  }
+
 }
 
 span {
