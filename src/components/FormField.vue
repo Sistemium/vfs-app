@@ -35,13 +35,17 @@ export default {
     flex: 1;
   }
 
-  &.small span {
-    font-size: 75%;
+  &.small {
+    span {
+      font-size: 75%;
+      padding-top: 4px;
+    }
   }
 
 }
 
 span {
+  padding-top: 1px;
   margin-left: $margin-right;
 }
 

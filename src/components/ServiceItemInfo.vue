@@ -6,23 +6,24 @@
     span(v-text="serviceItem.filterSystem.name")
     small(v-text="serviceItem.info")
 
-  form-field(label="Kitas aptarnavimas" :text="serviceItem.plannedServiceDate")
+  form-field(label="Kitas aptarnavimas" :text="serviceItem.nextServiceDateFn()")
   //form-field(label="Sumontuota" :text="serviceItem.installingDate")
   //form-field(label="Aptarnauta" :text="serviceItem.lastServiceDate")
   form-field(label="Garantija iki" :text="serviceItem.guaranteeEnd" empty-text="Nera garatijos")
   form-field.small(label="Pastaba" :text="serviceItem.additionalServiceInfo")
   form-field.small(label="Kitam aptarnavimui" :text="serviceItem.serviceInfo")
 
-  template(v-if="serviceItem.services.length")
+  template
     .services-header
       mt-button.add-service(size="small" type="primary" @click="addServiceClick")
         i.el-icon-circle-plus-outline
       h4 Aptarnavimo istorija
-    .services
+    .services(v-if="services().length")
       service-item-services-list(
         :service-item-services="services()"
         @click="onItemServiceClick"
       )
+    .empty(v-else) Nera duomenų
 
   router-view
 
