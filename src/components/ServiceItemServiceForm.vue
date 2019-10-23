@@ -7,7 +7,7 @@ el-form.service-item-service-form(
 )
 
   el-form-item.type()
-    el-radio-group(v-model="model.type")
+    el-radio-group(v-model="model.type" size="small")
       el-radio-button(label="service")
         i(:class="serviceTypeIcon('service')")
       el-radio-button(label="forward")
@@ -79,6 +79,18 @@ export default {
 
 .el-date-editor.el-input {
   width: 100%;
+}
+
+.type i {
+  font-size: 150%;
+}
+
+</style>
+<style lang="scss">
+@import "../styles/variables";
+
+.service-item-service-form .el-radio-button__inner {
+  padding: $padding;
 }
 
 </style>

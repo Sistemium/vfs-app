@@ -25,11 +25,23 @@ const tabs = [
         component: ServicePoint,
         children: [
           {
-            path: ':serviceItemServiceId',
+            path: 'edit/:serviceItemServiceId',
             name: 'ServiceItemServiceEdit',
             component: ServiceItemServiceEdit,
             props: ({ params: { serviceItemServiceId, servicePointId } }) => ({
               serviceItemServiceId,
+              from: {
+                name: 'ServicePoint',
+                params: { servicePointId },
+              },
+            }),
+          },
+          {
+            path: 'create/:serviceItemId',
+            name: 'ServiceItemServiceCreate',
+            component: ServiceItemServiceEdit,
+            props: ({ params: { servicePointId, serviceItemId } }) => ({
+              serviceItemId,
               from: {
                 name: 'ServicePoint',
                 params: { servicePointId },

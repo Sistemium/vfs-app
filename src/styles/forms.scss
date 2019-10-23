@@ -5,12 +5,10 @@
   text-align: left;
   padding: 0 $padding;
 
-  i {
+  .field > i {
     color: $blue;
-    // background-color: $blue;
     padding: 3px;
     font-weight: bold;
-    // border-radius: 10px;
     margin-right: $margin-right;
   }
 

@@ -1,6 +1,5 @@
 export default {
   props: {
-    serviceItemServiceId: String,
     from: Object,
   },
   data() {
@@ -20,7 +19,8 @@ export default {
       return !!this.loadingMessage;
     },
     changed() {
-      return this.model && this.model.hasChanges();
+      const { model } = this;
+      return model && (model.hasChanges() || model.isNew());
     },
   },
   methods: {

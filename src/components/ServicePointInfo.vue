@@ -2,16 +2,16 @@
 
 .service-point-info(v-if="servicePoint")
 
-  .address
+  .address.field
     i.el-icon-location-information
     span {{ servicePoint.address }}
     small(v-if="servicePoint.name") ({{ servicePoint.name }})
 
   template(v-if="serviceContract")
-    .customer
+    .customer.field
       i.el-icon-s-custom
       span.name(v-text="serviceContract.customer.name")
-    .contract
+    .contract.field
       i.el-icon-s-management
       span № {{ serviceContract.num }} nuo {{ serviceContract.date }}
 

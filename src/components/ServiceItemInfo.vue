@@ -14,7 +14,10 @@
   form-field(label="Kitam aptarnavimui" :text="serviceItem.serviceInfo")
 
   template(v-if="serviceItem.services.length")
-    h4 Aptarnavimo istorija
+    .services-header
+      mt-button.add-service(size="small" type="default" @click="addServiceClick")
+        i.el-icon-circle-plus-outline
+      h4 Aptarnavimo istorija
     .services
       service-item-services-list(
         :service-item-services="services()"
@@ -62,6 +65,12 @@ export default {
         params: { serviceItemServiceId },
       });
     },
+    addServiceClick() {
+      this.$router.push({
+        name: 'ServiceItemServiceCreate',
+        params: { serviceItemId: this.serviceItem.id },
+      });
+    },
   },
   components: {
     FormField,
@@ -76,14 +85,17 @@ export default {
 @import "../styles/forms";
 
 .service-item-info {
+
   @extend %form;
 
   h4 {
     color: $gray;
     display: block;
     text-align: center;
+    margin: 0 auto;
     /*font-weight: normal;*/
   }
+
 }
 
 .filter-system > small {
@@ -92,6 +104,25 @@ export default {
 
 small {
   color: $gray;
+}
+
+.services-header {
+  display: flex;
+  align-items: center;
+  padding-right: 30px;
+}
+
+.add-service {
+  width: auto;
+  display: block;
+  padding: 4px;
+  height: auto;
+
+  i {
+    font-size: 130%;
+    color: $blue;
+    font-weight: bold;
+  }
 }
 
 </style>

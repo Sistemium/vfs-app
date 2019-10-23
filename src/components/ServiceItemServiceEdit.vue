@@ -11,7 +11,7 @@ el-drawer.service-item-service-edit(
   ref="drawer"
 )
 
-  service-item-service-form(:model="model" v-if="serviceItemServiceId")
+  service-item-service-form(:model="model")
 
   form-buttons(
     :loading="loading"
@@ -24,16 +24,22 @@ el-drawer.service-item-service-edit(
 </template>
 <script>
 
+import { serverDateFormat } from 'sistemium-telegram/services/moments';
 import FormButtons from '@/lib/FormButtons.vue';
 import DrawerEditor from '@/lib/DrawerEditor';
 import ServiceItemService from '@/models/ServiceItemService';
 import ServiceItemServiceForm from '@/components/ServiceItemServiceForm.vue';
+import { servingGetters } from '@/vuex/serving/maps';
 
 const NAME = 'ServiceItemServiceEdit';
 
 export default {
   props: {
     serviceItemServiceId: String,
+    serviceItemId: String,
+  },
+  computed: {
+    currentServingMaster: servingGetters.currentServingMaster,
   },
   created() {
     this.$watch('serviceItemServiceId', serviceItemServiceId => {
@@ -42,8 +48,18 @@ export default {
   },
   methods: {
     modelInstance(serviceItemServiceId) {
-      const serviceItemService = ServiceItemService.get(serviceItemServiceId);
-      return ServiceItemService.mapper.createRecord(serviceItemService.toJSON());
+      if (serviceItemServiceId) {
+        const serviceItemService = ServiceItemService.get(serviceItemServiceId);
+        return ServiceItemService.mapper.createRecord(serviceItemService.toJSON());
+      }
+      const { serviceItemId } = this;
+      const record = {
+        servingMasterId: this.currentServingMaster.id,
+        serviceItemId,
+        date: serverDateFormat(),
+        type: 'service',
+      };
+      return ServiceItemService.mapper.createRecord(record);
     },
     deleteClick() {
       const { serviceItemServiceId: id } = this;
