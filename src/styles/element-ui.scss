@@ -15,7 +15,7 @@
 }
 
 .el-form-item {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .el-form-item__label {
@@ -45,3 +45,21 @@
 .el-message {
   min-width: 320px;
 }
+
+.el-select {
+  .el-input__inner {
+    padding-left: $padding;
+    height: 32px;
+  }
+}
+
+.el-date-editor {
+  .el-input__inner {
+    //padding-left: $padding;
+    height: 32px;
+  }
+}
+
+//.el-form-item__content {
+//  line-height: 40px;
+//}
