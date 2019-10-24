@@ -9,7 +9,7 @@
   form-field(label="Kitas aptarnavimas" :text="serviceItem.nextServiceDateFn()")
   //form-field(label="Sumontuota" :text="serviceItem.installingDate")
   //form-field(label="Aptarnauta" :text="serviceItem.lastServiceDate")
-  form-field(label="Garantija iki" :text="serviceItem.guaranteeEnd" empty-text="Nera garatijos")
+  form-field(label="Garantija iki" :text="serviceItem.guaranteeEnd" empty-text="Nera garantijos")
   form-field.small(label="Pastaba" :text="serviceItem.additionalServiceInfo")
   form-field.small(label="Kitam aptarnavimui" :text="serviceItem.serviceInfo")
 
