@@ -1,13 +1,23 @@
 import * as servicePoints from '@/services/servicePoints';
 
 export const SERVICE_POINTS = 'ServicePoints';
+export const MATCHING_SERVICE_POINTS = 'MatchingServicePoints';
 export const CURRENT_SERVICE_POINT = 'currentServicePoint';
 export const CURRENT_SERVING_MASTER = 'currentServingMaster';
 export const SERVING_MASTERS = 'ServingMasters';
+export const SEARCH_TEXT = 'searchText';
 export const BUSY = 'busy';
 export const ERROR = 'error';
 
 export default {
+
+  [MATCHING_SERVICE_POINTS](state, getters) {
+    return servicePoints.searchServicePoints(getters[SERVICE_POINTS], getters[SEARCH_TEXT]);
+  },
+
+  [SEARCH_TEXT](state) {
+    return state[SEARCH_TEXT];
+  },
 
   [SERVING_MASTERS](state) {
     return servicePoints.servingMastersByIds(state[SERVING_MASTERS]);

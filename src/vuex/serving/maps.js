@@ -2,6 +2,7 @@ import { createNamespacedHelpers } from 'vuex';
 
 import * as g from './getters';
 import * as a from './actions';
+import { MATCHING_SERVICE_POINTS } from './getters';
 
 const { mapActions, mapGetters } = createNamespacedHelpers('serving');
 
@@ -17,4 +18,5 @@ export const servingGetters = mapGetters({
   currentServicePoint: g.CURRENT_SERVICE_POINT,
   servicePoints: g.SERVICE_POINTS,
   busy: g.BUSY,
+  matchingServicePoints: g.MATCHING_SERVICE_POINTS,
 });

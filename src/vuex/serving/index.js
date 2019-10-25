@@ -11,6 +11,7 @@ export default {
 
   state() {
     return {
+      [g.SEARCH_TEXT]: '',
       [g.SERVICE_POINTS]: [],
       [g.SERVING_MASTERS]: [],
       [g.CURRENT_SERVICE_POINT]: null,

@@ -9,6 +9,7 @@ import ServiceItemService from '@/models/ServiceItemService';
 import FilterSystemType from '@/models/FilterSystemType';
 import FilterSystem from '@/models/FilterSystem';
 
+import escapeRegExp from 'lodash/escapeRegExp';
 import filter from 'lodash/filter';
 import fpMap from 'lodash/fp/map';
 import uniq from 'lodash/uniq';
@@ -75,4 +76,14 @@ export function loadServiceItemService(servicePointId) {
   const serviceItems = ServiceItem.filter({ servicePointId });
   const where = { serviceItemId: { '==': mapId(serviceItems) } };
   return ServiceItemService.findAll({ where });
+}
+
+export function searchServicePoints(servicePoints, text) {
+  if (!text) {
+    return servicePoints;
+  }
+  const re = new RegExp(escapeRegExp(text), 'i');
+  return filter(servicePoints, ({ address }) => {
+    return re.test(address);
+  });
 }

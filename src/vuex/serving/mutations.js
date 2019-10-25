@@ -7,8 +7,13 @@ export const SET_CURRENT_SERVING_MASTER = set(g.CURRENT_SERVING_MASTER);
 export const SET_CURRENT_SERVICE_POINT = set(g.CURRENT_SERVICE_POINT);
 export const SET_BUSY = set(g.BUSY);
 export const SET_ERROR = set(g.ERROR);
+export const SET_SEARCH_TEXT = set(g.SEARCH_TEXT);
 
 export default {
+
+  [SET_SEARCH_TEXT](state, text) {
+    state[g.SEARCH_TEXT] = text || '';
+  },
 
   [SET_SERVING_MASTERS](state, data) {
     state[g.SERVING_MASTERS] = mapId(orderByName(data));
