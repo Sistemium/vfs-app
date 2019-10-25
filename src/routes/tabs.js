@@ -18,44 +18,13 @@ const tabs = [
       title: 'Taškai',
       img: 'images/icons8-shop.png',
     },
-    children: [
-      {
-        path: ':servicePointId',
-        name: 'ServicePoint',
-        component: ServicePoint,
-        children: [
-          {
-            path: 'edit/:serviceItemServiceId',
-            name: 'ServiceItemServiceEdit',
-            component: ServiceItemServiceEdit,
-            props: ({ params: { serviceItemServiceId, servicePointId } }) => ({
-              serviceItemServiceId,
-              from: {
-                name: 'ServicePoint',
-                params: { servicePointId },
-              },
-            }),
-          },
-          {
-            path: 'create/:serviceItemId',
-            name: 'ServiceItemServiceCreate',
-            component: ServiceItemServiceEdit,
-            props: ({ params: { servicePointId, serviceItemId } }) => ({
-              serviceItemId,
-              from: {
-                name: 'ServicePoint',
-                params: { servicePointId },
-              },
-            }),
-          },
-        ],
-      },
-    ],
+    children: servicePointChildren(''),
   },
   {
     path: 'tasks',
-    name: 'tasks',
+    name: 'Tasks',
     component: Tasks,
+    children: servicePointChildren('Task'),
     meta: {
       title: 'Užduotys',
       img: 'images/icons8-to_do.png',
@@ -82,3 +51,40 @@ export default {
   props: { tabs },
 
 };
+
+function servicePointChildren(parent) {
+
+  return [
+    {
+      path: ':servicePointId',
+      name: `${parent}ServicePoint`,
+      component: ServicePoint,
+      children: [
+        {
+          path: 'edit/:serviceItemServiceId',
+          name: `${parent}ServiceItemServiceEdit`,
+          component: ServiceItemServiceEdit,
+          props: ({ params: { serviceItemServiceId, servicePointId } }) => ({
+            serviceItemServiceId,
+            from: {
+              name: `${parent}ServicePoint`,
+              params: { servicePointId },
+            },
+          }),
+        },
+        {
+          path: 'create/:serviceItemId',
+          name: `${parent}ServiceItemServiceCreate`,
+          component: ServiceItemServiceEdit,
+          props: ({ params: { servicePointId, serviceItemId } }) => ({
+            serviceItemId,
+            from: {
+              name: `${parent}ServicePoint`,
+              params: { servicePointId },
+            },
+          }),
+        },
+      ],
+    },
+  ];
+}

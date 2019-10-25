@@ -1,0 +1,35 @@
+@import "./variables";
+
+.service-points {
+  display: flex;
+  flex-direction: column;
+}
+
+.list {
+  flex: 1;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: row;
+
+  > * {
+    width: 100%;
+  }
+}
+
+.service-point-list {
+  overflow-x: hidden;
+}
+
+.current-serving-master {
+  background: $gray-background;
+  padding-bottom: $margin-top;
+}
+
+.root-header {
+  padding: $padding;
+
+  strong {
+    display: block;
+    margin: $padding auto;
+  }
+}

@@ -54,6 +54,12 @@ export default new Model({
 
   methods: {
 
+    servingWithin(dateB, dateE) {
+      const nextDate = this.nextServiceDateFn();
+      // TODO: check if it wasServed within dates
+      return nextDate <= dateE;
+    },
+
     nextServiceDateFn() {
 
       const { services, installingDate } = this;

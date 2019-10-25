@@ -61,16 +61,13 @@ export default {
       if (!serviceItemServiceId) {
         return;
       }
-      this.$router.push({
-        name: 'ServiceItemServiceEdit',
-        params: { serviceItemServiceId },
-      });
+      const thisPath = this.$route.path;
+      const path = `${thisPath}/edit/${serviceItemServiceId}`;
+      this.$router.push({ path });
     },
     addServiceClick() {
-      this.$router.push({
-        name: 'ServiceItemServiceCreate',
-        params: { serviceItemId: this.serviceItem.id },
-      });
+      const path = `${this.$route.path}/create/${this.serviceItem.id}`;
+      this.$router.push({ path });
     },
   },
   components: {

@@ -13,6 +13,8 @@ import escapeRegExp from 'lodash/escapeRegExp';
 import filter from 'lodash/filter';
 import fpMap from 'lodash/fp/map';
 import uniq from 'lodash/uniq';
+import fpGet from 'lodash/fp/get';
+import find from 'lodash/find';
 
 const mapServicePointId = fpMap('servicePointId');
 const mapContractId = fpMap('currentServiceContractId');
@@ -47,6 +49,8 @@ export async function loadServicePoints(servingMasterId) {
 
   await LegalEntity.findByMany(fpMap('customerLegalEntityId')(toLoadRelations));
 
+  await ServiceItemService.findByMany(mapId(items), { field: 'serviceItemId' });
+
   return res;
 
 }
@@ -78,12 +82,32 @@ export function loadServiceItemService(servicePointId) {
   return ServiceItemService.findAll({ where });
 }
 
+const servicePointSearchRules = [
+  fpGet('address'),
+  fpGet('serviceContract.customer.name'),
+];
+
 export function searchServicePoints(servicePoints, text) {
+
   if (!text) {
     return servicePoints;
   }
+
   const re = new RegExp(escapeRegExp(text), 'i');
-  return filter(servicePoints, ({ address }) => {
-    return re.test(address);
+
+  return filter(servicePoints, servicePointMatcher);
+
+  function servicePointMatcher(servicePoint) {
+    return find(servicePointSearchRules, searcher => re.test(searcher(servicePoint)));
+  }
+
+}
+
+export function servicePointsTasks(servicePoints, dateB, dateE) {
+
+  return filter(servicePoints, servicePoint => {
+    const { serviceItems } = servicePoint;
+    return find(serviceItems, serviceItem => serviceItem.servingWithin(dateB, dateE));
   });
+
 }
