@@ -6,3 +6,8 @@ export function addMonths(date, months = 1) {
     .add(months, 'month')
     .format('YYYY-MM-DD');
 }
+
+export function currentMonth() {
+  return dayjs()
+    .format('YYYY-MM');
+}

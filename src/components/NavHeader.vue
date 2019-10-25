@@ -12,7 +12,7 @@
 
   .right
     mt-button.prev(:plain="true" @click="nextClick" :disabled="!next")
-      i.el-icon-arrow-right(v-if="next")
+      i(v-if="next" :class="rightIcon")
     .badge(v-if="rightBadge")
       mt-badge(type="warning" size="small") {{ rightBadge }}
 
@@ -32,6 +32,10 @@ export default {
     prev: Function,
     next: Function,
     rightBadge: String,
+    rightIcon: {
+      type: String,
+      default: 'el-icon-arrow-right',
+    },
   },
 
   computed: {

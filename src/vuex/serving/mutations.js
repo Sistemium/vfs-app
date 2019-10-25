@@ -8,8 +8,13 @@ export const SET_CURRENT_SERVICE_POINT = set(g.CURRENT_SERVICE_POINT);
 export const SET_BUSY = set(g.BUSY);
 export const SET_ERROR = set(g.ERROR);
 export const SET_SEARCH_TEXT = set(g.SEARCH_TEXT);
+export const SET_SERVING_MONTH = 'SET_SERVING_MONTH';
 
 export default {
+
+  [SET_SERVING_MONTH](state, data) {
+    state[g.CURRENT_SERVING_MONTH] = data;
+  },
 
   [SET_SEARCH_TEXT](state, text) {
     state[g.SEARCH_TEXT] = text || '';

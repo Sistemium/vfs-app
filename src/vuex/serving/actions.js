@@ -10,9 +10,14 @@ export const LOAD_SERVICE_ITEM_SERVICE = 'LOAD_SERVICE_ITEM_SERVICE';
 export const SET_CURRENT_SERVICE_POINT = 'SET_CURRENT_SERVICE_POINT';
 export const SET_CURRENT_SERVING_MASTER = 'SET_CURRENT_SERVING_MASTER';
 export const SEARCH_TEXT_CHANGE = 'SEARCH_TEXT_CHANGE';
+export const SET_SERVING_MONTH = 'SET_SERVING_MONTH';
 // const THROW_ERROR = 'error';
 
 export default {
+
+  [SET_SERVING_MONTH]({ commit }, month) {
+    commit(SET_SERVING_MONTH, month);
+  },
 
   [SEARCH_TEXT_CHANGE]: debounce(({ commit }, searchText) => {
     commit(m.SET_SEARCH_TEXT, searchText);
