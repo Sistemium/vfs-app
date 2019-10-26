@@ -1,0 +1,31 @@
+@import "variables";
+
+.list-item {
+
+  padding: 6px;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+
+  .texts {
+    flex: 1;
+  }
+
+  .gray {
+    color: $gray;
+    font-size: small;
+  }
+
+  border-top: $gray-border;
+  cursor: pointer;
+
+  &.active {
+    background: $primary-color;
+    color: $white;
+  }
+
+  &:last-child {
+    border-bottom: $gray-border;
+  }
+
+}

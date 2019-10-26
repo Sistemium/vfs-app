@@ -34,22 +34,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 
-@import "../styles/variables";
-
-.active {
-  background: $primary-color;
-  color: $white;
-}
-
-.list-item {
-
-  border-top: $gray-border;
-
-  cursor: pointer;
-  &:last-child {
-    border-bottom: $gray-border;
-  }
-
-}
+@import "../styles/lists";
 
 </style>
