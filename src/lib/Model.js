@@ -10,8 +10,8 @@ async function findByMany(ids, options) {
   const chunks = chunk(uniq(ids), chunkSize);
 
   return Promise.all(chunks.map(chunkIds => {
-    const where = { [field]: { '==': chunkIds } };
-    return this.findAll({ where }, options);
+    const where = { [field]: { in: chunkIds } };
+    return this.findAll({ where }, { ...options });
   }))
     .then(flatten);
 
