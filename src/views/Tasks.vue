@@ -26,7 +26,8 @@
   .list
     service-point-list(
       :style="isRootState ? '' : 'width:0'"
-      :service-points="servicePoints"
+      :service-points="tasks"
+      icon-fn="isServed"
       @click="servicePointClick"
     )
 
@@ -55,6 +56,18 @@ export default {
     month: {
       ...mapGetters({ get: CURRENT_SERVING_MONTH }),
       ...mapActions({ set: SET_SERVING_MONTH }),
+    },
+    tasks() {
+      return this.servicePoints.map(servicePoint => ({
+        ...servicePoint,
+        serviceContract: servicePoint.serviceContract,
+        isServed: () => {
+          if (servicePoint.isServedBetween(this.month, `${this.month}-31`)) {
+            return 'el-icon-circle-check';
+          }
+          return null;
+        },
+      }));
     },
   },
   components: {

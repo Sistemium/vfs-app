@@ -62,6 +62,11 @@ export default {
       });
     }
   },
+  beforeDestroy() {
+    ServiceItem.unbindAll(this);
+    ServicePoint.unbindAll(this);
+    ServiceItemService.unbindAll(this);
+  },
 };
 
 </script>

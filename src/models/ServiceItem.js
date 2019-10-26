@@ -2,6 +2,7 @@ import Model from '@/lib/Model';
 import get from 'lodash/get';
 import filter from 'lodash/filter';
 import maxBy from 'lodash/maxBy';
+import find from 'lodash/find';
 import isNumber from 'lodash/isNumber';
 import { Record } from 'js-data';
 import { addMonths } from '@/lib/dates';
@@ -54,7 +55,12 @@ export default new Model({
 
   methods: {
 
-    servingWithin(dateB, dateE) {
+    serviceBetween(dateB, dateE) {
+      const { services } = this;
+      return find(services, ({ date }) => dateB <= date && date <= dateE);
+    },
+
+    needServiceBetween(dateB, dateE) {
       const nextDate = this.nextServiceDateFn();
       // TODO: check if it wasServed within dates
       return nextDate <= dateE;

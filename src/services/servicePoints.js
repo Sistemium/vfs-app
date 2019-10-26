@@ -107,7 +107,8 @@ export function servicePointsTasks(servicePoints, dateB, dateE) {
 
   return filter(servicePoints, servicePoint => {
     const { serviceItems } = servicePoint;
-    return find(serviceItems, serviceItem => serviceItem.servingWithin(dateB, dateE));
+    return find(serviceItems, serviceItem => serviceItem.needServiceBetween(dateB, dateE)
+      || serviceItem.serviceBetween(dateB, dateE));
   });
 
 }

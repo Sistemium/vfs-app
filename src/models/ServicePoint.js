@@ -1,3 +1,4 @@
+import find from 'lodash/find';
 import Model from '@/lib/Model';
 
 export default new Model({
@@ -23,6 +24,11 @@ export default new Model({
     },
   },
 
-  methods: {},
+  methods: {
+    isServedBetween(dateB, dateE) {
+      const { serviceItems } = this;
+      return !find(serviceItems, serviceItem => !serviceItem.serviceBetween(dateB, dateE));
+    },
+  },
 
 });

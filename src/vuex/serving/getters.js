@@ -22,8 +22,9 @@ export default {
   },
 
   [MATCHING_SERVICE_TASKS](state, getters) {
-    const dateB = `${getters[CURRENT_SERVING_MONTH]}-01`;
-    const dateE = `${dateB}-31`;
+    const month = getters[CURRENT_SERVING_MONTH];
+    const dateB = `${month}-01`;
+    const dateE = `${month}-31`;
     const data = servicePoints.servicePointsTasks(getters[SERVICE_POINTS], dateB, dateE);
     return servicePoints.searchServicePoints(data, getters[SEARCH_TEXT]);
   },
