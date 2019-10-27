@@ -53,7 +53,7 @@ export default {
 @import "../styles/variables";
 
 .right {
-  padding: $padding;
+  padding: 0 $padding;
   color: green;
   i {
     font-size: 150%;

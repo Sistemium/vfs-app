@@ -62,7 +62,6 @@ export default new Model({
 
     needServiceBetween(dateB, dateE) {
       const nextDate = this.nextServiceDateFn();
-      // TODO: check if it wasServed within dates
       return nextDate <= dateE;
     },
 
@@ -71,12 +70,13 @@ export default new Model({
       const { services, installingDate } = this;
       const matchingServices = filter(services, dateAffectingService);
       const lastService = maxBy(matchingServices, 'date');
-      const { nextServiceDate, date = installingDate, type } = lastService || {};
+      const { nextServiceDate, date = installingDate, type = 'install' } = lastService || {};
 
       switch (type) {
         case 'forward':
           return nextServiceDate || addMonths(date, 1);
         case 'service':
+        case 'install':
           return addMonths(date, this.serviceFrequencyFn());
         default:
           return null;
@@ -100,7 +100,7 @@ export default new Model({
       }
 
       return get(filterSystem, name)
-        || get(filterSystem, `filterSystemType.${name}`);
+        || get(filterSystem, `type.${name}`);
     },
 
   },

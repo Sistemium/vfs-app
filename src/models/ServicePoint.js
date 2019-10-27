@@ -27,7 +27,8 @@ export default new Model({
   methods: {
     isServedBetween(dateB, dateE) {
       const { serviceItems } = this;
-      return !find(serviceItems, serviceItem => !serviceItem.serviceBetween(dateB, dateE));
+      return !find(serviceItems, serviceItem => serviceItem.needServiceBetween(dateB, dateE)
+        && !serviceItem.serviceBetween(dateB, dateE));
     },
   },
 

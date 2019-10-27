@@ -13,7 +13,7 @@
       span.name(v-text="serviceContract.customer.name")
     .contract.field
       i.el-icon-s-management
-      span № {{ serviceContract.num }} nuo {{ serviceContract.date }}
+      span № {{ serviceContract.num || 'BN' }} nuo {{ serviceContract.date }}
 
 </template>
 <script>
