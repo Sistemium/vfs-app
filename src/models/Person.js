@@ -1,5 +1,6 @@
 import Model from '@/lib/Model';
 import { Record } from 'js-data';
+import Contact from '@/models/Contact';
 
 class PersonRecord extends Record {
 }
@@ -29,6 +30,10 @@ export default new Model({
     },
   },
 
-  methods: {},
+  methods: {
+    contacts() {
+      return Contact.filter({ ownerXid: this.id });
+    },
+  },
 
 });

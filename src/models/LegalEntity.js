@@ -1,4 +1,5 @@
 import Model from '@/lib/Model';
+import Contact from '@/models/Contact';
 
 export default new Model({
 
@@ -17,6 +18,10 @@ export default new Model({
     },
   },
 
-  methods: {},
+  methods: {
+    contacts() {
+      return Contact.filter({ ownerXid: this.id });
+    },
+  },
 
 });

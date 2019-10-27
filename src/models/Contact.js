@@ -13,6 +13,20 @@ export default new Model({
     },
   },
 
-  methods: {},
+  methods: {
+    href() {
+
+      const { address, contactMethod } = this;
+
+      if (!address) {
+        return null;
+      }
+
+      const { link } = contactMethod;
+
+      return `${link}${address}`;
+
+    },
+  },
 
 });

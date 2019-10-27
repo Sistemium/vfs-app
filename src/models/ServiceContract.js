@@ -36,6 +36,10 @@ export default new Model({
         localField: 'servicePoints',
         foreignKey: 'currentServiceContractId',
       },
+      // Contact: {
+      //   localField: 'contacts',
+      //   foreignKey: 'ownerXid',
+      // },
     },
   },
 
