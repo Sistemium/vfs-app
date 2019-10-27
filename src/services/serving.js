@@ -16,6 +16,8 @@ import uniq from 'lodash/uniq';
 import fpGet from 'lodash/fp/get';
 import find from 'lodash/find';
 
+import { likeLt } from '@/lib/lt';
+
 const mapServicePointId = fpMap('servicePointId');
 const mapContractId = fpMap('currentServiceContractId');
 const mapId = fpMap('id');
@@ -93,7 +95,7 @@ export function searchServicePoints(servicePoints, text) {
     return servicePoints;
   }
 
-  const re = new RegExp(escapeRegExp(text), 'i');
+  const re = new RegExp(likeLt(escapeRegExp(text)), 'i');
 
   return filter(servicePoints, servicePointMatcher);
 
