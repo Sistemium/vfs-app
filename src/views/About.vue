@@ -1,9 +1,8 @@
 <template lang="pug">
 
 .about
-  nav-header(title="Apie programėlę")
 
-  p Vandens Filtravimo Sistemos
+  nav-header(title="VFS mobile")
 
   img(alt="Vue logo" src="../assets/vfs-1024.png")
 
@@ -26,11 +25,11 @@ export default {
 
 </script>
 <style lang="scss" scoped>
+
 @import "../styles/variables";
-p {
-  color: $blue;
-  font-weight: bold;
-  padding: $margin-right;
+
+img {
+  margin-top: 20px;
 }
 
 </style>
