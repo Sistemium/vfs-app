@@ -8,6 +8,8 @@ import ServiceItemService from '@/models/ServiceItemService';
 
 import FilterSystemType from '@/models/FilterSystemType';
 import FilterSystem from '@/models/FilterSystem';
+import ContactMethod from '@/models/ContactMethod';
+import Contact from '@/models/Contact';
 
 import escapeRegExp from 'lodash/escapeRegExp';
 import filter from 'lodash/filter';
@@ -29,28 +31,35 @@ export async function loadServicePoints(servingMasterId) {
     limit: 1000,
   });
 
+  // ServicePoint
   let toLoadRelations = filter(items, ({ servicePoint }) => !servicePoint);
   await ServicePoint.findByMany(mapServicePointId(toLoadRelations));
 
   const res = ServicePoint.getMany(uniq(mapServicePointId(items)));
 
+  // ServiceContract
   toLoadRelations = filter(res, ({ currentServiceContract }) => !currentServiceContract);
-  await ServiceContract.findByMany(mapContractId(toLoadRelations));
+  const contracts = await ServiceContract.findByMany(mapContractId(toLoadRelations));
 
-  toLoadRelations = filter(ServiceContract.getAll(), serviceContract => {
+  // Person
+  toLoadRelations = filter(contracts, serviceContract => {
     const { customerPersonId, customerPerson } = serviceContract;
     return customerPersonId && !customerPerson;
   });
 
-  await Person.findByMany(fpMap('customerPersonId')(toLoadRelations));
+  const persons = await Person.findByMany(fpMap('customerPersonId')(toLoadRelations));
 
-  toLoadRelations = filter(ServiceContract.getAll(), serviceContract => {
+  // LegalEntity
+  toLoadRelations = filter(contracts, serviceContract => {
     const { customerLegalEntityId, customerLegalEntity } = serviceContract;
     return customerLegalEntityId && !customerLegalEntity;
   });
 
   await LegalEntity.findByMany(fpMap('customerLegalEntityId')(toLoadRelations));
 
+  await Contact.findByMany(mapId(persons), { field: 'ownerXid' });
+
+  // ServiceItemService
   await ServiceItemService.findByMany(mapId(items), { field: 'serviceItemId' });
 
   return res;
@@ -60,6 +69,7 @@ export async function loadServicePoints(servingMasterId) {
 export async function loadCatalogue() {
   await FilterSystemType.findAll();
   await FilterSystem.findAll();
+  await ContactMethod.findAll();
 }
 
 export function servicePointByIds(ids) {
