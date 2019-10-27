@@ -3,9 +3,9 @@ import chunk from 'lodash/chunk';
 import uniq from 'lodash/uniq';
 import flatten from 'lodash/flatten';
 
-async function findByMany(ids, options) {
+async function findByMany(ids, options = {}) {
 
-  const { chunkSize = 100, field = 'id' } = options || {};
+  const { chunkSize = 100, field = 'id' } = options;
 
   const chunks = chunk(uniq(ids), chunkSize);
 
