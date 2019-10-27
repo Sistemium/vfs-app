@@ -1,6 +1,6 @@
 import log from 'sistemium-telegram/services/log';
 import vuex from '@/vuex/store';
-import { loadCatalogue } from '@/services/servicePoints';
+import { loadCatalogue } from '@/services/serving';
 
 const { error } = log('vuex:routing');
 

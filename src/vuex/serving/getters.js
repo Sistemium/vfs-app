@@ -1,4 +1,4 @@
-import * as servicePoints from '@/services/servicePoints';
+import * as servicePoints from '@/services/serving';
 
 export const SERVICE_POINTS = 'ServicePoints';
 export const MATCHING_SERVICE_POINTS = 'MatchingServicePoints';

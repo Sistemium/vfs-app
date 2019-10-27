@@ -1,6 +1,6 @@
 import debounce from 'lodash/debounce';
 import * as ls from '@/services/localStorage';
-import * as svc from '@/services/servicePoints';
+import * as svc from '@/services/serving';
 import * as m from './mutations';
 import * as g from '@/vuex/serving/getters';
 
