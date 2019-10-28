@@ -20,6 +20,8 @@
     margin: $margin-top 0;
     display: flex;
     align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: flex-start;
   }
 
 }

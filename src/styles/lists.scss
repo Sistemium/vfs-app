@@ -2,10 +2,13 @@
 
 .list-item {
 
-  padding: 6px;
+  padding: $margin-top $padding;
   text-align: left;
   display: flex;
   flex-direction: row;
+
+  border-top: $gray-border;
+  cursor: pointer;
 
   .texts {
     flex: 1;
@@ -15,9 +18,6 @@
     color: $gray;
     font-size: small;
   }
-
-  border-top: $gray-border;
-  cursor: pointer;
 
   &.active {
     background: $primary-color;

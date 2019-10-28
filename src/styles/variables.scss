@@ -1,6 +1,6 @@
 $black: #101010;
 $gray: #404040;
-$dark-gray: darken($gray, 10%);
+$dark-gray: lighten($black, 20%);
 // #fafafa
 $gray-background: #f3f3f3;
 $gray-border-color: #f0f0f0;

@@ -87,7 +87,7 @@ export default {
   .title {
 
     font-size: 120%;
-    color: $black;
+    color: $dark-gray;
 
     a {
       position: relative;

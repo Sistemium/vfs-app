@@ -5,7 +5,8 @@
   margin-bottom: $margin-right;
   padding: 13px;
   background-color: $gray-background;
-  color: $black;
+  font-size: 120%;
+  color: $dark-gray;
   span {
     font-weight: bold;
   }
@@ -20,7 +21,7 @@
 
 .el-form-item__label {
   line-height: 25px;
-  color: $blue;
+  color: $green;
 }
 
 .el-radio-button {
@@ -49,6 +50,7 @@
 .el-select {
   .el-input__inner {
     padding-left: $padding;
+    line-height: 32px;
     height: 32px;
   }
 }
@@ -56,6 +58,7 @@
 .el-date-editor {
   .el-input__inner {
     //padding-left: $padding;
+    line-height: 32px;
     height: 32px;
   }
 }

@@ -1,7 +1,7 @@
 <template lang="pug">
 
 .service-item-services-list
-  .service-item-service(
+  .service-item-service.list-item(
     v-for="service in services" :key:="service.id"
     @click="$emit('click', service)"
   )
@@ -37,8 +37,9 @@ export default {
 
   display: flex;
   line-height: 1;
-  /*align-items: center;*/
-  padding: $padding 0;
+  //align-items: center;
+  padding: 8px 0;
+  border-bottom: $gray-border;
 
   > * + * {
     margin-left: $margin-right;
@@ -61,8 +62,6 @@ export default {
     flex: 1;
     font-size: 75%;
   }
-
-  border-bottom: $gray-border;
 
   &:first-child {
     border-top: $gray-border;

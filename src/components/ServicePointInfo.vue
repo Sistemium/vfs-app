@@ -58,4 +58,9 @@ export default {
   @extend %form;
 }
 
+small {
+  font-size: 75%;
+  color: $gray;
+}
+
 </style>
