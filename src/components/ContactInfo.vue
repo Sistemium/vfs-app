@@ -3,7 +3,8 @@
 .contact-info
   i.type(:class="type")
   a(:href="contact.href()")
-    strong.address {{ contact.address }}
+    strong.address {{ address }}
+  small.info(v-if="contact.info" v-text="contact.info")
 
 </template>
 <script>
@@ -16,8 +17,26 @@ export default {
   },
   name: NAME,
   computed: {
+    address() {
+      const { contactMethod, address } = this.contact;
+      if (!contactMethod) {
+        return address;
+      }
+      switch (contactMethod.code) {
+        case 'phone':
+          return address.replace(/(\d{3})(\d{2})(\d{3})/, (p, n1, n2, n3) => `(${n1})${n2}-${n3}`);
+        case 'email':
+          return address.replace(/^[^@]+/, '');
+        default:
+          return null;
+      }
+    },
     type() {
-      switch (this.contact.contactMethod.code) {
+      const { contactMethod } = this.contact;
+      if (!contactMethod) {
+        return null;
+      }
+      switch (contactMethod.code) {
         case 'phone':
           return 'el-icon-phone';
         case 'email':
@@ -36,11 +55,18 @@ export default {
 
 .type {
   color: $green;
+}
+
+a, .type {
   margin-right: $margin-right/2;
 }
 
+.info {
+  color: $gray;
+}
+
 i {
-  padding: 3px;
+  padding: 0 3px;
 }
 
 a {

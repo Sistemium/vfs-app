@@ -7,23 +7,20 @@
     span {{ servicePoint.address }}
     small(v-if="servicePoint.name") ({{ servicePoint.name }})
 
-  template(v-if="serviceContract")
+  named-contacts.customer(:name="customerName" :contacts="contacts")
+  named-contacts(
+    v-for="cp in contactPersons" :key="cp.id"
+    :name="cp.name" :contacts="cp.contacts()"
+  )
 
-    .customer.field
-      i.el-icon-s-custom
-      span.name(v-text="customerName")
-
-    .contacts
-      contact-info(v-for="contact in contacts" :key="contacts.id" :contact="contact")
-
-    .contract.field
-      i.el-icon-s-management
-      span № {{ serviceContract.num || 'BN' }} nuo {{ serviceContract.date }}
+  .contract.field(v-if="serviceContract")
+    i.el-icon-s-management
+    span № {{ serviceContract.num || 'BN' }} nuo {{ serviceContract.date }}
 
 </template>
 <script>
 
-import ContactInfo from '@/components/ContactInfo.vue';
+import NamedContacts from '@/components/NamedContacts.vue';
 
 const NAME = 'ServicePointInfo';
 
@@ -39,25 +36,26 @@ export default {
     contacts() {
       return this.serviceContract.customer.contacts();
     },
+    contactPersons() {
+      return this.servicePoint.contactPersons();
+    },
     serviceContract() {
       return this.servicePoint && this.servicePoint.serviceContract;
     },
   },
-  components: { ContactInfo },
+  components: {
+    NamedContacts,
+  },
   name: NAME,
 };
 
 </script>
-<style scoped lang="scss">
+<style lang="scss">
 
 @import "../styles/forms";
 
 .service-point-info {
   @extend %form;
-}
-
-.contact-info {
-  margin-right: $margin-right;
 }
 
 </style>

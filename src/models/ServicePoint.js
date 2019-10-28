@@ -1,5 +1,6 @@
 import find from 'lodash/find';
 import Model from '@/lib/Model';
+import Person from '@/models/Person';
 
 export default new Model({
 
@@ -29,6 +30,9 @@ export default new Model({
       const { serviceItems } = this;
       return !find(serviceItems, serviceItem => serviceItem.needServiceBetween(dateB, dateE)
         && !serviceItem.serviceBetween(dateB, dateE));
+    },
+    contactPersons() {
+      return Person.getMany(this.contactIds);
     },
   },
 
