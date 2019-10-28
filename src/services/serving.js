@@ -78,7 +78,15 @@ export async function loadServicePoints(servingMasterId) {
   // ServiceItemService
   await ServiceItemService.findByMany(mapId(items), { field: 'serviceItemId' });
 
-  return servicePoints;
+  const where = {
+    id: {
+      in: uniq(mapServicePointId(items)),
+    },
+    siteId: {
+      '==': siteId,
+    },
+  };
+  return ServicePoint.filter({ where });
 
 }
 
