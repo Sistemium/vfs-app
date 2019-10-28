@@ -41,42 +41,20 @@ export async function loadServicePoints(servingMasterId) {
   });
 
   // ServicePoint
-  let toLoadRelations = filter(items, ({ servicePoint }) => !servicePoint);
+  const toLoadRelations = filter(items, ({ servicePoint }) => !servicePoint);
 
   const servicePointIds = uniq(mapServicePointId(toLoadRelations));
   await ServicePoint.findByMany(servicePointIds);
 
   const servicePoints = filter(ServicePoint.getMany(servicePointIds), { siteId });
 
-  // ServiceContract
-  toLoadRelations = filter(servicePoints, ({ currentServiceContract }) => !currentServiceContract);
-  const contracts = await ServiceContract.findByMany(mapContractId(toLoadRelations));
+  if (servicePoints.length) {
+    await loadServicePointsRelations(servicePoints);
 
-  // Person
-  toLoadRelations = filter(contracts, serviceContract => {
-    const { customerPersonId, customerPerson } = serviceContract;
-    return customerPersonId && !customerPerson;
-  });
+    // ServiceItemService
+    await ServiceItemService.findByMany(mapId(items), { field: 'serviceItemId' });
 
-  const persons = await Person.findByMany(fpMap('customerPersonId')(toLoadRelations));
-  const contactPersonIds = filter(flatten(fpMap('contactIds')(servicePoints)));
-  const contactPersons = await Person.findByMany(contactPersonIds);
-
-  // LegalEntity
-  toLoadRelations = filter(contracts, serviceContract => {
-    const { customerLegalEntityId, customerLegalEntity } = serviceContract;
-    return customerLegalEntityId && !customerLegalEntity;
-  });
-
-  const le = await LegalEntity.findByMany(fpMap('customerLegalEntityId')(toLoadRelations));
-
-  // Contact
-  await Contact.findByMany(mapId(persons), { field: 'ownerXid' });
-  await Contact.findByMany(mapId(contactPersons), { field: 'ownerXid' });
-  await Contact.findByMany(mapId(le), { field: 'ownerXid' });
-
-  // ServiceItemService
-  await ServiceItemService.findByMany(mapId(items), { field: 'serviceItemId' });
+  }
 
   const where = {
     id: {
@@ -87,6 +65,39 @@ export async function loadServicePoints(servingMasterId) {
     },
   };
   return ServicePoint.filter({ where });
+
+}
+
+async function loadServicePointsRelations(servicePoints) {
+
+  let loadRelations;
+
+  // ServiceContract
+  loadRelations = filter(servicePoints, ({ currentServiceContract }) => !currentServiceContract);
+  const contracts = await ServiceContract.findByMany(mapContractId(loadRelations));
+
+  // Person
+  loadRelations = filter(contracts, serviceContract => {
+    const { customerPersonId, customerPerson } = serviceContract;
+    return customerPersonId && !customerPerson;
+  });
+
+  const persons = await Person.findByMany(fpMap('customerPersonId')(loadRelations));
+  const contactPersonIds = filter(flatten(fpMap('contactIds')(servicePoints)));
+  const contactPersons = await Person.findByMany(contactPersonIds);
+
+  // LegalEntity
+  loadRelations = filter(contracts, serviceContract => {
+    const { customerLegalEntityId, customerLegalEntity } = serviceContract;
+    return customerLegalEntityId && !customerLegalEntity;
+  });
+
+  const le = await LegalEntity.findByMany(fpMap('customerLegalEntityId')(loadRelations));
+
+  // Contact
+  await Contact.findByMany(mapId(persons), { field: 'ownerXid' });
+  await Contact.findByMany(mapId(contactPersons), { field: 'ownerXid' });
+  await Contact.findByMany(mapId(le), { field: 'ownerXid' });
 
 }
 
