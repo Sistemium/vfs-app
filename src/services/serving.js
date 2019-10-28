@@ -50,10 +50,8 @@ export async function loadServicePoints(servingMasterId) {
 
   if (servicePoints.length) {
     await loadServicePointsRelations(servicePoints);
-
     // ServiceItemService
     await ServiceItemService.findByMany(mapId(items), { field: 'serviceItemId' });
-
   }
 
   const where = {
