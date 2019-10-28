@@ -13,16 +13,25 @@ import Contact from '@/models/Contact';
 
 import escapeRegExp from 'lodash/escapeRegExp';
 import filter from 'lodash/filter';
+import flatten from 'lodash/flatten';
 import fpMap from 'lodash/fp/map';
 import uniq from 'lodash/uniq';
 import fpGet from 'lodash/fp/get';
 import find from 'lodash/find';
 
 import { likeLt } from '@/lib/lt';
+import log from 'sistemium-telegram/services/log';
+
+const { debug } = log('serving');
+
+debug('init');
 
 const mapServicePointId = fpMap('servicePointId');
 const mapContractId = fpMap('currentServiceContractId');
 const mapId = fpMap('id');
+
+// TODO: read from user's roles
+const siteId = '2b1f36e3-8506-451f-9cfa-d62bf8e0aa49';
 
 export async function loadServicePoints(servingMasterId) {
 
@@ -33,12 +42,14 @@ export async function loadServicePoints(servingMasterId) {
 
   // ServicePoint
   let toLoadRelations = filter(items, ({ servicePoint }) => !servicePoint);
-  await ServicePoint.findByMany(mapServicePointId(toLoadRelations));
 
-  const res = ServicePoint.getMany(uniq(mapServicePointId(items)));
+  const servicePointIds = uniq(mapServicePointId(toLoadRelations));
+  await ServicePoint.findByMany(servicePointIds);
+
+  const servicePoints = filter(ServicePoint.getMany(servicePointIds), { siteId });
 
   // ServiceContract
-  toLoadRelations = filter(res, ({ currentServiceContract }) => !currentServiceContract);
+  toLoadRelations = filter(servicePoints, ({ currentServiceContract }) => !currentServiceContract);
   const contracts = await ServiceContract.findByMany(mapContractId(toLoadRelations));
 
   // Person
@@ -48,6 +59,8 @@ export async function loadServicePoints(servingMasterId) {
   });
 
   const persons = await Person.findByMany(fpMap('customerPersonId')(toLoadRelations));
+  const contactPersonIds = filter(flatten(fpMap('contactIds')(servicePoints)));
+  const contactPersons = await Person.findByMany(contactPersonIds);
 
   // LegalEntity
   toLoadRelations = filter(contracts, serviceContract => {
@@ -55,14 +68,17 @@ export async function loadServicePoints(servingMasterId) {
     return customerLegalEntityId && !customerLegalEntity;
   });
 
-  await LegalEntity.findByMany(fpMap('customerLegalEntityId')(toLoadRelations));
+  const le = await LegalEntity.findByMany(fpMap('customerLegalEntityId')(toLoadRelations));
 
+  // Contact
   await Contact.findByMany(mapId(persons), { field: 'ownerXid' });
+  await Contact.findByMany(mapId(contactPersons), { field: 'ownerXid' });
+  await Contact.findByMany(mapId(le), { field: 'ownerXid' });
 
   // ServiceItemService
   await ServiceItemService.findByMany(mapId(items), { field: 'serviceItemId' });
 
-  return res;
+  return servicePoints;
 
 }
 
