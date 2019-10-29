@@ -7,6 +7,11 @@ import isNumber from 'lodash/isNumber';
 import { Record } from 'js-data';
 import { addMonths } from '@/lib/dates';
 
+export const SERVICE_TYPE_PAUSE = 'pause';
+export const SERVICE_TYPE_FORWARD = 'forward';
+export const SERVICE_TYPE_SERVICE = 'service';
+export const SERVICE_TYPE_OTHER = 'other';
+
 class ServiceItemRecord extends Record {
 }
 
@@ -67,15 +72,28 @@ export default new Model({
 
     nextServiceDateFn() {
 
-      const { services, installingDate } = this;
+      const { services, installingDate, pausedFrom } = this;
+
+      if (pausedFrom) {
+        return null;
+      }
+
       const matchingServices = filter(services, dateAffectingService);
       const lastService = maxBy(matchingServices, 'date');
       const { nextServiceDate, date = installingDate, type = 'install' } = lastService || {};
 
+      if (type === SERVICE_TYPE_PAUSE) {
+        return null;
+      }
+
+      if (this.nextServiceDate) {
+        return this.nextServiceDate;
+      }
+
       switch (type) {
-        case 'forward':
+        case SERVICE_TYPE_FORWARD:
           return nextServiceDate || addMonths(date, 1);
-        case 'service':
+        case SERVICE_TYPE_SERVICE:
         case 'install':
           return addMonths(date, this.serviceFrequencyFn());
         default:
