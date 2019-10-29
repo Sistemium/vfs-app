@@ -2,7 +2,7 @@
 
 .about
 
-  nav-header(title="VFS mobile")
+  nav-header(:title="title")
 
   img(alt="Vue logo" src="../assets/vfs-1024.png")
 
@@ -17,6 +17,14 @@ import AccountInfo from '@/components/AccountInfo.vue';
 import CurrentServingMaster from '@/components/CurrentServingMaster.vue';
 
 export default {
+  computed: {
+    title() {
+      return `VFS mobile v${this.version}`;
+    },
+    version() {
+      return process.env.VUE_APP_VERSION;
+    },
+  },
   components: {
     AccountInfo,
     CurrentServingMaster,
