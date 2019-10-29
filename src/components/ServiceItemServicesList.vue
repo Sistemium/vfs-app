@@ -36,7 +36,7 @@ export default {
 .service-item-service {
 
   display: flex;
-  line-height: 1;
+  line-height: 20px;
   //align-items: center;
   padding: 8px 0;
   border-bottom: $gray-border;
