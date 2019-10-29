@@ -53,6 +53,10 @@ export default {
 
 @import "../styles/variables";
 
+.contact-info {
+  display: inline-block;
+}
+
 .type {
   color: $green;
 }

@@ -7,7 +7,7 @@
     span.name(v-text="name")
     contact-info(:contact="mainEmail" v-if="mainEmail")
 
-  .contacts
+  .contacts(v-if="contacts.length")
     contact-info(v-for="contact in phones" :key="contacts.id" :contact="contact")
     contact-info(
       v-for="contact in emails" :key="contacts.id" :contact="contact"
