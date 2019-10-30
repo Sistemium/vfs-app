@@ -75,7 +75,7 @@ export default {
 
 .oauth-buttons {
 
-  margin: $margin-right auto;
+  margin: 50px auto 0;
   max-width: 250px;
 
   .oauth-button {

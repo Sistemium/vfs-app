@@ -1,17 +1,18 @@
 @import "variables";
 @import "element-ui";
+@import "fonts";
 
 body {
   margin: 0;
+  overflow: hidden;
 }
 
 .gray {
   color: $gray;
 }
 
-
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'SF Text', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

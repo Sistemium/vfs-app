@@ -2,9 +2,9 @@
 
 .home
 
-  img(alt="Vue logo" src="../assets/vfs-1024.png")
+  img(alt="Vue logo" src="../assets/vfs-drops-192.png")
 
-  hello-world(msg="Welcome to VFS")
+  hello-world(msg="VFS mobiliajam")
 
   router-link(to="tabs")
     mt-button(type="primary") Pradėti
@@ -24,8 +24,9 @@ export default {
 
 </script>
 
-<style lang="css">
+<style scoped lang="css">
 img {
+  margin-top: 30px;
   max-width: 200px;
 }
 </style>

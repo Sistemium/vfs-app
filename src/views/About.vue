@@ -2,9 +2,9 @@
 
 .about
 
-  nav-header(:title="title")
+  nav-header(:title="title" right-icon="el-icon-refresh" :next="reloadApp")
 
-  img(alt="Vue logo" src="../assets/vfs-1024.png")
+  img(alt="Vue logo" src="../assets/vfs-drops-192.png")
 
   account-info
   current-serving-master
@@ -23,6 +23,11 @@ export default {
     },
     version() {
       return process.env.VUE_APP_VERSION;
+    },
+  },
+  methods: {
+    reloadApp() {
+      window.location.reload(true);
     },
   },
   components: {

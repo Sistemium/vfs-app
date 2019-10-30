@@ -12,6 +12,10 @@
   border-top: $gray-border;
   cursor: pointer;
 
+  .title {
+    padding: 2px 0;
+  }
+
   .texts {
     flex: 1;
   }
