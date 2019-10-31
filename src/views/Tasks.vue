@@ -61,6 +61,7 @@ export default {
       return this.servicePoints.map(servicePoint => ({
         ...servicePoint,
         serviceContract: servicePoint.serviceContract,
+        title: servicePoint.title,
         isServed: () => {
           if (servicePoint.isServedBetween(this.month, `${this.month}-31`)) {
             return 'el-icon-circle-check';

@@ -39,6 +39,7 @@ export default function (NAME, detailName) {
     },
 
     async beforeRouteEnter(to, from, next) {
+
       debug('beforeRouteEnter', to.fullPath, from.fullPath);
 
       const currentServingMaster = store.getters[`serving/${CURRENT_SERVING_MASTER}`];
