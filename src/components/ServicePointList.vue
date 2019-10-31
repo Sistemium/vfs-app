@@ -15,7 +15,6 @@
 </template>
 <script>
 
-import get from 'lodash/get';
 import ServiceItemService from '@/models/ServiceItemService';
 
 export default {
@@ -27,7 +26,7 @@ export default {
   name: 'ServicePointList',
   methods: {
     title(servicePoint) {
-      return get(servicePoint.serviceContract, 'customer.name');
+      return servicePoint.title();
     },
     onClick(servicePoint) {
       this.$emit('click', servicePoint);

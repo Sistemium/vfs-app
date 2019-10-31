@@ -1,3 +1,14 @@
+import escapeRegExp from 'lodash/escapeRegExp';
+import filter from 'lodash/filter';
+import flatten from 'lodash/flatten';
+import fpMap from 'lodash/fp/map';
+import uniq from 'lodash/uniq';
+import fpGet from 'lodash/fp/get';
+import find from 'lodash/find';
+import log from 'sistemium-telegram/services/log';
+
+import { likeLt } from '@/lib/lt';
+import Location from '@/models/Location';
 import ServiceContract from '@/models/ServiceContract';
 import ServicePoint from '@/models/ServicePoint';
 import ServiceItem from '@/models/ServiceItem';
@@ -10,17 +21,6 @@ import FilterSystemType from '@/models/FilterSystemType';
 import FilterSystem from '@/models/FilterSystem';
 import ContactMethod from '@/models/ContactMethod';
 import Contact from '@/models/Contact';
-
-import escapeRegExp from 'lodash/escapeRegExp';
-import filter from 'lodash/filter';
-import flatten from 'lodash/flatten';
-import fpMap from 'lodash/fp/map';
-import uniq from 'lodash/uniq';
-import fpGet from 'lodash/fp/get';
-import find from 'lodash/find';
-
-import { likeLt } from '@/lib/lt';
-import log from 'sistemium-telegram/services/log';
 
 const { debug } = log('serving');
 
@@ -96,6 +96,10 @@ async function loadServicePointsRelations(servicePoints) {
   await Contact.findByMany(mapId(persons), { field: 'ownerXid' });
   await Contact.findByMany(mapId(contactPersons), { field: 'ownerXid' });
   await Contact.findByMany(mapId(le), { field: 'ownerXid' });
+
+  // Location
+
+  await Location.findByMany(fpMap('locationId')(servicePoints));
 
 }
 

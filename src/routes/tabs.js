@@ -4,6 +4,7 @@ import ServicePoints from '@/views/ServicePoints.vue';
 import Tasks from '@/views/Tasks.vue';
 import ServicePoint from '@/views/ServicePoint.vue';
 import ServiceItemServiceEdit from '@/components/ServiceItemServiceEdit.vue';
+import ServicePointMap from '@/views/ServicePointMap.vue';
 
 // import log from 'sistemium-telegram/services/log';
 
@@ -54,6 +55,11 @@ export default {
 
 function servicePointChildren(parent) {
 
+  const from = servicePointId => ({
+    name: `${parent}ServicePoint`,
+    params: { servicePointId },
+  });
+
   return [
     {
       path: ':servicePointId',
@@ -61,15 +67,23 @@ function servicePointChildren(parent) {
       component: ServicePoint,
       children: [
         {
+          path: 'map',
+          name: `${parent}Map`,
+          component: ServicePointMap,
+          props({ params: { servicePointId } }) {
+            return {
+              servicePointId,
+              from: from(servicePointId),
+            };
+          },
+        },
+        {
           path: 'edit/:serviceItemServiceId',
           name: `${parent}ServiceItemServiceEdit`,
           component: ServiceItemServiceEdit,
           props: ({ params: { serviceItemServiceId, servicePointId } }) => ({
             serviceItemServiceId,
-            from: {
-              name: `${parent}ServicePoint`,
-              params: { servicePointId },
-            },
+            from: from(servicePointId),
           }),
         },
         {
@@ -78,10 +92,7 @@ function servicePointChildren(parent) {
           component: ServiceItemServiceEdit,
           props: ({ params: { servicePointId, serviceItemId } }) => ({
             serviceItemId,
-            from: {
-              name: `${parent}ServicePoint`,
-              params: { servicePointId },
-            },
+            from: from(servicePointId),
           }),
         },
       ],

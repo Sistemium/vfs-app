@@ -1,6 +1,8 @@
 import find from 'lodash/find';
+import get from 'lodash/get';
 import Model from '@/lib/Model';
 import Person from '@/models/Person';
+import Location from '@/models/Location';
 
 export default new Model({
 
@@ -22,6 +24,10 @@ export default new Model({
         localField: 'serviceContract',
         localKey: 'currentServiceContractId',
       },
+      Location: {
+        localField: 'location',
+        localKey: 'locationId',
+      },
     },
   },
 
@@ -33,6 +39,16 @@ export default new Model({
     },
     contactPersons() {
       return Person.getMany(this.contactIds);
+    },
+    coords() {
+      const { location = Location.get(this.locationId) } = this;
+      return location && {
+        lat: location.latitude,
+        lng: location.longitude,
+      };
+    },
+    title() {
+      return get(this.serviceContract, 'customer.name');
     },
   },
 

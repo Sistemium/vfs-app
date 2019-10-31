@@ -2,7 +2,7 @@
 
 .service-point-info(v-if="servicePoint")
 
-  .address.field
+  .address.field(@click="locationClick")
     i.el-icon-location-information
     span {{ servicePoint.address }}
     small(v-if="servicePoint.name") ({{ servicePoint.name }})
@@ -27,6 +27,12 @@ const NAME = 'ServicePointInfo';
 export default {
   props: {
     servicePoint: Object,
+  },
+  methods: {
+    locationClick() {
+      const path = `${this.$route.path}/map`;
+      this.$router.push({ path });
+    },
   },
   computed: {
     customerName() {
@@ -61,6 +67,10 @@ export default {
 small {
   font-size: 75%;
   color: $gray;
+}
+
+.address.field {
+  cursor: pointer;
 }
 
 </style>
