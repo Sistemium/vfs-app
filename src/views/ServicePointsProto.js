@@ -1,10 +1,10 @@
+import log from 'sistemium-telegram/services/log';
 import { createNamespacedHelpers } from 'vuex';
 import store from '@/vuex/index';
 
 import { LOAD_SERVICE_POINTS, SEARCH_TEXT_CHANGE } from '@/vuex/serving/actions';
 import { CURRENT_SERVING_MASTER, SEARCH_TEXT } from '@/vuex/serving/getters';
 
-import log from 'sistemium-telegram/services/log';
 import CurrentServingMaster from '@/components/CurrentServingMaster.vue';
 import SearchInput from '@/lib/SearchInput.vue';
 
@@ -21,10 +21,12 @@ export default function (NAME, detailName) {
         this.$router.push({
           name: detailName,
           params: { servicePointId: servicePoint.id },
-        });
+        })
+          .catch(e => error('servicePointClick', e));
       },
       backClick() {
-        this.$router.push({ name: NAME });
+        this.$router.replace({ name: NAME })
+          .catch(e => error('backClick', e));
       },
     },
 

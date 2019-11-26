@@ -1,3 +1,7 @@
+import log from 'sistemium-telegram/services/log';
+
+const { error } = log('DrawerEditor');
+
 export default {
   props: {
     from: Object,
@@ -26,7 +30,8 @@ export default {
   methods: {
 
     handleClose() {
-      this.$router.push(this.from);
+      this.$router.replace(this.from)
+        .catch(e => error('handleClose', e));
     },
 
     cancelClick() {
