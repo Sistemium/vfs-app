@@ -1,6 +1,8 @@
 import { isNative, getRoles } from 'sistemium-vue/services/native';
 import { authorize as authorizeJSDataStore } from 'sistemium-telegram/jsdata/store';
 import http from 'axios';
+import VuexORMAxios from '@vuex-orm/plugin-axios';
+import VuexORM from '@vuex-orm/core';
 import * as ls from '@/services/localStorage';
 // import { roles } from 'sistemium-telegram/services/auth';
 import * as m from './mutations';
@@ -10,6 +12,8 @@ const LS_KEY = 'authorization';
 export const AUTH_INIT = 'AUTH_INIT';
 export const LOGOFF = 'LOGOFF';
 export const CLEAR_ERROR = '';
+
+const { API_URL } = process.env;
 
 export default {
 
@@ -26,6 +30,15 @@ export default {
     }
 
     commit(m.SET_AUTHORIZING, token);
+
+    VuexORM.use(VuexORMAxios, {
+      axios: http,
+      baseURL: API_URL || '/api/vfs',
+      headers: {
+        'x-page-size': 1000,
+        authorization: token,
+      },
+    });
 
     try {
       const { account, roles } = await (isNative() ? getRoles() : checkRoles(token));

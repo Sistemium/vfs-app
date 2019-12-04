@@ -1,10 +1,24 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import VuexORM from '@vuex-orm/core';
+
 import auth from '@/vuex/auth';
 import serving from '@/vuex/serving';
+import FilterSystemType from '@/models-vuex/FilterSystemType';
+import ContactMethod from '@/models-vuex/ContactMethod';
+import Employee from '@/models-vuex/Employee';
+import FilterSystem from '@/models-vuex/FilterSystem';
 
 Vue.use(Vuex);
+
+const database = new VuexORM.Database();
+
+database.register(FilterSystemType);
+database.register(ContactMethod);
+database.register(Employee);
+database.register(FilterSystem);
+
 
 export default new Vuex.Store({
 
@@ -38,5 +52,7 @@ export default new Vuex.Store({
     auth,
     serving,
   },
+
+  plugins: [VuexORM.install(database)],
 
 });
