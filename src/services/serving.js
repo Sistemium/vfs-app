@@ -133,6 +133,7 @@ export function loadServiceItemService(servicePointId) {
 
 const servicePointSearchRules = [
   fpGet('address'),
+  fpGet('districtName'),
   fpGet('serviceContract.customer.name'),
 ];
 
