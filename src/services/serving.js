@@ -12,15 +12,16 @@ import Location from '@/models/Location';
 import ServiceContract from '@/models/ServiceContract';
 import ServicePoint from '@/models/ServicePoint';
 import ServiceItem from '@/models/ServiceItem';
-import Employee from '@/models/Employee';
 import LegalEntity from '@/models/LegalEntity';
 import Person from '@/models/Person';
 import ServiceItemService from '@/models/ServiceItemService';
 
-import FilterSystemType from '@/models/FilterSystemType';
-import FilterSystem from '@/models/FilterSystem';
-import ContactMethod from '@/models/ContactMethod';
 import Contact from '@/models/Contact';
+
+import FilterSystemType from '@/models-vuex/FilterSystemType';
+import ContactMethod from '@/models-vuex/ContactMethod';
+import Employee from '@/models-vuex/Employee';
+import FilterSystem from '@/models-vuex/FilterSystem';
 
 const { debug } = log('serving');
 
@@ -104,9 +105,9 @@ async function loadServicePointsRelations(servicePoints) {
 }
 
 export async function loadCatalogue() {
-  await FilterSystemType.findAll();
-  await FilterSystem.findAll();
-  await ContactMethod.findAll();
+  await FilterSystemType.api().fetch();
+  await FilterSystem.api().fetch();
+  await ContactMethod.api().fetch();
 }
 
 export function servicePointByIds(ids) {
@@ -118,7 +119,7 @@ export function servingMastersByIds(ids) {
 }
 
 export async function loadServingMasters() {
-  return Employee.findAll();
+  return Employee.api().fetch();
 }
 
 export function servingMasterById(id) {
