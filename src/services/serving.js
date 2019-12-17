@@ -115,7 +115,7 @@ export function servicePointByIds(ids) {
 }
 
 export function servingMastersByIds(ids) {
-  return Employee.getMany(ids);
+  return Employee.findIn(ids);
 }
 
 export async function loadServingMasters() {

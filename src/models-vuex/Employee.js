@@ -20,9 +20,6 @@ export default class Employee extends Model {
       fetch() {
         return this.get('/Employee');
       },
-      fetchById(id) {
-        return this.get(`/Employee/${id}`);
-      },
     },
   }
 }
