@@ -119,11 +119,16 @@ export function servingMastersByIds(ids) {
 }
 
 export async function loadServingMasters() {
-  return Employee.api().fetch();
+  const data = Employee.all();
+  if (data.length) {
+    return data;
+  }
+  await Employee.api().fetch();
+  return Employee.all();
 }
 
 export function servingMasterById(id) {
-  return id ? Employee.get(id) : null;
+  return id ? Employee.find(id): null;
 }
 
 export function loadServiceItemService(servicePointId) {
