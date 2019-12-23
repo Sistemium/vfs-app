@@ -119,11 +119,7 @@ export function servingMastersByIds(ids) {
 }
 
 export async function loadServingMasters() {
-  const data = Employee.all();
-  if (data.length) {
-    return data;
-  }
-  await Employee.api().fetch();
+  await Employee.api().fetchOnce();
   return Employee.all();
 }
 

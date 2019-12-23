@@ -18,7 +18,14 @@ export default class Employee extends Model {
   static apiConfig = {
     actions: {
       fetch() {
-        return this.get('/Employee');
+        return this.get(`/${this.entity}`);
+      },
+      fetchOnce() {
+        const data = this.all();
+        if (data.length) {
+          return data;
+        }
+        return this.get(`/${this.entity}`);
       },
     },
   }
