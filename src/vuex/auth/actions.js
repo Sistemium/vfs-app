@@ -38,9 +38,12 @@ export default {
         'x-page-size': 1000,
         authorization: token,
       },
+    });
+
+    VuexORM.Model.apiConfig = {
       actions: {
         fetch() {
-          return this.get(`/${this.entity}`);
+          return this.get(`/${this.model.entity}`);
         },
         fetchOnce() {
           const data = this.model.all();
@@ -50,7 +53,7 @@ export default {
           return this.get(`/${this.model.entity}`);
         },
       },
-    });
+    };
 
     try {
       const { account, roles } = await (isNative() ? getRoles() : checkRoles(token));
