@@ -21,11 +21,11 @@ export default class Employee extends Model {
         return this.get(`/${this.entity}`);
       },
       fetchOnce() {
-        const data = this.all();
+        const data = this.model.all();
         if (data.length) {
           return data;
         }
-        return this.get(`/${this.entity}`);
+        return this.get(`/${this.model.entity}`);
       },
     },
   }
