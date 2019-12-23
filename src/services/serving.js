@@ -8,15 +8,15 @@ import find from 'lodash/find';
 import log from 'sistemium-telegram/services/log';
 
 import { likeLt } from '@/lib/lt';
-import Location from '@/models/Location';
-import ServiceContract from '@/models/ServiceContract';
-import ServicePoint from '@/models/ServicePoint';
-import ServiceItem from '@/models/ServiceItem';
-import LegalEntity from '@/models/LegalEntity';
-import Person from '@/models/Person';
-import ServiceItemService from '@/models/ServiceItemService';
+import Location from '@/models-vuex/Location';
+import ServiceContract from '@/models-vuex/ServiceContract';
+import ServicePoint from '@/models-vuex/ServicePoint';
+import ServiceItem from '@/models-vuex/ServiceItem';
+import LegalEntity from '@/models-vuex/LegalEntity';
+import Person from '@/models-vuex/Person';
+import ServiceItemService from '@/models-vuex/ServiceItemService';
 
-import Contact from '@/models/Contact';
+import Contact from '@/models-vuex/Contact';
 
 import FilterSystemType from '@/models-vuex/FilterSystemType';
 import ContactMethod from '@/models-vuex/ContactMethod';

@@ -1,16 +1,14 @@
 import { Model } from '@vuex-orm/core';
 
-export default class Employee extends Model {
-  static entity = 'Employee';
+export default class LegalEntity extends Model {
+  static entity = 'LegalEntity';
 
   static fields() {
     return {
+      code: this.attr(null),
       cts: this.attr(null),
       id: this.attr(null),
-      info: this.attr(null),
       name: this.attr(null),
-      personId: this.attr(null),
-      siteId: this.attr(null),
       ts: this.attr(null),
     };
   }

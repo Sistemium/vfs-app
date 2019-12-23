@@ -17,9 +17,9 @@
 <script>
 
 // import store from '@/vuex/index';
-import ServicePoint from '@/models/ServicePoint';
-import ServiceItem from '@/models/ServiceItem';
-import ServiceItemService from '@/models/ServiceItemService';
+import ServicePoint from '@/models-vuex/ServicePoint';
+import ServiceItem from '@/models-vuex/ServiceItem';
+import ServiceItemService from '@/models-vuex/ServiceItemService';
 import ServiceItemInfo from '@/components/ServiceItemInfo.vue';
 import ServicePointInfo from '@/components/ServicePointInfo.vue';
 import log from 'sistemium-telegram/services/log';

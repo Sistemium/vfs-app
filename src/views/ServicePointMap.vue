@@ -24,7 +24,7 @@ el-drawer.service-point-map(
 <script>
 
 import DrawerEditor from '@/lib/DrawerEditor';
-import ServicePoint from '@/models/ServicePoint';
+import ServicePoint from '@/models-vuex/ServicePoint';
 
 const NAME = 'ServicePointMap';
 

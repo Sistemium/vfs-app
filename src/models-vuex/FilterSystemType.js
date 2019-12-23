@@ -14,12 +14,4 @@ export default class FilterSystemType extends Model {
       ts: this.attr(null),
     };
   }
-
-  static apiConfig = {
-    actions: {
-      fetch() {
-        return this.get('/FilterSystemType');
-      },
-    },
-  }
 }

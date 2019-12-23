@@ -15,12 +15,4 @@ export default class ContactMethod extends Model {
       validationPattern: this.attr(null),
     };
   }
-
-  static apiConfig = {
-    actions: {
-      fetch() {
-        return this.get('/ContactMethod');
-      },
-    },
-  }
 }

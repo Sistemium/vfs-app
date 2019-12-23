@@ -59,7 +59,7 @@ el-form.service-item-service-form(
 </template>
 <script>
 
-import { serviceTypeIcon } from '@/models/ServiceItemService';
+import { serviceTypeIcon } from '@/models-vuex/ServiceItemService';
 
 const NAME = 'ServiceItemServiceForm';
 

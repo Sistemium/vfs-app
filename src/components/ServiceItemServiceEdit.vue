@@ -27,7 +27,7 @@ el-drawer.service-item-service-edit(
 import { serverDateFormat } from 'sistemium-telegram/services/moments';
 import FormButtons from '@/lib/FormButtons.vue';
 import DrawerEditor from '@/lib/DrawerEditor';
-import ServiceItemService from '@/models/ServiceItemService';
+import ServiceItemService from '@/models-vuex/ServiceItemService';
 import ServiceItemServiceForm from '@/components/ServiceItemServiceForm.vue';
 import { servingGetters } from '@/vuex/serving/maps';
 
