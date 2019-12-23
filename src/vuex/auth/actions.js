@@ -38,6 +38,18 @@ export default {
         'x-page-size': 1000,
         authorization: token,
       },
+      actions: {
+        fetch() {
+          return this.get(`/${this.entity}`);
+        },
+        fetchOnce() {
+          const data = this.model.all();
+          if (data.length) {
+            return data;
+          }
+          return this.get(`/${this.model.entity}`);
+        },
+      },
     });
 
     try {
