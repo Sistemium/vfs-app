@@ -18,3 +18,16 @@ export default class ServiceItemService extends Model {
     };
   }
 }
+
+export function serviceTypeIcon(type) {
+  switch (type) {
+    case 'service':
+      return 'el-icon-success';
+    case 'pause':
+      return 'el-icon-video-pause';
+    case 'forward':
+      return 'el-icon-d-arrow-right';
+    default:
+      return 'el-icon-info';
+  }
+}
