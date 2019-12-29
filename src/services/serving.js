@@ -36,10 +36,9 @@ const siteId = '2b1f36e3-8506-451f-9cfa-d62bf8e0aa49';
 
 export async function loadServicePoints(servingMasterId) {
 
-  const items = await ServiceItem.findAll({
-    servingMasterId,
-    limit: 1000,
-  });
+  await ServiceItem.api().fetchOnce();
+
+  const items = await ServiceItem.query().withAll().where('servingMasterId', servingMasterId).limit(1000).get();
 
   // ServicePoint
   const toLoadRelations = filter(items, ({ servicePoint }) => !servicePoint);
@@ -47,7 +46,7 @@ export async function loadServicePoints(servingMasterId) {
   const servicePointIds = uniq(mapServicePointId(toLoadRelations));
   await ServicePoint.findByMany(servicePointIds);
 
-  const servicePoints = filter(ServicePoint.getMany(servicePointIds), { siteId });
+  const servicePoints = filter(ServicePoint.findIn(servicePointIds), { siteId });
 
   if (servicePoints.length) {
     await loadServicePointsRelations(servicePoints);
@@ -105,13 +104,13 @@ async function loadServicePointsRelations(servicePoints) {
 }
 
 export async function loadCatalogue() {
-  await FilterSystemType.api().fetch();
-  await FilterSystem.api().fetch();
-  await ContactMethod.api().fetch();
+  await FilterSystemType.api().fetchOnce();
+  await FilterSystem.api().fetchOnce();
+  await ContactMethod.api().fetchOnce();
 }
 
 export function servicePointByIds(ids) {
-  return ServicePoint.getMany(ids);
+  return ServicePoint.findIn(ids);
 }
 
 export function servingMastersByIds(ids) {
@@ -127,10 +126,11 @@ export function servingMasterById(id) {
   return id ? Employee.find(id): null;
 }
 
-export function loadServiceItemService(servicePointId) {
-  const serviceItems = ServiceItem.filter({ servicePointId });
-  const where = { serviceItemId: { '==': mapId(serviceItems) } };
-  return ServiceItemService.findAll({ where });
+export async function loadServiceItemService(servicePointId) {
+  await ServiceItem.api().fetchOnce();
+  const serviceItems = ServiceItem.query().withAll().where('servicePointId', servicePointId).get();
+  await ServiceItemService.api().fetchOnce();
+  return ServiceItemService.query().withAll().where('serviceItemId', mapId(serviceItems)).get();
 }
 
 const servicePointSearchRules = [
