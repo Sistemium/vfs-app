@@ -50,7 +50,16 @@ export default {
           if (data.length) {
             return data;
           }
-          return this.get(`/${this.model.entity}`);
+          return this.model.api().fetch();
+        },
+        async findByMany(ids, options = {}) {
+
+          const { field = 'id' } = options;
+
+          await this.model.api().fetchOnce();
+
+          return this.model.query().withAll().where(field, ids).get();
+
         },
       },
     };
