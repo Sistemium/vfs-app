@@ -1,3 +1,4 @@
+/* eslint-disable */
 import escapeRegExp from 'lodash/escapeRegExp';
 import filter from 'lodash/filter';
 import flatten from 'lodash/flatten';
@@ -45,6 +46,7 @@ export async function loadServicePoints(servingMasterId) {
   const toLoadRelations = filter(items, ({ servicePoint }) => !servicePoint);
 
   const servicePointIds = uniq(mapServicePointId(toLoadRelations));
+
   await ServicePoint.api().findByMany(servicePointIds);
 
   const servicePoints = filter(ServicePoint.findIn(servicePointIds), { siteId });
@@ -54,16 +56,12 @@ export async function loadServicePoints(servingMasterId) {
     // ServiceItemService
     await ServiceItemService.api().findByMany(mapId(items), { field: 'serviceItemId' });
   }
-
-  const where = {
-    id: {
-      in: uniq(mapServicePointId(items)),
-    },
-    siteId: {
-      '==': siteId,
-    },
-  };
-  return ServicePoint.filter({ where });
+  
+  return ServicePoint.query()
+    .withAll()
+    .where('id', uniq(mapServicePointId(items)))
+    .where('siteId', siteId)
+    .get();
 
 }
 

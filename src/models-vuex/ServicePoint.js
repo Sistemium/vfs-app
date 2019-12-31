@@ -1,4 +1,5 @@
 import { Model } from '@vuex-orm/core';
+import get from 'lodash/get';
 
 export default class ServicePoint extends Model {
   static entity = 'ServicePoint';
@@ -28,5 +29,10 @@ export default class ServicePoint extends Model {
       ts: this.attr(null),
       type: this.attr(null),
     };
+  }
+
+  title() {
+    console.log(this);
+    return get(this.serviceContract, 'customer.name');
   }
 }
