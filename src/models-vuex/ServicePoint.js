@@ -32,7 +32,6 @@ export default class ServicePoint extends Model {
   }
 
   title() {
-    console.log(this);
     return get(this.serviceContract, 'customer.name');
   }
 }
