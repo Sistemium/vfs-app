@@ -46,9 +46,9 @@ export default {
           return this.get(`/${this.model.entity}`);
         },
         fetchOnce() {
-          const data = this.model.all();
-          if (data.length) {
-            return data;
+          const data = this.model.query().first();
+          if (data) {
+            return {};
           }
           return this.model.api().fetch();
         },
