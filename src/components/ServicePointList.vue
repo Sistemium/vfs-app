@@ -36,14 +36,6 @@ export default {
     },
   },
 
-  created() {
-    ServiceItemService.bind(this);
-  },
-
-  beforeDestroy() {
-    ServiceItemService.unbindAll(this);
-  },
-
 };
 
 </script>

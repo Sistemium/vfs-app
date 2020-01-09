@@ -45,11 +45,6 @@ export default {
     servicePointId: String,
     from: Object,
   },
-  created() {
-    this.$watch('$route.params.servicePointId', servicePointId => {
-      ServicePoint.bindOne(this, servicePointId, 'model');
-    }, { immediate: true });
-  },
   computed: {
     coords() {
       return this.model.coords();

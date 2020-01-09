@@ -36,13 +36,6 @@ export default {
       serviceItemServices: [],
     };
   },
-  created() {
-    this.$watch('$route.params.servicePointId', servicePointId => {
-      ServiceItem.bindAll(this, { servicePointId }, 'serviceItems');
-      ServicePoint.bindOne(this, servicePointId, 'servicePoint');
-      ServiceItemService.bindAll(this, { servicePointId }, 'serviceItemServices');
-    }, { immediate: true });
-  },
   name: NAME,
   components: {
     ServicePointInfo,
@@ -62,11 +55,6 @@ export default {
   //     });
   //   }
   // },
-  beforeDestroy() {
-    ServiceItem.unbindAll(this);
-    ServicePoint.unbindAll(this);
-    ServiceItemService.unbindAll(this);
-  },
 };
 
 </script>
