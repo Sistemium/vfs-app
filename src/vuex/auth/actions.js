@@ -6,6 +6,8 @@ import VuexORM from '@vuex-orm/core';
 import * as ls from '@/services/localStorage';
 // import { roles } from 'sistemium-telegram/services/auth';
 import * as m from './mutations';
+import chunk from 'lodash/chunk';
+import uniq from 'lodash/uniq';
 
 const LS_KEY = 'authorization';
 
@@ -54,9 +56,15 @@ export default {
         },
         async findByMany(ids, options = {}) {
 
-          const { field = 'id' } = options;
+          const { chunkSize = 100, field = 'id' } = options;
 
-          await this.model.api().fetchOnce();
+          const chunks = chunk(uniq(ids), chunkSize);
+
+          await Promise.all(chunks.map(chunkIds => {
+            const where = { [field]: { in: chunkIds } };
+
+            return this.get(`/${this.model.entity}?where:=${JSON.stringify(where)}`);
+          }));
 
           return this.model.query().withAll().where(field, ids).get();
 
