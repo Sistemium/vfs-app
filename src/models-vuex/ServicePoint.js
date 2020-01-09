@@ -1,5 +1,8 @@
 import { Model } from '@vuex-orm/core';
 import get from 'lodash/get';
+import find from 'lodash/find';
+import Person from '@/models/Person';
+import Location from '@/models/Location';
 
 export default class ServicePoint extends Model {
   static entity = 'ServicePoint';
@@ -28,6 +31,24 @@ export default class ServicePoint extends Model {
       streetId: this.attr(null),
       ts: this.attr(null),
       type: this.attr(null),
+    };
+  }
+
+  isServedBetween(dateB, dateE) {
+    const { serviceItems } = this;
+    return !find(serviceItems, serviceItem => serviceItem.needServiceBetween(dateB, dateE)
+      && !serviceItem.serviceBetween(dateB, dateE));
+  }
+
+  contactPersons() {
+    return Person.getMany(this.contactIds);
+  }
+
+  coords() {
+    const { location = Location.get(this.locationId) } = this;
+    return location && {
+      lat: location.latitude,
+      lng: location.longitude,
     };
   }
 

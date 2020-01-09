@@ -1,4 +1,5 @@
 import { Model } from '@vuex-orm/core';
+import Contact from '@/models/Contact';
 
 export default class LegalEntity extends Model {
   static entity = 'LegalEntity';
@@ -11,5 +12,12 @@ export default class LegalEntity extends Model {
       name: this.attr(null),
       ts: this.attr(null),
     };
+  }
+
+  contacts() {
+    return Contact.query()
+      .withAll()
+      .where('ownerXid', this.id)
+      .get();
   }
 }

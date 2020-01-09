@@ -15,4 +15,18 @@ export default class Contact extends Model {
       ts: this.attr(null),
     };
   }
+
+  href() {
+
+    const { address, contactMethod } = this;
+
+    if (!address) {
+      return null;
+    }
+
+    const { link } = contactMethod;
+
+    return `${link}${address}`;
+
+  }
 }
