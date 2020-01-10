@@ -3,7 +3,10 @@ import chunk from 'lodash/chunk';
 import uniq from 'lodash/uniq';
 import filter from 'lodash/filter';
 
+const cachedFetches = {};
+
 export default {
+
   actions: {
 
     fetch(where) {
@@ -17,13 +20,22 @@ export default {
     fetchOnce(where) {
 
       // TODO: check if data exists
-      const data = this.model.query()
-        .first();
-      if (data) {
+
+      const key = `${this.model.name}:${JSON.stringify(where || {})}`;
+
+      const cached = cachedFetches[key];
+
+      if (cached) {
         return {};
       }
+
       return this.model.api()
-        .fetch(where);
+        .fetch(where)
+        .then(res => {
+          cachedFetches[key] = true;
+          return res;
+        });
+
     },
 
     async findByMany(ids, options = {}) {
@@ -34,7 +46,7 @@ export default {
 
       await Promise.all(chunks.map(chunkIds => {
         const where = { [field]: { in: chunkIds } };
-        return this.fetch(where);
+        return this.fetchOnce(where);
       }));
 
       return this.model.query()
