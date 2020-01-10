@@ -37,9 +37,14 @@ const siteId = '2b1f36e3-8506-451f-9cfa-d62bf8e0aa49';
 
 export async function loadServicePoints(servingMasterId) {
 
-  await ServiceItem.api().fetchOnce();
+  await ServiceItem.api().fetchOnce({
+    servingMasterId: { '==': servingMasterId },
+  });
 
-  const items = ServiceItem.query().withAll().where('servingMasterId', servingMasterId).limit(1000)
+  const items = ServiceItem.query()
+    .withAll()
+    .where('servingMasterId', servingMasterId)
+    .limit(1000)
     .get();
 
   // ServicePoint
@@ -56,7 +61,7 @@ export async function loadServicePoints(servingMasterId) {
     // ServiceItemService
     await ServiceItemService.api().findByMany(mapId(items), { field: 'serviceItemId' });
   }
-  
+
   return ServicePoint.query()
     .withAll()
     .where('id', uniq(mapServicePointId(items)))
@@ -126,9 +131,11 @@ export function servingMasterById(id) {
 }
 
 export async function loadServiceItemService(servicePointId) {
-  await ServiceItem.api().fetchOnce();
+  // await ServiceItem.api().fetchOnce();
   const serviceItems = ServiceItem.query().withAll().where('servicePointId', servicePointId).get();
-  await ServiceItemService.api().fetchOnce();
+  await ServiceItemService.api().fetchOnce({
+    serviceItemId: { '==': mapId(serviceItems) },
+  });
   return ServiceItemService.query().withAll().where('serviceItemId', mapId(serviceItems)).get();
 }
 
