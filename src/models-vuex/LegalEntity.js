@@ -1,5 +1,5 @@
 import { Model } from '@vuex-orm/core';
-import Contact from '@/models/Contact';
+import Contact from '@/models-vuex/Contact';
 
 export default class LegalEntity extends Model {
   static entity = 'LegalEntity';

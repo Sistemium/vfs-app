@@ -1,5 +1,5 @@
 import { Model } from '@vuex-orm/core';
-import Contact from '@/models/Contact';
+import Contact from '@/models-vuex/Contact';
 
 export default class Person extends Model {
   static entity = 'Person';
@@ -24,4 +24,10 @@ export default class Person extends Model {
       .where('ownerXid', this.id)
       .get();
   }
+
+  get name() {
+    const { firstName, lastName } = this;
+    return `${firstName} ${lastName}`;
+  }
+
 }

@@ -4,27 +4,12 @@ import filter from 'lodash/filter';
 import maxBy from 'lodash/maxBy';
 import isNumber from 'lodash/isNumber';
 import get from 'lodash/get';
-import { Record } from 'js-data';
 import { addMonths } from '@/lib/dates';
 
 export const SERVICE_TYPE_PAUSE = 'pause';
 export const SERVICE_TYPE_FORWARD = 'forward';
 export const SERVICE_TYPE_SERVICE = 'service';
 export const SERVICE_TYPE_OTHER = 'other';
-
-// ???!
-class ServiceItemRecord extends Record {
-}
-
-Object.defineProperties(ServiceItemRecord.prototype, {
-  guaranteeEnd: {
-    get() {
-      const { installingDate } = this;
-      const gp = this.guaranteePeriodFn();
-      return (gp && installingDate) ? addMonths(installingDate, gp) : null;
-    },
-  },
-});
 
 export default class ServiceItem extends Model {
   static entity = 'ServiceItem';
@@ -117,6 +102,13 @@ export default class ServiceItem extends Model {
     return get(filterSystem, name)
       || get(filterSystem, `type.${name}`);
   }
+
+  get guaranteeEnd() {
+    const { installingDate } = this;
+    const gp = this.guaranteePeriodFn();
+    return (gp && installingDate) ? addMonths(installingDate, gp) : null;
+  }
+
 }
 
 function dateAffectingService({ type }) {
