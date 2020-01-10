@@ -54,7 +54,7 @@ export async function loadServicePoints(servingMasterId) {
 
   await ServicePoint.api().findByMany(servicePointIds);
 
-  const servicePoints = filter(ServicePoint.findIn(servicePointIds), { siteId });
+  const servicePoints = filter(ServicePoint.query().withAll().whereIdIn(servicePointIds).get(), { siteId });
 
   if (servicePoints.length) {
     await loadServicePointsRelations(servicePoints);
@@ -114,11 +114,11 @@ export async function loadCatalogue() {
 }
 
 export function servicePointByIds(ids) {
-  return ServicePoint.findIn(ids);
+  return ServicePoint.query().withAll().whereIdIn(ids).get();
 }
 
 export function servingMastersByIds(ids) {
-  return Employee.findIn(ids);
+  return Employee.query().withAll().whereIdIn(ids).get();
 }
 
 export async function loadServingMasters() {
