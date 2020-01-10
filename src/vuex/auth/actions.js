@@ -3,11 +3,11 @@ import { authorize as authorizeJSDataStore } from 'sistemium-telegram/jsdata/sto
 import http from 'axios';
 import VuexORMAxios from '@vuex-orm/plugin-axios';
 import VuexORM from '@vuex-orm/core';
+import ormConfig from '@/config/vuexOrmApi';
 import * as ls from '@/services/localStorage';
 // import { roles } from 'sistemium-telegram/services/auth';
 import * as m from './mutations';
-import chunk from 'lodash/chunk';
-import uniq from 'lodash/uniq';
+
 
 const LS_KEY = 'authorization';
 
@@ -42,35 +42,7 @@ export default {
       },
     });
 
-    VuexORM.Model.apiConfig = {
-      actions: {
-        fetch() {
-          return this.get(`/${this.model.entity}`);
-        },
-        fetchOnce() {
-          const data = this.model.query().first();
-          if (data) {
-            return {};
-          }
-          return this.model.api().fetch();
-        },
-        async findByMany(ids, options = {}) {
-
-          const { chunkSize = 100, field = 'id' } = options;
-
-          const chunks = chunk(uniq(ids), chunkSize);
-
-          await Promise.all(chunks.map(chunkIds => {
-            const where = { [field]: { in: chunkIds } };
-
-            return this.get(`/${this.model.entity}?where:=${JSON.stringify(where)}`);
-          }));
-
-          return this.model.query().withAll().where(field, ids).get();
-
-        },
-      },
-    };
+    VuexORM.Model.apiConfig = ormConfig;
 
     try {
       const { account, roles } = await (isNative() ? getRoles() : checkRoles(token));
