@@ -1,5 +1,5 @@
-import Model from '@/lib/Model';
 import { Record } from 'js-data';
+import Model from '@/lib/Model';
 import Contact from '@/models/Contact';
 
 class PersonRecord extends Record {

@@ -1,5 +1,8 @@
 import { Model } from '@vuex-orm/core';
 
+// eslint-disable-next-line import/no-cycle
+import ServiceItem from './ServiceItem';
+
 export default class ServiceItemService extends Model {
   static entity = 'ServiceItemService';
 
@@ -15,7 +18,13 @@ export default class ServiceItemService extends Model {
       servingMasterId: this.attr(null),
       ts: this.attr(null),
       type: this.attr(null),
+      serviceItem: this.belongsTo(ServiceItem, 'serviceItemId'),
     };
+  }
+
+  typeIcon() {
+    const { type } = this;
+    return serviceTypeIcon(type);
   }
 }
 

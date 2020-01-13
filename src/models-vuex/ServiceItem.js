@@ -5,6 +5,13 @@ import maxBy from 'lodash/maxBy';
 import isNumber from 'lodash/isNumber';
 import get from 'lodash/get';
 import { addMonths } from '@/lib/dates';
+// eslint-disable-next-line import/no-cycle
+import ServicePoint from './ServicePoint';
+import FilterSystem from './FilterSystem';
+import Employee from './Employee';
+// eslint-disable-next-line import/no-cycle
+import ServiceItemService from './ServiceItemService';
+
 
 export const SERVICE_TYPE_PAUSE = 'pause';
 export const SERVICE_TYPE_FORWARD = 'forward';
@@ -39,6 +46,10 @@ export default class ServiceItem extends Model {
       servingMasterId: this.attr(null),
       smallServicePrice: this.attr(null),
       ts: this.attr(null),
+      servicePoint: this.belongsTo(ServicePoint, 'servicePointId'),
+      filterSystem: this.belongsTo(FilterSystem, 'filterSystemId'),
+      servingMaster: this.belongsTo(Employee, 'servingMasterId'),
+      services: this.hasMany(ServiceItemService, 'serviceItemId'),
     };
   }
 

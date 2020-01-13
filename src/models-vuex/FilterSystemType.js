@@ -1,5 +1,8 @@
 import { Model } from '@vuex-orm/core';
 
+// eslint-disable-next-line import/no-cycle
+import FilterSystem from './FilterSystem';
+
 export default class FilterSystemType extends Model {
   static entity = 'FilterSystemType';
 
@@ -12,6 +15,7 @@ export default class FilterSystemType extends Model {
       name: this.attr(null),
       serviceFrequency: this.attr(null),
       ts: this.attr(null),
+      systems: this.hasMany(FilterSystem, 'filterSystemTypeId'),
     };
   }
 }

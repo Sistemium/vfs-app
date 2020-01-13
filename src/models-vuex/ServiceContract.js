@@ -1,5 +1,12 @@
 import { Model } from '@vuex-orm/core';
 
+// eslint-disable-next-line import/no-cycle
+import Person from './Person';
+// eslint-disable-next-line import/no-cycle
+import LegalEntity from './LegalEntity';
+// eslint-disable-next-line import/no-cycle
+import ServicePoint from './ServicePoint';
+
 export default class ServiceContract extends Model {
   static entity = 'ServiceContract';
 
@@ -14,6 +21,9 @@ export default class ServiceContract extends Model {
       paymentMethod: this.attr(null),
       siteId: this.attr(null),
       ts: this.attr(null),
+      customerLegalEntity: this.belongsTo(Person, 'customerPersonId'),
+      customerPerson: this.belongsTo(LegalEntity, 'customerLegalEntityId'),
+      servicePoints: this.hasMany(ServicePoint, 'currentServiceContractId'),
     };
   }
 

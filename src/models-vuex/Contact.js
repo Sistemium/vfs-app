@@ -1,5 +1,7 @@
 import { Model } from '@vuex-orm/core';
 
+import ContactMethod from './ContactMethod';
+
 export default class Contact extends Model {
   static entity = 'Contact';
 
@@ -13,6 +15,7 @@ export default class Contact extends Model {
       ownerXid: this.attr(null),
       source: this.attr(null),
       ts: this.attr(null),
+      contactMethod: this.belongsTo(ContactMethod, 'contactMethodId'),
     };
   }
 

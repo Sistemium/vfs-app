@@ -1,5 +1,8 @@
 import { Model } from '@vuex-orm/core';
 
+// eslint-disable-next-line import/no-cycle
+import ServicePoint from '@/models-vuex/ServicePoint';
+
 export default class Location extends Model {
   static entity = 'Location';
 
@@ -16,6 +19,7 @@ export default class Location extends Model {
       timestamp: this.attr(null),
       ts: this.attr(null),
       verticalAccuracy: this.attr(null),
+      servicePoints: this.hasMany(ServicePoint, 'servicePointId'),
     };
   }
 }
