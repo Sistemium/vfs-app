@@ -1,10 +1,8 @@
+/* eslint-disable import/no-cycle */
 import { Model } from '@vuex-orm/core';
 
-// eslint-disable-next-line import/no-cycle
 import Person from './Person';
-// eslint-disable-next-line import/no-cycle
 import LegalEntity from './LegalEntity';
-// eslint-disable-next-line import/no-cycle
 import ServicePoint from './ServicePoint';
 
 export default class ServiceContract extends Model {

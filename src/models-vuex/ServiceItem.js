@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { Model } from '@vuex-orm/core';
 import find from 'lodash/find';
 import filter from 'lodash/filter';
@@ -5,11 +6,9 @@ import maxBy from 'lodash/maxBy';
 import isNumber from 'lodash/isNumber';
 import get from 'lodash/get';
 import { addMonths } from '@/lib/dates';
-// eslint-disable-next-line import/no-cycle
 import ServicePoint from './ServicePoint';
 import FilterSystem from './FilterSystem';
 import Employee from './Employee';
-// eslint-disable-next-line import/no-cycle
 import ServiceItemService from './ServiceItemService';
 
 

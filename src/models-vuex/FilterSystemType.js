@@ -1,6 +1,6 @@
+/* eslint-disable import/no-cycle */
 import { Model } from '@vuex-orm/core';
 
-// eslint-disable-next-line import/no-cycle
 import FilterSystem from './FilterSystem';
 
 export default class FilterSystemType extends Model {

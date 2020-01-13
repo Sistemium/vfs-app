@@ -1,13 +1,10 @@
+/* eslint-disable import/no-cycle */
 import { Model } from '@vuex-orm/core';
 import get from 'lodash/get';
 import find from 'lodash/find';
-// eslint-disable-next-line import/no-cycle
 import Person from '@/models-vuex/Person';
-// eslint-disable-next-line import/no-cycle
 import Location from '@/models-vuex/Location';
-// eslint-disable-next-line import/no-cycle
 import ServiceItem from '@/models-vuex/ServiceItem';
-// eslint-disable-next-line import/no-cycle
 import ServiceContract from '@/models-vuex/ServiceContract';
 
 export default class ServicePoint extends Model {

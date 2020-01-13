@@ -1,6 +1,6 @@
+/* eslint-disable import/no-cycle */
 import { Model } from '@vuex-orm/core';
 
-// eslint-disable-next-line import/no-cycle
 import ServiceItem from './ServiceItem';
 
 export default class ServiceItemService extends Model {

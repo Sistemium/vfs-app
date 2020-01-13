@@ -1,6 +1,6 @@
+/* eslint-disable import/no-cycle */
 import { Model } from '@vuex-orm/core';
 
-// eslint-disable-next-line import/no-cycle
 import ServicePoint from '@/models-vuex/ServicePoint';
 
 export default class Location extends Model {

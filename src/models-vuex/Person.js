@@ -1,6 +1,6 @@
+/* eslint-disable import/no-cycle */
 import { Model } from '@vuex-orm/core';
 import Contact from '@/models-vuex/Contact';
-// eslint-disable-next-line import/no-cycle
 import ServiceContract from './ServiceContract';
 
 export default class Person extends Model {
