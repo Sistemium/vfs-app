@@ -15,8 +15,6 @@
 </template>
 <script>
 
-import ServiceItemService from '@/models-vuex/ServiceItemService';
-
 export default {
 
   props: {
