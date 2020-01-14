@@ -114,7 +114,14 @@ export async function loadCatalogue() {
 }
 
 export function servicePointByIds(ids) {
-  return ServicePoint.query().withAll().whereIdIn(ids).get();
+  let relations = [
+    'serviceContract',
+    'serviceContract.customerPerson',
+    'serviceContract.customerLegalEntity',
+    'serviceItems',
+    'location',
+  ];
+  return ServicePoint.query().with(relations).whereIdIn(ids).get();
 }
 
 export function servingMastersByIds(ids) {
