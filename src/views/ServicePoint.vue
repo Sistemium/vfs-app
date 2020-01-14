@@ -16,17 +16,12 @@
 </template>
 <script>
 
-// import store from '@/vuex/index';
-import ServicePoint from '@/models-vuex/ServicePoint';
-import ServiceItem from '@/models-vuex/ServiceItem';
-import ServiceItemService from '@/models-vuex/ServiceItemService';
+import find from 'lodash/find';
 import ServiceItemInfo from '@/components/ServiceItemInfo.vue';
 import ServicePointInfo from '@/components/ServicePointInfo.vue';
-import log from 'sistemium-telegram/services/log';
-// import { LOAD_SERVICE_ITEM_SERVICE } from '@/vuex/serving/actions';
+import { servingGetters } from '@/vuex/serving/maps';
 
 const NAME = 'ServicePoint';
-const { debug, error } = log(NAME);
 
 export default {
   data() {
@@ -36,25 +31,19 @@ export default {
       serviceItemServices: [],
     };
   },
+  created() {
+    this.$watch('$route.params.servicePointId', servicePointId => {
+      this.servicePoint = find(this.servicePoints, ['id', servicePointId]);
+    }, { immediate: true });
+  },
   name: NAME,
   components: {
     ServicePointInfo,
     ServiceItemInfo,
   },
-  // async beforeRouteEnter(to, from, next) {
-  //   debug('beforeRouteEnter', to.fullPath, from.fullPath);
-  //   try {
-  //     await store.dispatch(`serving/${LOAD_SERVICE_ITEM_SERVICE}`, to.params.servicePointId);
-  //     next();
-  //   } catch (e) {
-  //     error('beforeRouteEnter', e);
-  //     await store.dispatch('routingError', {
-  //       to,
-  //       from,
-  //       error: e,
-  //     });
-  //   }
-  // },
+  computed: {
+    servicePoints: servingGetters.servicePoints,
+  },
 };
 
 </script>
