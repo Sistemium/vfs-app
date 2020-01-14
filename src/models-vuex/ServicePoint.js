@@ -51,7 +51,7 @@ export default class ServicePoint extends Model {
   }
 
   coords() {
-    const { location = Location.get(this.locationId) } = this;
+    const { location = Location.query().withAll().whereIdIn(this.contactIds).get() } = this;
     return location && {
       lat: location.latitude,
       lng: location.longitude,
