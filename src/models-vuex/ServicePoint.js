@@ -47,7 +47,7 @@ export default class ServicePoint extends Model {
   }
 
   contactPersons() {
-    return Person.getMany(this.contactIds);
+    return Person.query().withAll().whereIdIn(this.contactIds).get();
   }
 
   coords() {
