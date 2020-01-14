@@ -19,8 +19,8 @@ export default class ServiceContract extends Model {
       paymentMethod: this.attr(null),
       siteId: this.attr(null),
       ts: this.attr(null),
-      customerLegalEntity: this.belongsTo(Person, 'customerPersonId'),
-      customerPerson: this.belongsTo(LegalEntity, 'customerLegalEntityId'),
+      customerLegalEntity: this.belongsTo(LegalEntity, 'customerLegalEntityId'),
+      customerPerson: this.belongsTo(Person, 'customerPersonId'),
       servicePoints: this.hasMany(ServicePoint, 'currentServiceContractId'),
     };
   }
