@@ -24,7 +24,8 @@ el-drawer.service-point-map(
 <script>
 
 import DrawerEditor from '@/lib/DrawerEditor';
-import ServicePoint from '@/models-vuex/ServicePoint';
+import { servicePointByIds } from '@/services/serving';
+import first from 'lodash/first';
 
 const NAME = 'ServicePointMap';
 
@@ -44,6 +45,11 @@ export default {
   props: {
     servicePointId: String,
     from: Object,
+  },
+  created() {
+    this.$watch('$route.params.servicePointId', servicePointId => {
+      this.model = first(servicePointByIds([servicePointId]));
+    }, { immediate: true });
   },
   computed: {
     coords() {

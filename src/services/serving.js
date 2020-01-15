@@ -124,6 +124,11 @@ export function servicePointByIds(ids) {
   return ServicePoint.query().with(relations).whereIdIn(ids).get();
 }
 
+export function serviceItemsByServicePointId(servicePointId) {
+  return ServiceItem.query().withAll().where('servicePointId', servicePointId).get();
+}
+
+
 export function servingMastersByIds(ids) {
   return Employee.query().withAll().whereIdIn(ids).get();
 }
@@ -138,7 +143,6 @@ export function servingMasterById(id) {
 }
 
 export async function loadServiceItemService(servicePointId) {
-  // await ServiceItem.api().fetchOnce();
   const serviceItems = ServiceItem.query().withAll().where('servicePointId', servicePointId).get();
   await ServiceItemService.api().fetchOnce({
     serviceItemId: { '==': mapId(serviceItems) },

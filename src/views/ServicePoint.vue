@@ -16,10 +16,10 @@
 </template>
 <script>
 
-import find from 'lodash/find';
+import first from 'lodash/first';
 import ServiceItemInfo from '@/components/ServiceItemInfo.vue';
 import ServicePointInfo from '@/components/ServicePointInfo.vue';
-import { servingGetters } from '@/vuex/serving/maps';
+import { servicePointByIds, serviceItemsByServicePointId, loadServiceItemService } from '@/services/serving';
 
 const NAME = 'ServicePoint';
 
@@ -33,16 +33,15 @@ export default {
   },
   created() {
     this.$watch('$route.params.servicePointId', servicePointId => {
-      this.servicePoint = find(this.servicePoints, ['id', servicePointId]);
+      this.serviceItems = serviceItemsByServicePointId(servicePointId);
+      this.servicePoint = first(servicePointByIds([servicePointId]));
+      this.serviceItemServices = loadServiceItemService(servicePointId);
     }, { immediate: true });
   },
   name: NAME,
   components: {
     ServicePointInfo,
     ServiceItemInfo,
-  },
-  computed: {
-    servicePoints: servingGetters.servicePoints,
   },
 };
 
