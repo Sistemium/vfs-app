@@ -30,6 +30,7 @@ import DrawerEditor from '@/lib/DrawerEditor';
 import ServiceItemService from '@/models-vuex/ServiceItemService';
 import ServiceItemServiceForm from '@/components/ServiceItemServiceForm.vue';
 import { servingGetters } from '@/vuex/serving/maps';
+import { serviceItemServiceById } from '@/services/serving';
 
 const NAME = 'ServiceItemServiceEdit';
 
@@ -50,8 +51,7 @@ export default {
   methods: {
     modelInstance(serviceItemServiceId) {
       if (serviceItemServiceId) {
-        const serviceItemService = ServiceItemService.get(serviceItemServiceId);
-        return ServiceItemService.mapper.createRecord(serviceItemService.toJSON());
+        return serviceItemServiceById(serviceItemServiceId);
       }
       const { serviceItemId } = this;
       const record = {
@@ -60,7 +60,8 @@ export default {
         date: serverDateFormat(),
         type: 'service',
       };
-      return ServiceItemService.mapper.createRecord(record);
+      ServiceItemService.create({ data: record });
+      return record;
     },
     deleteClick() {
       const { serviceItemServiceId: id } = this;

@@ -124,10 +124,13 @@ export function servicePointByIds(ids) {
   return ServicePoint.query().with(relations).whereIdIn(ids).get();
 }
 
+export function serviceItemServiceById(id) {
+  return ServiceItemService.query().withAll().whereId(id).first();
+}
+
 export function serviceItemsByServicePointId(servicePointId) {
   return ServiceItem.query().withAll().where('servicePointId', servicePointId).get();
 }
-
 
 export function servingMastersByIds(ids) {
   return Employee.query().withAll().whereIdIn(ids).get();
