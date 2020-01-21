@@ -1,7 +1,5 @@
 import { Model } from '@vuex-orm/core';
 
-import FilterSystemType from './FilterSystemType';
-
 export default class FilterSystem extends Model {
   static entity = 'FilterSystem';
 

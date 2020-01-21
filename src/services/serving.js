@@ -53,7 +53,8 @@ export async function loadServicePoints(servingMasterId) {
 
   await ServicePoint.api().findByMany(servicePointIds);
 
-  const servicePoints = filter(ServicePoint.query().withAll().whereIdIn(servicePointIds).get(), { siteId });
+  const servicePoints = filter(ServicePoint.query().withAll()
+    .whereIdIn(servicePointIds).get(), { siteId });
 
   if (servicePoints.length) {
     await loadServicePointsRelations(servicePoints);
@@ -113,7 +114,7 @@ export async function loadCatalogue() {
 }
 
 export function servicePointByIds(ids) {
-  let relations = [
+  const relations = [
     'serviceContract',
     'serviceContract.customerPerson',
     'serviceContract.customerLegalEntity',

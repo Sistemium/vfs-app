@@ -23,9 +23,9 @@ el-drawer.service-point-map(
 </template>
 <script>
 
+import first from 'lodash/first';
 import DrawerEditor from '@/lib/DrawerEditor';
 import { servicePointByIds } from '@/services/serving';
-import first from 'lodash/first';
 
 const NAME = 'ServicePointMap';
 
