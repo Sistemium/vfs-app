@@ -1,6 +1,6 @@
-import { Model } from '@vuex-orm/core';
+import VFSModel from '@/lib/VFSModel';
 
-export default class Employee extends Model {
+export default class Employee extends VFSModel {
   static entity = 'Employee';
 
   static fields() {

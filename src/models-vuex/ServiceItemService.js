@@ -1,9 +1,7 @@
-/* eslint-disable import/no-cycle */
-import { Model } from '@vuex-orm/core';
+import VFSModel from '@/lib/VFSModel';
 
-import ServiceItem from './ServiceItem';
 
-export default class ServiceItemService extends Model {
+export default class ServiceItemService extends VFSModel {
   static entity = 'ServiceItemService';
 
   static fields() {
@@ -18,7 +16,7 @@ export default class ServiceItemService extends Model {
       servingMasterId: this.attr(null),
       ts: this.attr(null),
       type: this.attr(null),
-      serviceItem: this.belongsTo(ServiceItem, 'serviceItemId'),
+      serviceItem: this.belongsTo('ServiceItem', 'serviceItemId'),
     };
   }
 
@@ -26,6 +24,7 @@ export default class ServiceItemService extends Model {
     const { type } = this;
     return serviceTypeIcon(type);
   }
+
 }
 
 export function serviceTypeIcon(type) {
