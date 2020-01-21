@@ -1,5 +1,5 @@
-import store from '@/vuex/store';
 import log from 'sistemium-telegram/services/log';
+import store from '@/vuex/store';
 
 const { debug } = log('vuex');
 
@@ -8,11 +8,19 @@ export default store;
 store.subscribeAction({
 
   before(action) {
-    debug(`before action ${action.type}`);
+    const { type } = action;
+    if (type.match(/entities/)) {
+      return;
+    }
+    debug(`before action ${type}`);
   },
 
   after(action) {
-    debug(`after action ${action.type}`);
+    const { type } = action;
+    if (type.match(/entities/)) {
+      return;
+    }
+    debug(`after action ${type}`);
   },
 
 });
