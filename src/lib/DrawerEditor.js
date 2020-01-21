@@ -24,7 +24,7 @@ export default {
     },
     changed() {
       const { model } = this;
-      return model && false; // !!!(model.hasChanges() || model.isNew())
+      return model && true; // !!!(model.hasChanges() || model.isNew())
     },
   },
   methods: {
