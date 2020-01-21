@@ -1,8 +1,7 @@
-import { mapId, orderByAddress, orderByName } from '@/lib/fp';
+import { mapId, orderByAddress } from '@/lib/fp';
 import * as g from './getters';
 
 export const SET_SERVICE_POINTS = set(g.SERVICE_POINTS);
-export const SET_SERVING_MASTERS = set(g.SERVING_MASTERS);
 export const SET_CURRENT_SERVING_MASTER = set(g.CURRENT_SERVING_MASTER);
 export const SET_CURRENT_SERVICE_POINT = set(g.CURRENT_SERVICE_POINT);
 export const SET_BUSY = set(g.BUSY);
@@ -18,10 +17,6 @@ export default {
 
   [SET_SEARCH_TEXT](state, text) {
     state[g.SEARCH_TEXT] = text || '';
-  },
-
-  [SET_SERVING_MASTERS](state, data) {
-    state[g.SERVING_MASTERS] = mapId(orderByName(data));
   },
 
   [SET_SERVICE_POINTS](state, data) {

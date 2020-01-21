@@ -24,8 +24,7 @@ export default {
   }, 750),
 
   [LOAD_SERVING_MASTERS]: asyncAction(async ({ commit }) => {
-    const data = await svc.loadServingMasters();
-    commit(m.SET_SERVING_MASTERS, data);
+    await svc.loadServingMasters();
     const servingMaster = ls.getLocalStorageItem(g.CURRENT_SERVING_MASTER);
     if (servingMaster) {
       commit(m.SET_CURRENT_SERVING_MASTER, servingMaster);

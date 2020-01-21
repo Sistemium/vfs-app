@@ -33,8 +33,8 @@ export default {
     return state[SEARCH_TEXT];
   },
 
-  [SERVING_MASTERS](state) {
-    return servicePoints.servingMastersByIds(state[SERVING_MASTERS]);
+  [SERVING_MASTERS]() {
+    return servicePoints.allServingMasters();
   },
 
   [SERVICE_POINTS](state) {

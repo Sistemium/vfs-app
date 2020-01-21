@@ -132,13 +132,15 @@ export function serviceItemsByServicePointId(servicePointId) {
   return ServiceItem.query().withAll().where('servicePointId', servicePointId).get();
 }
 
-export function servingMastersByIds(ids) {
-  return Employee.query().withAll().whereIdIn(ids).get();
+export function allServingMasters() {
+  debug('allServingMasters');
+  const res = Employee.query().withAll().orderBy('name').get();
+  debug('allServingMasters', res.length);
+  return res;
 }
 
 export async function loadServingMasters() {
-  await Employee.api().fetchOnce();
-  return Employee.all();
+  await Employee.fetchOnce();
 }
 
 export function servingMasterById(id) {
@@ -147,7 +149,7 @@ export function servingMasterById(id) {
 
 export async function loadServiceItemService(servicePointId) {
   const serviceItems = ServiceItem.query().withAll().where('servicePointId', servicePointId).get();
-  await ServiceItemService.api().fetchOnce({
+  await ServiceItemService.fetchOnce({
     serviceItemId: { '==': mapId(serviceItems) },
   });
   return ServiceItemService.query().withAll().where('serviceItemId', mapId(serviceItems)).get();

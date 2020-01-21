@@ -19,30 +19,34 @@
 import first from 'lodash/first';
 import ServiceItemInfo from '@/components/ServiceItemInfo.vue';
 import ServicePointInfo from '@/components/ServicePointInfo.vue';
-import { servicePointByIds, serviceItemsByServicePointId, loadServiceItemService } from '@/services/serving';
+import * as svc from '@/services/serving';
 
 const NAME = 'ServicePoint';
 
 export default {
-  data() {
-    return {
-      servicePoint: null,
-      serviceItems: [],
-      serviceItemServices: [],
-    };
+
+  computed: {
+    servicePointId() {
+      return this.$route.params.servicePointId;
+    },
+    servicePoint() {
+      return first(svc.servicePointByIds([this.servicePointId]));
+    },
+    serviceItems() {
+      return svc.serviceItemsByServicePointId(this.servicePointId);
+    },
+    serviceItemServices() {
+      return svc.loadServiceItemService(this.servicePointId);
+    },
   },
-  created() {
-    this.$watch('$route.params.servicePointId', servicePointId => {
-      this.serviceItems = serviceItemsByServicePointId(servicePointId);
-      this.servicePoint = first(servicePointByIds([servicePointId]));
-      this.serviceItemServices = loadServiceItemService(servicePointId);
-    }, { immediate: true });
-  },
+
   name: NAME,
+
   components: {
     ServicePointInfo,
     ServiceItemInfo,
   },
+
 };
 
 </script>
