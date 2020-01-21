@@ -36,11 +36,15 @@ export default {
       return svc.serviceItemsByServicePointId(this.servicePointId);
     },
     serviceItemServices() {
-      return svc.loadServiceItemService(this.servicePointId);
+      return svc.servicesByServicePointId(this.servicePointId);
     },
   },
 
   name: NAME,
+
+  async created() {
+    await svc.loadServiceItemService(this.servicePointId);
+  },
 
   components: {
     ServicePointInfo,

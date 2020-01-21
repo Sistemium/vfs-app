@@ -36,30 +36,31 @@ const siteId = '2b1f36e3-8506-451f-9cfa-d62bf8e0aa49';
 
 export async function loadServicePoints(servingMasterId) {
 
-  await ServiceItem.api().fetchOnce({
-    servingMasterId: { '==': servingMasterId },
-  });
+  await ServiceItem.api()
+    .fetchOnce({
+      servingMasterId: { '==': servingMasterId },
+    });
 
-  const items = ServiceItem.query()
-    .withAll()
-    .where('servingMasterId', servingMasterId)
-    .limit(1000)
-    .get();
+  const items = ServiceItem.byServingMasterId(servingMasterId);
 
   // ServicePoint
   const toLoadRelations = filter(items, ({ servicePoint }) => !servicePoint);
 
   const servicePointIds = uniq(mapServicePointId(toLoadRelations));
 
-  await ServicePoint.api().findByMany(servicePointIds);
+  await ServicePoint.api()
+    .findByMany(servicePointIds);
 
-  const servicePoints = filter(ServicePoint.query().withAll()
-    .whereIdIn(servicePointIds).get(), { siteId });
+  const servicePoints = filter(ServicePoint.query()
+    .withAll()
+    .whereIdIn(servicePointIds)
+    .get(), { siteId });
 
   if (servicePoints.length) {
     await loadServicePointsRelations(servicePoints);
     // ServiceItemService
-    await ServiceItemService.api().findByMany(mapId(items), { field: 'serviceItemId' });
+    await ServiceItemService.api()
+      .findByMany(mapId(items), { field: 'serviceItemId' });
   }
 
   return ServicePoint.query()
@@ -70,13 +71,19 @@ export async function loadServicePoints(servingMasterId) {
 
 }
 
+export function servicePointsByServingMasterId(servingMasterId) {
+  const items = ServiceItem.byServingMasterId(servingMasterId);
+  return servicePointByIds(mapServicePointId(items));
+}
+
 async function loadServicePointsRelations(servicePoints) {
 
   let loadRelations;
 
   // ServiceContract
   loadRelations = filter(servicePoints, ({ currentServiceContract }) => !currentServiceContract);
-  const contracts = await ServiceContract.api().findByMany(mapContractId(loadRelations));
+  const contracts = await ServiceContract.api()
+    .findByMany(mapContractId(loadRelations));
 
   // Person
   loadRelations = filter(contracts, serviceContract => {
@@ -84,9 +91,11 @@ async function loadServicePointsRelations(servicePoints) {
     return customerPersonId && !customerPerson;
   });
 
-  const persons = await Person.api().findByMany(fpMap('customerPersonId')(loadRelations));
+  const persons = await Person.api()
+    .findByMany(fpMap('customerPersonId')(loadRelations));
   const contactPersonIds = filter(flatten(fpMap('contactIds')(servicePoints)));
-  const contactPersons = await Person.api().findByMany(contactPersonIds);
+  const contactPersons = await Person.api()
+    .findByMany(contactPersonIds);
 
   // LegalEntity
   loadRelations = filter(contracts, serviceContract => {
@@ -94,23 +103,31 @@ async function loadServicePointsRelations(servicePoints) {
     return customerLegalEntityId && !customerLegalEntity;
   });
 
-  const le = await LegalEntity.api().findByMany(fpMap('customerLegalEntityId')(loadRelations));
+  const le = await LegalEntity.api()
+    .findByMany(fpMap('customerLegalEntityId')(loadRelations));
 
   // Contact
-  await Contact.api().findByMany(mapId(persons), { field: 'ownerXid' });
-  await Contact.api().findByMany(mapId(contactPersons), { field: 'ownerXid' });
-  await Contact.api().findByMany(mapId(le), { field: 'ownerXid' });
+  await Contact.api()
+    .findByMany(mapId(persons), { field: 'ownerXid' });
+  await Contact.api()
+    .findByMany(mapId(contactPersons), { field: 'ownerXid' });
+  await Contact.api()
+    .findByMany(mapId(le), { field: 'ownerXid' });
 
   // Location
 
-  await Location.api().findByMany(fpMap('locationId')(servicePoints));
+  await Location.api()
+    .findByMany(fpMap('locationId')(servicePoints));
 
 }
 
 export async function loadCatalogue() {
-  await FilterSystemType.api().fetchOnce();
-  await FilterSystem.api().fetchOnce();
-  await ContactMethod.api().fetchOnce();
+  await FilterSystemType.api()
+    .fetchOnce();
+  await FilterSystem.api()
+    .fetchOnce();
+  await ContactMethod.api()
+    .fetchOnce();
 }
 
 export function servicePointByIds(ids) {
@@ -119,22 +136,35 @@ export function servicePointByIds(ids) {
     'serviceContract.customerPerson',
     'serviceContract.customerLegalEntity',
     'serviceItems',
+    'serviceItems.services',
     'location',
   ];
-  return ServicePoint.query().with(relations).whereIdIn(ids).get();
+  return ServicePoint.query()
+    .with(relations)
+    .whereIdIn(ids)
+    .get();
 }
 
 export function serviceItemServiceById(id) {
-  return ServiceItemService.query().withAll().whereId(id).first();
+  return ServiceItemService.query()
+    .withAll()
+    .whereId(id)
+    .first();
 }
 
 export function serviceItemsByServicePointId(servicePointId) {
-  return ServiceItem.query().withAll().where('servicePointId', servicePointId).get();
+  return ServiceItem.query()
+    .withAll()
+    .where('servicePointId', servicePointId)
+    .get();
 }
 
 export function allServingMasters() {
   debug('allServingMasters');
-  const res = Employee.query().withAll().orderBy('name').get();
+  const res = Employee.query()
+    .withAll()
+    .orderBy('name')
+    .get();
   debug('allServingMasters', res.length);
   return res;
 }
@@ -148,11 +178,22 @@ export function servingMasterById(id) {
 }
 
 export async function loadServiceItemService(servicePointId) {
-  const serviceItems = ServiceItem.query().withAll().where('servicePointId', servicePointId).get();
+  const serviceItems = ServiceItem.query()
+    .where('servicePointId', servicePointId)
+    .get();
   await ServiceItemService.fetchOnce({
     serviceItemId: { '==': mapId(serviceItems) },
   });
-  return ServiceItemService.query().withAll().where('serviceItemId', mapId(serviceItems)).get();
+}
+
+export function servicesByServicePointId(servicePointId) {
+  const serviceItems = ServiceItem.query()
+    .where('servicePointId', servicePointId)
+    .get();
+  return ServiceItemService.query()
+    .withAll()
+    .where('serviceItemId', mapId(serviceItems))
+    .get();
 }
 
 const servicePointSearchRules = [

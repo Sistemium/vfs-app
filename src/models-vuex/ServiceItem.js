@@ -1,23 +1,17 @@
-/* eslint-disable import/no-cycle */
-import { Model } from '@vuex-orm/core';
 import find from 'lodash/find';
 import filter from 'lodash/filter';
 import maxBy from 'lodash/maxBy';
 import isNumber from 'lodash/isNumber';
 import get from 'lodash/get';
+import VFSModel from '@/lib/VFSModel';
 import { addMonths } from '@/lib/dates';
-import ServicePoint from './ServicePoint';
-import FilterSystem from './FilterSystem';
-import Employee from './Employee';
-import ServiceItemService from './ServiceItemService';
-
 
 export const SERVICE_TYPE_PAUSE = 'pause';
 export const SERVICE_TYPE_FORWARD = 'forward';
 export const SERVICE_TYPE_SERVICE = 'service';
 export const SERVICE_TYPE_OTHER = 'other';
 
-export default class ServiceItem extends Model {
+export default class ServiceItem extends VFSModel {
   static entity = 'ServiceItem';
 
   static fields() {
@@ -45,11 +39,20 @@ export default class ServiceItem extends Model {
       servingMasterId: this.attr(null),
       smallServicePrice: this.attr(null),
       ts: this.attr(null),
-      servicePoint: this.belongsTo(ServicePoint, 'servicePointId'),
-      filterSystem: this.belongsTo(FilterSystem, 'filterSystemId'),
-      servingMaster: this.belongsTo(Employee, 'servingMasterId'),
-      services: this.hasMany(ServiceItemService, 'serviceItemId'),
+      servicePoint: this.belongsTo('ServicePoint', 'servicePointId'),
+      filterSystem: this.belongsTo('FilterSystem', 'filterSystemId'),
+      servingMaster: this.belongsTo('Employee', 'servingMasterId'),
+      services: this.hasMany('ServiceItemService', 'serviceItemId'),
     };
+
+  }
+
+  static byServingMasterId(servingMasterId) {
+    return this.query()
+      .withAll()
+      .where('servingMasterId', servingMasterId)
+      .limit(1000)
+      .get();
   }
 
   serviceBetween(dateB, dateE) {

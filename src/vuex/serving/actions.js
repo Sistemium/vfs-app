@@ -35,9 +35,8 @@ export default {
     await svc.loadServiceItemService(servicePointId);
   }),
 
-  [LOAD_SERVICE_POINTS]: asyncAction(async ({ commit }, servingMasterId) => {
-    const data = await svc.loadServicePoints(servingMasterId);
-    commit(m.SET_SERVICE_POINTS, data);
+  [LOAD_SERVICE_POINTS]: asyncAction(async (etc, servingMasterId) => {
+    await svc.loadServicePoints(servingMasterId);
   }),
 
   [SET_CURRENT_SERVICE_POINT]({ commit }, servicePoint) {

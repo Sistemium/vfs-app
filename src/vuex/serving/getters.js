@@ -1,4 +1,5 @@
 import * as servicePoints from '@/services/serving';
+import { orderByAddress } from '@/lib/fp';
 
 export const SERVICE_POINTS = 'ServicePoints';
 export const MATCHING_SERVICE_POINTS = 'MatchingServicePoints';
@@ -38,7 +39,8 @@ export default {
   },
 
   [SERVICE_POINTS](state) {
-    return servicePoints.servicePointByIds(state[SERVICE_POINTS]);
+    const masterId = state[CURRENT_SERVING_MASTER];
+    return orderByAddress(servicePoints.servicePointsByServingMasterId(masterId));
   },
 
   [CURRENT_SERVICE_POINT](state) {
