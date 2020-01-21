@@ -60,18 +60,18 @@ export default {
         date: serverDateFormat(),
         type: 'service',
       };
-      ServiceItemService.create({ data: record });
+      // ServiceItemService.create({ data: record });
       return record;
     },
     deleteClick() {
       const { serviceItemServiceId: id } = this;
-      this.performOperation(() => ServiceItemService.destroy({ id }));
+      this.performOperation(() => ServiceItemService.delete(id));
     },
     saveClick() {
       if (this.model.type !== 'forward') {
         this.model.nextServiceDate = null;
       }
-      this.performOperation(() => ServiceItemService.safeSave(this.model, true));
+      this.performOperation(() => ServiceItemService.create({ data: this.model }));
     },
   },
   name: NAME,
