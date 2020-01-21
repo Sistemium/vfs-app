@@ -1,4 +1,3 @@
-/* eslint-disable */
 import escapeRegExp from 'lodash/escapeRegExp';
 import filter from 'lodash/filter';
 import flatten from 'lodash/flatten';

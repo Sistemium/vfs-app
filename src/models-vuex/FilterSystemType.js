@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { Model } from '@vuex-orm/core';
 
 import FilterSystem from './FilterSystem';
@@ -15,7 +14,7 @@ export default class FilterSystemType extends Model {
       name: this.attr(null),
       serviceFrequency: this.attr(null),
       ts: this.attr(null),
-      systems: this.hasMany(FilterSystem, 'filterSystemTypeId'),
+      systems: this.hasMany('FilterSystem', 'filterSystemTypeId'),
     };
   }
 }
