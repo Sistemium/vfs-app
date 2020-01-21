@@ -19,8 +19,6 @@ export default {
 
     fetchOnce(where) {
 
-      // TODO: check if data exists
-
       const key = `${this.model.name}:${JSON.stringify(where || {})}`;
 
       const cached = cachedFetches[key];
