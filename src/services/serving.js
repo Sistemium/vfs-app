@@ -48,13 +48,13 @@ export async function loadServicePoints(servingMasterId) {
 
   const servicePointIds = uniq(mapServicePointId(toLoadRelations));
 
-  await ServicePoint.api()
-    .findByMany(servicePointIds);
+  await ServicePoint.findByMany(servicePointIds);
 
-  const servicePoints = filter(ServicePoint.query()
+  const servicePoints = ServicePoint.query()
     .withAll()
     .whereIdIn(servicePointIds)
-    .get(), { siteId });
+    .where('siteId', siteId)
+    .get();
 
   if (servicePoints.length) {
     await loadServicePointsRelations(servicePoints);
@@ -62,12 +62,6 @@ export async function loadServicePoints(servingMasterId) {
     await ServiceItemService.api()
       .findByMany(mapId(items), { field: 'serviceItemId' });
   }
-
-  return ServicePoint.query()
-    .withAll()
-    .where('id', uniq(mapServicePointId(items)))
-    .where('siteId', siteId)
-    .get();
 
 }
 
@@ -137,6 +131,8 @@ export function servicePointByIds(ids) {
     'serviceContract.customerLegalEntity',
     'serviceItems',
     'serviceItems.services',
+    'serviceItems.filterSystem',
+    'serviceItems.filterSystem.type',
     'location',
   ];
   return ServicePoint.query()
@@ -148,13 +144,15 @@ export function servicePointByIds(ids) {
 export function serviceItemServiceById(id) {
   return ServiceItemService.query()
     .withAll()
-    .whereId(id)
-    .first();
+    .find(id);
 }
 
 export function serviceItemsByServicePointId(servicePointId) {
   return ServiceItem.query()
-    .withAll()
+    .with([
+      '*',
+      'filterSystem.type',
+    ])
     .where('servicePointId', servicePointId)
     .get();
 }
