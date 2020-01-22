@@ -42,6 +42,9 @@ export default {
   computed: {
     currentServingMaster: servingGetters.currentServingMaster,
     servingMasters: servingGetters.servingMasters,
+    modelOrigin() {
+      return serviceItemServiceById(this.serviceItemServiceId);
+    },
   },
   created() {
     this.$watch('serviceItemServiceId', serviceItemServiceId => {
@@ -50,18 +53,14 @@ export default {
   },
   methods: {
     modelInstance(serviceItemServiceId) {
-      if (serviceItemServiceId) {
-        return serviceItemServiceById(serviceItemServiceId);
-      }
       const { serviceItemId } = this;
-      const record = {
+      const record = serviceItemServiceId ? this.modelOrigin : {
         servingMasterId: this.currentServingMaster.id,
         serviceItemId,
         date: serverDateFormat(),
         type: 'service',
       };
-      // ServiceItemService.create({ data: record });
-      return record;
+      return new ServiceItemService(record);
     },
     deleteClick() {
       const { serviceItemServiceId: id } = this;
@@ -71,7 +70,7 @@ export default {
       if (this.model.type !== 'forward') {
         this.model.nextServiceDate = null;
       }
-      this.performOperation(() => ServiceItemService.create({ data: this.model }));
+      this.performOperation(() => ServiceItemService.insertOrUpdate({ data: this.model }));
     },
   },
   name: NAME,
