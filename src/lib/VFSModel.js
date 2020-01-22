@@ -28,7 +28,7 @@ export default class VFSModel extends Model {
 
     return this.fetch(where)
       .then(res => {
-        this.cachedFetches[key] = true;
+        if (where) this.cachedFetches[key] = true;
         return res;
       });
 
