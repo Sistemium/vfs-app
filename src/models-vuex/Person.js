@@ -1,8 +1,7 @@
-/* eslint-disable import/no-cycle */
-import { Model } from '@vuex-orm/core';
 import Contact from '@/models-vuex/Contact';
+import VFSModel from '@/lib/VFSModel';
 
-export default class Person extends Model {
+export default class Person extends VFSModel {
   static entity = 'Person';
 
   static fields() {

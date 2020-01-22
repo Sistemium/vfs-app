@@ -1,9 +1,6 @@
-/* eslint-disable import/no-cycle */
-import { Model } from '@vuex-orm/core';
+import VFSModel from '@/lib/VFSModel';
 
-import ServicePoint from '@/models-vuex/ServicePoint';
-
-export default class Location extends Model {
+export default class Location extends VFSModel {
   static entity = 'Location';
 
   static fields() {
@@ -19,7 +16,7 @@ export default class Location extends Model {
       timestamp: this.attr(null),
       ts: this.attr(null),
       verticalAccuracy: this.attr(null),
-      servicePoints: this.hasMany(ServicePoint, 'servicePointId'),
+      servicePoints: this.hasMany('ServicePoint', 'servicePointId'),
     };
   }
 }

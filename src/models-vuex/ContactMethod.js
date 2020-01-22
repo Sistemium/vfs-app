@@ -1,6 +1,6 @@
-import { Model } from '@vuex-orm/core';
+import VFSModel from '@/lib/VFSModel';
 
-export default class ContactMethod extends Model {
+export default class ContactMethod extends VFSModel {
   static entity = 'ContactMethod';
 
   static fields() {

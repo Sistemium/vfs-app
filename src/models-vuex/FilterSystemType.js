@@ -1,6 +1,6 @@
-import { Model } from '@vuex-orm/core';
+import VFSModel from '@/lib/VFSModel';
 
-export default class FilterSystemType extends Model {
+export default class FilterSystemType extends VFSModel {
   static entity = 'FilterSystemType';
 
   static fields() {

@@ -1,11 +1,6 @@
-/* eslint-disable import/no-cycle */
-import { Model } from '@vuex-orm/core';
+import VFSModel from '@/lib/VFSModel';
 
-import Person from './Person';
-import LegalEntity from './LegalEntity';
-import ServicePoint from './ServicePoint';
-
-export default class ServiceContract extends Model {
+export default class ServiceContract extends VFSModel {
   static entity = 'ServiceContract';
 
   static fields() {
@@ -19,9 +14,9 @@ export default class ServiceContract extends Model {
       paymentMethod: this.attr(null),
       siteId: this.attr(null),
       ts: this.attr(null),
-      customerLegalEntity: this.belongsTo(LegalEntity, 'customerLegalEntityId'),
-      customerPerson: this.belongsTo(Person, 'customerPersonId'),
-      servicePoints: this.hasMany(ServicePoint, 'currentServiceContractId'),
+      customerLegalEntity: this.belongsTo('LegalEntity', 'customerLegalEntityId'),
+      customerPerson: this.belongsTo('Person', 'customerPersonId'),
+      servicePoints: this.hasMany('ServicePoint', 'currentServiceContractId'),
     };
   }
 

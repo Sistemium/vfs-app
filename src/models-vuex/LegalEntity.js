@@ -1,9 +1,7 @@
-/* eslint-disable import/no-cycle */
-import { Model } from '@vuex-orm/core';
 import Contact from '@/models-vuex/Contact';
-import ServiceContract from '@/models-vuex/ServiceContract';
+import VFSModel from '@/lib/VFSModel';
 
-export default class LegalEntity extends Model {
+export default class LegalEntity extends VFSModel {
   static entity = 'LegalEntity';
 
   static fields() {
@@ -13,7 +11,7 @@ export default class LegalEntity extends Model {
       id: this.attr(null),
       name: this.attr(null),
       ts: this.attr(null),
-      serviceContracts: this.hasMany(ServiceContract, 'customerLegalEntityId'),
+      serviceContracts: this.hasMany('ServiceContract', 'customerLegalEntityId'),
     };
   }
 

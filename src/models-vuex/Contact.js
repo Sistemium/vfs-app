@@ -1,7 +1,5 @@
 import VFSModel from '@/lib/VFSModel';
 
-import ContactMethod from './ContactMethod';
-
 export default class Contact extends VFSModel {
   static entity = 'Contact';
 
@@ -15,7 +13,7 @@ export default class Contact extends VFSModel {
       ownerXid: this.attr(null),
       source: this.attr(null),
       ts: this.attr(null),
-      contactMethod: this.belongsTo(ContactMethod, 'contactMethodId'),
+      contactMethod: this.belongsTo('ContactMethod', 'contactMethodId'),
     };
   }
 

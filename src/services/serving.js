@@ -36,7 +36,7 @@ const siteId = '2b1f36e3-8506-451f-9cfa-d62bf8e0aa49';
 
 export async function loadServicePoints(servingMasterId) {
 
-  await ServiceItem.api()
+  await ServiceItem
     .fetchOnce({
       servingMasterId: { '==': servingMasterId },
     });
@@ -59,7 +59,7 @@ export async function loadServicePoints(servingMasterId) {
   if (servicePoints.length) {
     await loadServicePointsRelations(servicePoints);
     // ServiceItemService
-    await ServiceItemService.api()
+    await ServiceItemService
       .findByMany(mapId(items), { field: 'serviceItemId' });
   }
 
@@ -76,7 +76,7 @@ async function loadServicePointsRelations(servicePoints) {
 
   // ServiceContract
   loadRelations = filter(servicePoints, ({ currentServiceContract }) => !currentServiceContract);
-  const contracts = await ServiceContract.api()
+  const contracts = await ServiceContract
     .findByMany(mapContractId(loadRelations));
 
   // Person
@@ -85,10 +85,10 @@ async function loadServicePointsRelations(servicePoints) {
     return customerPersonId && !customerPerson;
   });
 
-  const persons = await Person.api()
+  const persons = await Person
     .findByMany(fpMap('customerPersonId')(loadRelations));
   const contactPersonIds = filter(flatten(fpMap('contactIds')(servicePoints)));
-  const contactPersons = await Person.api()
+  const contactPersons = await Person
     .findByMany(contactPersonIds);
 
   // LegalEntity
@@ -97,30 +97,30 @@ async function loadServicePointsRelations(servicePoints) {
     return customerLegalEntityId && !customerLegalEntity;
   });
 
-  const le = await LegalEntity.api()
+  const le = await LegalEntity
     .findByMany(fpMap('customerLegalEntityId')(loadRelations));
 
   // Contact
-  await Contact.api()
+  await Contact
     .findByMany(mapId(persons), { field: 'ownerXid' });
-  await Contact.api()
+  await Contact
     .findByMany(mapId(contactPersons), { field: 'ownerXid' });
-  await Contact.api()
+  await Contact
     .findByMany(mapId(le), { field: 'ownerXid' });
 
   // Location
 
-  await Location.api()
+  await Location
     .findByMany(fpMap('locationId')(servicePoints));
 
 }
 
 export async function loadCatalogue() {
-  await FilterSystemType.api()
+  await FilterSystemType
     .fetchOnce();
-  await FilterSystem.api()
+  await FilterSystem
     .fetchOnce();
-  await ContactMethod.api()
+  await ContactMethod
     .fetchOnce();
 }
 

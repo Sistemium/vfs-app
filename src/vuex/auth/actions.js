@@ -3,7 +3,6 @@ import { authorize as authorizeJSDataStore } from 'sistemium-telegram/jsdata/sto
 import http from 'axios';
 import VuexORMAxios from '@vuex-orm/plugin-axios';
 import VuexORM from '@vuex-orm/core';
-import ormConfig from '@/config/vuexOrmApi';
 import * as ls from '@/services/localStorage';
 // import { roles } from 'sistemium-telegram/services/auth';
 import * as m from './mutations';
@@ -41,8 +40,6 @@ export default {
         authorization: token,
       },
     });
-
-    VuexORM.Model.apiConfig = ormConfig;
 
     try {
       const { account, roles } = await (isNative() ? getRoles() : checkRoles(token));
