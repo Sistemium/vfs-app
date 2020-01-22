@@ -71,8 +71,8 @@ h4 {
   padding: 3px 0;
   margin: 0;
 
-  // TODO: figure out why not working
-  position: static;
+  position: sticky;
+  top: 0;
 
 }
 

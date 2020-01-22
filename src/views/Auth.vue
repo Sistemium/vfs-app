@@ -18,10 +18,10 @@
 <script>
 
 import { createNamespacedHelpers } from 'vuex';
+import log from 'sistemium-telegram/services/log';
 import OauthButton from '@/components/OauthButton.vue';
 import * as actions from '@/vuex/auth/actions';
 import * as getters from '@/vuex/auth/getters';
-import log from 'sistemium-telegram/services/log';
 
 const { debug } = log('auth');
 
