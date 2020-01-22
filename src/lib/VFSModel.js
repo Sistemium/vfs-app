@@ -5,7 +5,12 @@ import uniq from 'lodash/uniq';
 
 export default class VFSModel extends Model {
 
-  static cachedFetches = {};
+  static cachedFetches() {
+    if (!this.$cachedFetches) {
+      this.$cachedFetches = {};
+    }
+    return this.$cachedFetches;
+  }
 
   static fetch(where) {
     const url = filter([
@@ -20,7 +25,7 @@ export default class VFSModel extends Model {
 
     const key = JSON.stringify(where || {});
 
-    const cached = this.cachedFetches[key];
+    const cached = this.cachedFetches()[key];
 
     if (cached) {
       return {};
@@ -28,7 +33,7 @@ export default class VFSModel extends Model {
 
     return this.fetch(where)
       .then(res => {
-        if (where) this.cachedFetches[key] = true;
+        this.cachedFetches()[key] = true;
         return res;
       });
 
