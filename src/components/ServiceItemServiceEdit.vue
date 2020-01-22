@@ -64,13 +64,13 @@ export default {
     },
     deleteClick() {
       const { serviceItemServiceId: id } = this;
-      this.performOperation(() => ServiceItemService.delete(id));
+      this.performOperation(() => ServiceItemService.apiDelete(id));
     },
     saveClick() {
       if (this.model.type !== 'forward') {
         this.model.nextServiceDate = null;
       }
-      this.performOperation(() => ServiceItemService.insertOrUpdate({ data: this.model }));
+      this.performOperation(() => ServiceItemService.apiInsert(this.model));
     },
   },
   name: NAME,

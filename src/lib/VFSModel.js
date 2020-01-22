@@ -57,4 +57,18 @@ export default class VFSModel extends Model {
 
   }
 
+  static async apiDelete(id) {
+
+    return this.api().delete(`/${this.entity}/${id}`, {
+      delete: id,
+    });
+
+  }
+
+  static async apiInsert(data) {
+
+    return this.api().post(`/${this.entity}`, data);
+
+  }
+
 }
