@@ -1,7 +1,6 @@
 /* eslint-disable import/no-cycle */
 import { Model } from '@vuex-orm/core';
 import Contact from '@/models-vuex/Contact';
-import ServiceContract from './ServiceContract';
 
 export default class Person extends Model {
   static entity = 'Person';
@@ -17,7 +16,7 @@ export default class Person extends Model {
       lastName: this.attr(null),
       phone: this.attr(null),
       ts: this.attr(null),
-      serviceContracts: this.hasMany(ServiceContract, 'customerPersonId'),
+      serviceContracts: this.hasMany('ServiceContract', 'customerPersonId'),
     };
   }
 

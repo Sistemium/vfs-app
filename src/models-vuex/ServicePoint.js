@@ -1,13 +1,9 @@
-/* eslint-disable import/no-cycle */
-import { Model } from '@vuex-orm/core';
 import get from 'lodash/get';
 import find from 'lodash/find';
+import VFSModel from '@/lib/VFSModel';
 import Person from '@/models-vuex/Person';
-import Location from '@/models-vuex/Location';
-import ServiceItem from '@/models-vuex/ServiceItem';
-import ServiceContract from '@/models-vuex/ServiceContract';
 
-export default class ServicePoint extends Model {
+export default class ServicePoint extends VFSModel {
   static entity = 'ServicePoint';
 
   static fields() {
@@ -34,9 +30,9 @@ export default class ServicePoint extends Model {
       streetId: this.attr(null),
       ts: this.attr(null),
       type: this.attr(null),
-      serviceItems: this.hasMany(ServiceItem, 'servicePointId'),
-      serviceContract: this.belongsTo(ServiceContract, 'currentServiceContractId'),
-      location: this.belongsTo(Location, 'locationId'),
+      serviceItems: this.hasMany('ServiceItem', 'servicePointId'),
+      serviceContract: this.belongsTo('ServiceContract', 'currentServiceContractId'),
+      location: this.belongsTo('Location', 'locationId'),
     };
   }
 
