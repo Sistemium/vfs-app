@@ -1,5 +1,5 @@
+import { v4 } from 'uuid';
 import VFSModel from '@/lib/VFSModel';
-
 
 export default class ServiceItemService extends VFSModel {
   static entity = 'ServiceItemService';
@@ -8,7 +8,7 @@ export default class ServiceItemService extends VFSModel {
     return {
       cts: this.attr(null),
       date: this.attr(null),
-      id: this.attr(null),
+      id: this.uid(() => v4()),
       info: this.attr(null),
       nextServiceInfo: this.attr(null),
       serviceItemId: this.attr(null),
