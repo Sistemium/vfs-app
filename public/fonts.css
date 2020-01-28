@@ -1,27 +1,25 @@
-/** Bold */
 @font-face {
   font-family: "SF Text";
   font-weight: 700;
-  src: url("/fonts/SF-UI-Text-Bold.otf");
-}
-/** Bold Italic */
-@font-face {
-  font-family: "SF Text";
-  font-weight: 700;
-  font-style: italic;
-  src: url("/fonts/SF-UI-Text-BoldItalic.otf");
+  src: url("fonts/SF-UI-Text-Bold.otf");
 }
 
-/** Regular */
+@font-face {
+  font-family: "SF Text";
+  font-weight: 700;
+  font-style: italic;
+  src: url("fonts/SF-UI-Text-BoldItalic.otf");
+}
+
 @font-face {
   font-family: "SF Text";
   font-weight: 400;
-  src: url("/fonts/SF-UI-Text-Regular.otf");
+  src: url("fonts/SF-UI-Text-Regular.otf");
 }
-/** Regular Italic */
+
 @font-face {
   font-family: "SF Text";
   font-weight: 400;
   font-style: italic;
-  src: url("/fonts/SF-UI-Text-RegularItalic.otf");
+  src: url("fonts/SF-UI-Text-RegularItalic.otf");
 }
