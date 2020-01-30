@@ -1,8 +1,13 @@
 const STMManifestPlugin = require('./manifest-plugin');
 
-const assetsPluginInstance = new STMManifestPlugin({
-  fileName: 'app.manifest',
-});
+
+const plugins = [];
+
+if (process.env.NODE_ENV === 'production') {
+  plugins.push(new STMManifestPlugin({
+    fileName: 'app.manifest',
+  }));
+}
 
 module.exports = {
   publicPath: '',
@@ -12,7 +17,7 @@ module.exports = {
     },
   },
   configureWebpack: {
-    plugins: [assetsPluginInstance],
+    plugins,
   },
   devServer: {
     proxy: {
