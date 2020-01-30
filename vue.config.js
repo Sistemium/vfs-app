@@ -22,11 +22,12 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        // target: 'https://vfs.sistemium.com/api',
-        target: 'http://localhost:9390',
+        target: 'https://vfs.sistemium.com/dapi',
+        // target: 'http://localhost:9390',
         changeOrigin: true,
         pathRewrite: {
-          '^/api/vfs': '/api',
+          // '^/api/vfs': '/api', // uncomment for localhost api
+          '^/api/vfs': '/', // uncomment for vfs.sistemium.com api
         },
       },
       '/ims': {
