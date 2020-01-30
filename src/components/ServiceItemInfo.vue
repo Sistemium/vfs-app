@@ -31,8 +31,8 @@
 <script>
 
 import orderBy from 'lodash/orderBy';
-import ServiceItemServicesList from '@/components/ServiceItemServicesList.vue';
 import log from 'sistemium-telegram/services/log';
+import ServiceItemServicesList from '@/components/ServiceItemServicesList.vue';
 import FormField from '@/components/FormField.vue';
 
 const NAME = 'ServiceItemInfo';

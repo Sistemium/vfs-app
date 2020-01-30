@@ -9,8 +9,8 @@
 </template>
 <script>
 
-import { servingGetters } from '@/vuex/serving/maps';
 import { createNamespacedHelpers } from 'vuex';
+import { servingGetters } from '@/vuex/serving/maps';
 import { IS_AUTHORIZED, IS_AUTHORIZING } from '@/vuex/auth/getters';
 
 const { mapGetters } = createNamespacedHelpers('auth');
