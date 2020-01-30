@@ -1,6 +1,18 @@
+const STMManifestPlugin = require('./manifest-plugin');
+
+const assetsPluginInstance = new STMManifestPlugin({
+  fileName: 'app.manifest',
+});
+
 module.exports = {
+  publicPath: '',
   pwa: {
-    workboxOptions: { skipWaiting: true },
+    workboxOptions: {
+      skipWaiting: true,
+    },
+  },
+  configureWebpack: {
+    plugins: [assetsPluginInstance],
   },
   devServer: {
     proxy: {
