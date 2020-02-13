@@ -1,5 +1,4 @@
 import { isNative, getRoles } from 'sistemium-vue/services/native';
-import { authorize as authorizeJSDataStore } from 'sistemium-telegram/jsdata/store';
 import http from 'axios';
 import VuexORMAxios from '@vuex-orm/plugin-axios';
 import VuexORM from '@vuex-orm/core';
@@ -44,7 +43,6 @@ export default {
     try {
       const { account, roles } = await (isNative() ? getRoles() : checkRoles(token));
       ls.setLocalStorageItem(LS_KEY, token);
-      authorizeJSDataStore(token, 'vfs');
       commit(m.SET_AUTHORIZED, {
         token,
         account,
