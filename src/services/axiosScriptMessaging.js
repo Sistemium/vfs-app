@@ -13,18 +13,24 @@ export default function (config) {
     let { method, headers } = config;
 
     if (method === 'get') method = 'findAll';
+    if (method === 'post') method = 'updateAll';
+    if (method === 'delete') method = 'destroy';
 
-    const entity = config.url.split('/').pop().split('?').shift();
+    const urlElements = config.url.split('/');
+    let id = urlElements.pop().split('?').shift();
+    let entity = urlElements.pop();
+    if (!id.includes('-')){
+      entity = id;
+      id = undefined;
+    }
+    let where = config.url.split('?where:=');
+    if (where.length === 1){
 
-    let where = config.url.split('/').pop().split('?where:=').pop();
-
-    if (where !== entity) {
-
-      where = JSON.parse(where)
+      where = undefined
 
     } else {
 
-      where = undefined;
+      where = where.pop();
 
     }
 
@@ -33,9 +39,16 @@ export default function (config) {
     const iosParams = {
       entity: entity,
       options,
+      id,
     };
 
-    iosParams.where = where;
+    if (config.data) {
+      iosParams.data = JSON.parse(config.data);
+    }
+
+    if (where) {
+      iosParams.where = JSON.parse(where);
+    }
 
     requestFromDevice(method, iosParams)
       .then(res => {
