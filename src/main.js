@@ -6,7 +6,7 @@ import '@/config/maps';
 import App from './App.vue';
 import router from './routes';
 import store from './vuex/index';
-import './registerServiceWorker';
+// import './registerServiceWorker';
 import '@/styles/main.scss';
 import { AUTH_INIT } from './vuex/auth/actions';
 
