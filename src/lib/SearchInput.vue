@@ -1,12 +1,18 @@
 <template lang="pug">
 
-el-input.search-input(
-  prefix-icon="el-icon-search"
-  v-model="searchText"
-  :clearable="true"
-  :size="size"
-  placeholder="paieška"
-)
+.search-input
+  el-input(
+    prefix-icon="el-icon-search"
+    v-model="searchText"
+    :clearable="true"
+    :size="size"
+    placeholder="paieška"
+  )
+    el-button(
+      slot="append"
+      icon="el-icon-user"
+    )
+
 
 </template>
 <script>
