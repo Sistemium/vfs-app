@@ -198,6 +198,11 @@ const servicePointSearchRules = [
   fpGet('address'),
   fpGet('districtName'),
   fpGet('serviceContract.customer.name'),
+  servicePoint => {
+    const person = fpGet('serviceContract.customer', servicePoint);
+    if (!person) return undefined;
+    return person.contacts().map(m => m.address).join(' ');
+  },
 ];
 
 export function searchServicePoints(servicePoints, text) {
