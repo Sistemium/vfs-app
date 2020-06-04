@@ -11,13 +11,38 @@
     el-button(
       slot="append"
       icon="el-icon-user"
+      v-if ="contacts"
+      @click="contactDialogVisible = true"
     )
 
+  el-dialog(
+    title="Kontaktai"
+    :visible.sync="contactDialogVisible"
+    :modalAppendToBody="false"
+    width="75%"
+    )
+
+      .contacts(v-for="contact in contacts")
+
+        h3(
+          v-on:click="searchContact(contact.name)"
+        ) {{contact.name}}
+
+        p(
+          v-for="phone in contact.phones"
+          v-on:click="searchPhone(phone)"
+          ) {{phone}}
+
+        p(
+          v-for="email in contact.emails"
+          v-on:click="searchContact(email)"
+        ) {{email}}
 
 </template>
 <script>
 
 import debounce from 'lodash/debounce';
+import { requestFromDevice, isNative } from 'sistemium-vue/services/native';
 
 export default {
 
@@ -36,7 +61,28 @@ export default {
   },
 
   data() {
-    return { searchText: this.value };
+    return {
+      searchText: this.value,
+      contacts: undefined,
+      contactDialogVisible: false,
+    };
+  },
+
+  methods: {
+    getContacts() {
+      if (!isNative()) return;
+      requestFromDevice('getContacts').then(res => {
+        this.contacts = res
+          .sort((contact1, contact2) => contact1.name > contact2.name);
+      });
+    },
+    searchPhone(phone) {
+      this.searchContact(phone.replace(/\D+/g, '').slice(-8));
+    },
+    searchContact(contact) {
+      this.searchText = contact;
+      this.contactDialogVisible = false;
+    },
   },
 
   // methods: {
@@ -47,6 +93,7 @@ export default {
 
   created() {
     this.$watch('searchText', debounce(value => this.$emit('input', value), this.debounce));
+    this.getContacts();
   },
 
 };
@@ -55,5 +102,17 @@ export default {
 <style scoped lang="scss">
 
 @import "../styles/variables";
+
+.contacts{
+
+  text-align: left;
+
+  p{
+
+    margin-left: $padding;
+
+  }
+
+}
 
 </style>
