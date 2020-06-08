@@ -198,11 +198,6 @@ const servicePointSearchRules = [
   fpGet('address'),
   fpGet('districtName'),
   fpGet('serviceContract.customer.name'),
-  servicePoint => {
-    const person = fpGet('serviceContract.customer', servicePoint);
-    if (!person) return undefined;
-    return person.contacts().map(m => m.address).join(' ');
-  },
 ];
 
 export function searchServicePoints(servicePoints, text) {
@@ -213,10 +208,26 @@ export function searchServicePoints(servicePoints, text) {
 
   const re = new RegExp(likeLt(escapeRegExp(text)), 'i');
 
+  const contacts = Contact.query().get();
+
+  const matchingContacts = filter(contacts, contact => re.test(contact.address));
+
+  const matchingContactOwners = matchingContacts.map(contact => contact.ownerXid);
+
+  const matchingContactIds = matchingContacts.map(contact => contact.ownerXid);
+
+  const contactsRule = servicePoint => {
+    const person = fpGet('serviceContract.customer', servicePoint);
+    const contactIds = fpGet('contactIds', servicePoint);
+    return (person && matchingContactOwners.includes(person.id))
+        || (contactIds && contactIds.some(c => matchingContactIds.includes(c)));
+  };
+
   return filter(servicePoints, servicePointMatcher);
 
   function servicePointMatcher(servicePoint) {
-    return find(servicePointSearchRules, searcher => re.test(searcher(servicePoint)));
+    return find(servicePointSearchRules, searcher => re.test(searcher(servicePoint)))
+      || contactsRule(servicePoint);
   }
 
 }
