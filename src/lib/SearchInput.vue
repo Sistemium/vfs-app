@@ -73,7 +73,7 @@ export default {
       if (!isNative()) return;
       requestFromDevice('getContacts').then(res => {
         this.contacts = res
-          .sort((contact1, contact2) => contact1.name > contact2.name);
+          .sort((contact1, contact2) => (contact1.name > contact2.name ? 1 : -1));
       });
     },
     searchPhone(phone) {
