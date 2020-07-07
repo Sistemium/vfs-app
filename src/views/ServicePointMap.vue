@@ -12,6 +12,16 @@ el-drawer.service-point-map(
 )
   .address {{ model.address }}
 
+  el-dropdown.navigation(split-button @command="handleCommand")
+    img(alt="Google Maps" :src="navigator")
+    el-dropdown-menu(slot='dropdown')
+      el-dropdown-item(command="Google")
+        img(alt="Google Maps" src="../assets/google-maps-256.png")
+        |   Google Maps
+      el-dropdown-item(command="Waze")
+        img(alt="Waze" src="../assets/waze-256.png")
+        |   Waze
+
   GmapMap(
     :center="coords"
     :zoom="16"
@@ -26,6 +36,8 @@ el-drawer.service-point-map(
 import first from 'lodash/first';
 import DrawerEditor from '@/lib/DrawerEditor';
 import { servicePointByIds } from '@/services/serving';
+import googleIcon from '@/assets/google-maps-256.png';
+import wazeIcon from '@/assets/waze-256.png';
 
 const NAME = 'ServicePointMap';
 
@@ -40,6 +52,7 @@ export default {
         fullscreenControl: false,
         disableDefaultUi: false,
       },
+      selectedNavigator: 'google',
     };
   },
   props: {
@@ -57,6 +70,19 @@ export default {
     },
     title() {
       return this.model.title();
+    },
+    navigator() {
+      switch (this.selectedNavigator) {
+        case 'Waze':
+          return wazeIcon;
+        default:
+          return googleIcon;
+      }
+    },
+  },
+  methods: {
+    handleCommand(command) {
+      this.selectedNavigator = command;
     },
   },
   mixins: [DrawerEditor],
@@ -88,6 +114,29 @@ export default {
 
 .address {
   text-align: center;
+}
+
+.navigation {
+  text-align: right;
+
+  img {
+    max-height: 40px;
+  }
+
+  ::v-deep .el-button {
+    padding: 0px;
+  }
+
+  ::v-deep .el-dropdown__caret-button {
+    padding: 14px;
+    bottom:14px
+  }
+}
+
+.el-dropdown-menu__item {
+  img {
+    max-height: 20px;
+  }
 }
 
 </style>
