@@ -12,7 +12,7 @@ el-drawer.service-point-map(
 )
   .address {{ model.address }}
 
-  el-dropdown.navigation(split-button @command="handleCommand")
+  el-dropdown.navigation(split-button @command="handleCommand" @click="handleNavigation")
     img(alt="Google Maps" :src="navigator")
     el-dropdown-menu(slot='dropdown')
       el-dropdown-item(command="Google")
@@ -38,6 +38,7 @@ import DrawerEditor from '@/lib/DrawerEditor';
 import { servicePointByIds } from '@/services/serving';
 import googleIcon from '@/assets/google-maps-256.png';
 import wazeIcon from '@/assets/waze-256.png';
+import * as ls from '@/services/localStorage';
 
 const NAME = 'ServicePointMap';
 
@@ -62,6 +63,7 @@ export default {
   created() {
     this.$watch('$route.params.servicePointId', servicePointId => {
       this.model = first(servicePointByIds([servicePointId]));
+      this.selectedNavigator = ls.getLocalStorageItem('selectedNavigator');
     }, { immediate: true });
   },
   computed: {
@@ -83,6 +85,17 @@ export default {
   methods: {
     handleCommand(command) {
       this.selectedNavigator = command;
+      ls.setLocalStorageItem('selectedNavigator', command);
+    },
+    handleNavigation() {
+      switch (this.selectedNavigator) {
+        case 'Waze':
+          window.open(`https://www.waze.com/ul?ll=${this.model.coords().lat}%2C${this.model.coords().lng}&navigate=yes&zoom=17`);
+          break;
+        default:
+          window.open(`https://www.google.com/maps/dir/?api=1&destination=${this.model.coords().lat}%2C${this.model.coords().lng}`);
+          break;
+      }
     },
   },
   mixins: [DrawerEditor],
