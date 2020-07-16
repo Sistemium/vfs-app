@@ -55,7 +55,7 @@ export default {
         fullscreenControl: false,
         disableDefaultUi: false,
       },
-      selectedNavigator: 'google',
+      selectedNavigator: 'Google',
     };
   },
   props: {
@@ -65,7 +65,7 @@ export default {
   created() {
     this.$watch('$route.params.servicePointId', servicePointId => {
       this.model = first(servicePointByIds([servicePointId]));
-      this.selectedNavigator = ls.getLocalStorageItem('selectedNavigator') || 'google';
+      this.selectedNavigator = ls.getLocalStorageItem('selectedNavigator') || 'Google';
     }, { immediate: true });
   },
   computed: {
@@ -85,7 +85,7 @@ export default {
     },
   },
   methods: {
-    handleCommand(command = 'google') {
+    handleCommand(command = 'Google') {
       this.selectedNavigator = command;
       ls.setLocalStorageItem('selectedNavigator', command);
     },
