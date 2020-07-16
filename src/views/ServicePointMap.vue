@@ -12,7 +12,8 @@ el-drawer.service-point-map(
 )
   .address {{ model.address }}
 
-  el-dropdown.navigation(split-button @command="handleCommand" @click="handleNavigation")
+  el-dropdown.navigation(split-button @command="handleCommand" @click="handleNavigation"
+    hide-timeout=2000)
     img(alt="Google Maps" :src="navigatorIcon")
     el-dropdown-menu(slot='dropdown')
       el-dropdown-item(command="Google")
@@ -64,7 +65,7 @@ export default {
   created() {
     this.$watch('$route.params.servicePointId', servicePointId => {
       this.model = first(servicePointByIds([servicePointId]));
-      this.selectedNavigator = ls.getLocalStorageItem('selectedNavigator');
+      this.selectedNavigator = ls.getLocalStorageItem('selectedNavigator') || 'google';
     }, { immediate: true });
   },
   computed: {
@@ -84,7 +85,7 @@ export default {
     },
   },
   methods: {
-    handleCommand(command) {
+    handleCommand(command = 'google') {
       this.selectedNavigator = command;
       ls.setLocalStorageItem('selectedNavigator', command);
     },
@@ -95,6 +96,7 @@ export default {
           latitude: this.model.coords().lat,
           longitude: this.model.coords().lng,
         });
+        return;
       }
       switch (this.selectedNavigator) {
         case 'Waze':
@@ -140,7 +142,7 @@ export default {
   text-align: right;
 
   img {
-    max-height: 40px;
+    max-height: 39.5px;
   }
 
   ::v-deep .el-button {
