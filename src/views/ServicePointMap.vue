@@ -12,8 +12,9 @@ el-drawer.service-point-map(
 )
   .address {{ model.address }}
 
-  el-dropdown.navigation(split-button @command="handleCommand" @click="handleNavigation")
-    img(alt="Google Maps" :src="navigatorIcon")
+  el-dropdown.navigation(split-button @command="handleCommand" @click="handleNavigation"
+    trigger="click")
+    img(:alt="selectedNavigator" :src="navigatorIcon")
     el-dropdown-menu(slot='dropdown')
       el-dropdown-item(command="Google")
         img(alt="Google Maps" src="../assets/google-maps-256.png")
@@ -34,12 +35,12 @@ el-drawer.service-point-map(
 <script>
 
 import first from 'lodash/first';
+import { requestFromDevice, isNative } from 'sistemium-vue/services/native';
 import DrawerEditor from '@/lib/DrawerEditor';
 import { servicePointByIds } from '@/services/serving';
 import googleIcon from '@/assets/google-maps-256.png';
 import wazeIcon from '@/assets/waze-256.png';
 import * as ls from '@/services/localStorage';
-import { requestFromDevice, isNative } from 'sistemium-vue/services/native';
 
 const NAME = 'ServicePointMap';
 
