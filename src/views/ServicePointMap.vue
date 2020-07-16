@@ -142,16 +142,16 @@ export default {
   text-align: right;
 
   img {
-    max-height: 39.5px;
+    height: 41px;
   }
 
   ::v-deep .el-button {
-    padding: 0px;
+    padding: 1px;
   }
 
   ::v-deep .el-dropdown__caret-button {
-    padding: 14px;
-    bottom:14px
+    padding: 15.5px;
+    bottom: 15px
   }
 }
 
