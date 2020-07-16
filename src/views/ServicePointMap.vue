@@ -12,8 +12,7 @@ el-drawer.service-point-map(
 )
   .address {{ model.address }}
 
-  el-dropdown.navigation(split-button @command="handleCommand" @click="handleNavigation"
-    hide-timeout=2000)
+  el-dropdown.navigation(split-button @command="handleCommand" @click="handleNavigation")
     img(alt="Google Maps" :src="navigatorIcon")
     el-dropdown-menu(slot='dropdown')
       el-dropdown-item(command="Google")
