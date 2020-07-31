@@ -10,18 +10,21 @@ el-drawer.service-point-map(
   :append-to-body="true"
   ref="drawer"
 )
-  .address {{ model.address }}
 
-  el-dropdown.navigation(split-button @command="handleCommand" @click="handleNavigation"
-    trigger="click")
-    img(:alt="selectedNavigator" :src="navigatorIcon")
-    el-dropdown-menu(slot='dropdown')
-      el-dropdown-item(command="Google")
-        img(alt="Google Maps" src="../assets/google-maps-256.png")
-        |   Google Maps
-      el-dropdown-item(command="Waze")
-        img(alt="Waze" src="../assets/waze-256.png")
-        |   Waze
+  .topBar
+
+    .address {{ model.address }}
+
+    el-dropdown.navigation(split-button @command="handleCommand" @click="handleNavigation"
+      trigger="click")
+      img(:alt="selectedNavigator" :src="navigatorIcon")
+      el-dropdown-menu(slot='dropdown')
+        el-dropdown-item(command="Google")
+          img(alt="Google Maps" src="../assets/google-maps-256.png")
+          |   Google Maps
+        el-dropdown-item(command="Waze")
+          img(alt="Waze" src="../assets/waze-256.png")
+          |   Waze
 
   GmapMap(
     :center="coords"
@@ -134,31 +137,39 @@ export default {
   margin: $margin-right;
 }
 
-.address {
-  text-align: center;
-}
-
-.navigation {
-  text-align: right;
-
-  img {
-    height: 41px;
-  }
-
-  ::v-deep .el-button {
-    padding: 1px;
-  }
-
-  ::v-deep .el-dropdown__caret-button {
-    padding: 15.5px;
-    bottom: 15px
-  }
-}
-
 .el-dropdown-menu__item {
   img {
     max-height: 20px;
   }
+}
+
+.topBar{
+
+  display: flex;
+
+  .address {
+    text-align: center;
+    flex-grow:1;
+    padding-left: 94px;
+  }
+
+  .navigation {
+    text-align: right;
+
+    img {
+      height: 41px;
+    }
+
+    ::v-deep .el-button {
+      padding: 1px;
+    }
+
+    ::v-deep .el-dropdown__caret-button {
+      padding: 15.5px;
+      bottom: 15px
+    }
+  }
+
 }
 
 </style>
