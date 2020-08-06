@@ -10,6 +10,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 module.exports = {
+  transpileDependencies: ['vue2-google-maps', 'sistemium-vue', 'sistemium-telegram'],
   publicPath: '',
   pwa: {
     workboxOptions: {
