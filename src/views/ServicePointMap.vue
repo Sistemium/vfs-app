@@ -1,38 +1,40 @@
 <template lang="pug">
 
-el-drawer.service-point-map(
-  :title="title"
-  :visible="drawerOpen"
-  :before-close="handleClose"
-  direction="rtl"
-  :wrapper-closable="false"
-  size="100%"
-  :append-to-body="true"
-  ref="drawer"
-)
-
-  .topBar
-
-    .address {{ model.address }}
-
-    el-dropdown.navigation(split-button @command="handleCommand" @click="handleNavigation"
-      trigger="click")
-      img(:alt="selectedNavigator" :src="navigatorIcon")
-      el-dropdown-menu(slot='dropdown')
-        el-dropdown-item(command="Google")
-          img(alt="Google Maps" src="../assets/google-maps-256.png")
-          |   Google Maps
-        el-dropdown-item(command="Waze")
-          img(alt="Waze" src="../assets/waze-256.png")
-          |   Waze
-
-  GmapMap(
-    :center="coords"
-    :zoom="16"
-    :options="mapOptions"
-    v-if="coords"
+  el-drawer.service-point-map(
+    :title="title"
+    :visible="drawerOpen"
+    :before-close="handleClose"
+    direction="rtl"
+    :wrapper-closable="false"
+    size="100%"
+    :append-to-body="true"
+    ref="drawer"
   )
-    GmapMarker(:position="coords")
+
+    .topBar
+
+      .address {{ model.address }}
+
+      el-dropdown.navigation(
+        split-button @command="handleCommand" @click="handleNavigation"
+        trigger="click"
+      )
+        img(:alt="selectedNavigator" :src="navigatorIcon")
+        el-dropdown-menu(slot='dropdown')
+          el-dropdown-item(command="Google")
+            img(alt="Google Maps" src="../assets/google-maps-256.png")
+            span.maps-name Google Maps
+          el-dropdown-item(command="Waze")
+            img(alt="Waze" src="../assets/waze-256.png")
+            span.maps-name Waze
+
+    GmapMap(
+      :center="coords"
+      :zoom="16"
+      :options="mapOptions"
+      v-if="coords"
+    )
+      GmapMarker(:position="coords")
 
 </template>
 <script>
@@ -138,38 +140,51 @@ export default {
 }
 
 .el-dropdown-menu__item {
+  display: flex;
+  align-items: center;
+
   img {
     max-height: 20px;
   }
 }
 
-.topBar{
+.maps-name {
+  margin-left: $padding;
+}
+
+.topBar {
 
   display: flex;
+  align-items: center;
+  padding: 0 $margin-right;
 
   .address {
     text-align: center;
-    flex-grow:1;
-    padding-left: 94px;
+    flex: 1;
   }
 
-  .navigation {
-    text-align: right;
+}
 
-    img {
-      height: 41px;
+.navigation {
+
+  text-align: right;
+
+  img {
+    max-height: 30px;
+  }
+
+  ::v-deep {
+
+    .el-button-group {
+      display: flex;
     }
 
-    ::v-deep .el-button {
-      padding: 1px;
-    }
-
-    ::v-deep .el-dropdown__caret-button {
-      padding: 15.5px;
-      bottom: 15px
+    .el-button {
+      padding: $padding / 2;
     }
   }
 
 }
+
 
 </style>
