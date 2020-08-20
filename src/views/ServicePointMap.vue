@@ -15,18 +15,7 @@
 
       .address {{ model.address }}
 
-      el-dropdown.navigation(
-        split-button @command="handleCommand" @click="handleNavigation"
-        trigger="click"
-      )
-        img(:alt="selectedNavigator" :src="navigatorIcon")
-        el-dropdown-menu(slot='dropdown')
-          el-dropdown-item(command="Google")
-            img(alt="Google Maps" src="../assets/google-maps-256.png")
-            span.maps-name Google Maps
-          el-dropdown-item(command="Waze")
-            img(alt="Waze" src="../assets/waze-256.png")
-            span.maps-name Waze
+      map-navigation(:model="model")
 
     GmapMap(
       :center="coords"
@@ -40,16 +29,14 @@
 <script>
 
 import first from 'lodash/first';
-import { requestFromDevice, isNative } from 'sistemium-vue/services/native';
 import DrawerEditor from '@/lib/DrawerEditor';
 import { servicePointByIds } from '@/services/serving';
-import googleIcon from '@/assets/google-maps-256.png';
-import wazeIcon from '@/assets/waze-256.png';
-import * as ls from '@/services/localStorage';
+import MapNavigation from '@/components/MapNavigation.vue';
 
 const NAME = 'ServicePointMap';
 
 export default {
+  components: { MapNavigation },
   data() {
     return {
       mapOptions: {
@@ -60,7 +47,6 @@ export default {
         fullscreenControl: false,
         disableDefaultUi: false,
       },
-      selectedNavigator: 'Google',
     };
   },
   props: {
@@ -70,7 +56,6 @@ export default {
   created() {
     this.$watch('$route.params.servicePointId', servicePointId => {
       this.model = first(servicePointByIds([servicePointId]));
-      this.selectedNavigator = ls.getLocalStorageItem('selectedNavigator') || 'Google';
     }, { immediate: true });
   },
   computed: {
@@ -79,37 +64,6 @@ export default {
     },
     title() {
       return this.model.title();
-    },
-    navigatorIcon() {
-      switch (this.selectedNavigator) {
-        case 'Waze':
-          return wazeIcon;
-        default:
-          return googleIcon;
-      }
-    },
-  },
-  methods: {
-    handleCommand(command = 'Google') {
-      this.selectedNavigator = command;
-      ls.setLocalStorageItem('selectedNavigator', command);
-    },
-    handleNavigation() {
-      if (isNative()) {
-        requestFromDevice('navigate', {
-          navigator: this.selectedNavigator,
-          latitude: this.model.coords().lat,
-          longitude: this.model.coords().lng,
-        });
-        return;
-      }
-      switch (this.selectedNavigator) {
-        case 'Waze':
-          window.open(`https://www.waze.com/ul?ll=${this.model.coords().lat}%2C${this.model.coords().lng}&navigate=yes&zoom=17`);
-          return;
-        default:
-          window.open(`https://www.google.com/maps/dir/?api=1&destination=${this.model.coords().lat}%2C${this.model.coords().lng}`);
-      }
     },
   },
   mixins: [DrawerEditor],
@@ -139,15 +93,6 @@ export default {
   margin: $margin-right;
 }
 
-.el-dropdown-menu__item {
-  display: flex;
-  align-items: center;
-
-  img {
-    max-height: 20px;
-  }
-}
-
 .maps-name {
   margin-left: $padding;
 }
@@ -164,27 +109,5 @@ export default {
   }
 
 }
-
-.navigation {
-
-  text-align: right;
-
-  img {
-    max-height: 30px;
-  }
-
-  ::v-deep {
-
-    .el-button-group {
-      display: flex;
-    }
-
-    .el-button {
-      padding: $padding / 2;
-    }
-  }
-
-}
-
 
 </style>
