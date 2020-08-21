@@ -30,7 +30,7 @@
 
         p(
           v-for="phone in contact.phones"
-          v-on:click="searchPhone(phone)"
+          v-on:click="searchContact(phone)"
           ) {{phone}}
 
         p(
@@ -75,9 +75,6 @@ export default {
         this.contacts = res
           .sort((contact1, contact2) => (contact1.name > contact2.name ? 1 : -1));
       });
-    },
-    searchPhone(phone) {
-      this.searchContact(phone.replace(/\D+/g, '').slice(-8));
     },
     searchContact(contact) {
       this.searchText = contact;

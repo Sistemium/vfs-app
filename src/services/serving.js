@@ -208,9 +208,12 @@ export function searchServicePoints(servicePoints, text) {
 
   const re = new RegExp(likeLt(escapeRegExp(text)), 'i');
 
-  const contacts = Contact.query().get();
+  const rePhone = new RegExp(likeLt(escapeRegExp(text.replace(/\D+/g, '').slice(-8))), 'i');
 
-  const matchingContacts = filter(contacts, contact => re.test(contact.address));
+  const contacts = Contact.query().with(['contactMethod']).get();
+
+  const matchingContacts = filter(contacts, contact => (contact.contactMethod.code === 'phone'
+    ? rePhone.test(contact.address) : re.test(contact.address)));
 
   const matchingContactOwners = matchingContacts.map(contact => contact.ownerXid);
 
