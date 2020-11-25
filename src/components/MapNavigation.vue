@@ -1,19 +1,17 @@
 <template lang="pug">
 
-.map-navigation
-
-  el-dropdown.navigation(
-    split-button @command="handleCommand" @click="handleNavigation"
-    trigger="click"
-  )
-    img(:alt="selectedNavigator" :src="navigatorIcon")
-    el-dropdown-menu(slot='dropdown')
-      el-dropdown-item(command="Google")
-        img(alt="Google Maps" src="../assets/google-maps-256.png")
-        span.maps-name Google Maps
-      el-dropdown-item(command="Waze")
-        img(alt="Waze" src="../assets/waze-256.png")
-        span.maps-name Waze
+el-dropdown.map-navigation(
+  split-button @command="handleCommand" @click="handleNavigation"
+  trigger="click"
+)
+  img(:alt="selectedNavigator" :src="navigatorIcon")
+  el-dropdown-menu(slot='dropdown')
+    el-dropdown-item(command="Google")
+      img(alt="Google Maps" src="../assets/google-maps-256.png")
+      span.maps-name Google Maps
+    el-dropdown-item(command="Waze")
+      img(alt="Waze" src="../assets/waze-256.png")
+      span.maps-name Waze
 
 </template>
 <script>
@@ -78,8 +76,9 @@ export default {
 
 @import "../styles/variables";
 
-.navigation {
+.map-navigation {
 
+  display: block;
   text-align: right;
 
   img {
