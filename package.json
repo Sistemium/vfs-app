@@ -38,7 +38,7 @@
     "@vue/cli-plugin-pwa": "^4.4.6",
     "@vue/eslint-config-airbnb": "^4.0.1",
     "node-sass": "^4.14.1",
-    "sass-loader": "^7.3.1",
+    "sass-loader": "^8.0.2",
     "vue-cli-plugin-pug": "^1.0.7",
     "chalk": "latest"
   }
