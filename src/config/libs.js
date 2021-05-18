@@ -15,6 +15,8 @@ import FormField from '@/components/FormField.vue';
 
 import ConfirmButton from '@/lib/ConfirmButton.vue';
 
+import './sistemium';
+
 Vue.component(MintButton.name, MintButton);
 Vue.component(MintTabBar.name, MintTabBar);
 Vue.component(MintTabItem.name, MintTabItem);

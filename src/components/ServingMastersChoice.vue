@@ -1,6 +1,6 @@
 <template lang="pug">
 
-.serving-masters-choice
+resize.serving-masters-choice(:padding="0")
   items-list(
     :items="items"
     title-prop="name"
