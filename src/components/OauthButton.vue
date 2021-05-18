@@ -1,7 +1,7 @@
 <template lang="pug">
 
 .oauth-button
-  mt-button(:type="buttonType" @click="onClick")
+  mt-button(:type="buttonType" @click="onClick" :disabled="disabled")
     .button-content
       img(:src="src")
       span {{ label }}
@@ -16,6 +16,7 @@ const { VUE_APP_OAUTH_URL, VUE_APP_OAUTH_REDIRECT_URI, VUE_APP_OAUTH_ORG_APP } =
 export default {
   name: 'OauthButton',
   props: {
+    disabled: Boolean,
     label: String,
     image: String,
     buttonType: {

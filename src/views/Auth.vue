@@ -4,11 +4,13 @@
 
   nav-header(title="Autorizacija")
 
+  h1 Prisijunkite per
+
   .oauth-buttons
-    oauth-button(label="Google" image="icons8-google_plus")
-    oauth-button(label="Facebook" image="icons8-facebook")
+    //oauth-button(label="Google" image="icons8-google_plus")
+    //oauth-button(label="Facebook" image="icons8-facebook")
     oauth-button(
-      label="Mobile phone SMS"
+      label="Mobiliojo telefono SMS"
       image="icons8-cell_phone"
       button-type="danger"
       code="sms"
@@ -25,7 +27,10 @@ import * as getters from '@/vuex/auth/getters';
 
 const { debug } = log('auth');
 
-const { mapActions, mapGetters } = createNamespacedHelpers('auth');
+const {
+  mapActions,
+  mapGetters,
+} = createNamespacedHelpers('auth');
 
 export default {
   name: 'Auth',
@@ -72,6 +77,11 @@ export default {
 <style scoped lang="scss">
 
 @import "../styles/variables";
+
+h1 {
+  margin: 50px auto;
+  font-weight: normal;
+}
 
 .oauth-buttons {
 
