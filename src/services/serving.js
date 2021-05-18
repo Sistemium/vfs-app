@@ -5,7 +5,7 @@ import fpMap from 'lodash/fp/map';
 import uniq from 'lodash/uniq';
 import fpGet from 'lodash/fp/get';
 import find from 'lodash/find';
-import log from 'sistemium-telegram/services/log';
+import log from 'sistemium-debug';
 
 import { likeLt } from '@/lib/lt';
 import Location from '@/models-vuex/Location';

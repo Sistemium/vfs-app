@@ -24,7 +24,7 @@ el-drawer.service-item-service-edit(
 </template>
 <script>
 
-import { serverDateFormat } from 'sistemium-telegram/services/moments';
+import { addMonths } from 'sistemium-dates/lib/dates';
 import FormButtons from '@/lib/FormButtons.vue';
 import DrawerEditor from '@/lib/DrawerEditor';
 import ServiceItemService from '@/models-vuex/ServiceItemService';
@@ -57,7 +57,7 @@ export default {
       const record = serviceItemServiceId ? this.modelOrigin : {
         servingMasterId: this.currentServingMaster.id,
         serviceItemId,
-        date: serverDateFormat(),
+        date: addMonths(new Date(), 0),
         type: 'service',
       };
       return new ServiceItemService(record);

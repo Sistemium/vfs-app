@@ -4,7 +4,6 @@ import VuexORMAxios from '@vuex-orm/plugin-axios';
 import VuexORM from '@vuex-orm/core';
 import axiosScriptMessaging from '@/services/axiosScriptMessaging';
 import * as ls from '@/services/localStorage';
-// import { roles } from 'sistemium-telegram/services/auth';
 import * as m from './mutations';
 
 

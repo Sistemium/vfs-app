@@ -1,4 +1,4 @@
-import log from 'sistemium-telegram/services/log';
+import log from 'sistemium-debug';
 import vuex from '@/vuex/store';
 import { loadCatalogue } from '@/services/serving';
 

@@ -6,7 +6,7 @@ import ServicePoint from '@/views/ServicePoint.vue';
 import ServiceItemServiceEdit from '@/components/ServiceItemServiceEdit.vue';
 import ServicePointMap from '@/views/ServicePointMap.vue';
 
-// import log from 'sistemium-telegram/services/log';
+// import log from 'sistemium-debug';
 
 // const { debug } = log('router:tabs');
 
