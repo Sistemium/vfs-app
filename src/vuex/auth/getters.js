@@ -2,6 +2,7 @@ export const IS_AUTHORIZED = 'IS_AUTHORIZED';
 export const IS_AUTHORIZING = 'IS_AUTHORIZING';
 export const ACCESS_TOKEN = 'ACCESS_TOKEN';
 export const ACCOUNT = 'account';
+export const ROLES = 'roles';
 
 export default {
 
@@ -19,6 +20,10 @@ export default {
 
   [ACCOUNT](state) {
     return state[ACCOUNT];
+  },
+
+  [ROLES](state) {
+    return state[ROLES];
   },
 
 };

@@ -11,7 +11,7 @@ export default {
 
   state() {
     return {
-      roles: null,
+      [g.ROLES]: null,
       error: null,
       [g.ACCOUNT]: null,
       [g.IS_AUTHORIZING]: false,

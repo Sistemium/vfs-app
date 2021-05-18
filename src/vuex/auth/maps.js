@@ -7,6 +7,7 @@ const { mapGetters, mapActions } = createNamespacedHelpers('auth');
 
 export const authGetters = mapGetters({
   account: g.ACCOUNT,
+  roles: g.ROLES,
 });
 
 export const authActions = mapActions({

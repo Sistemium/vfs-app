@@ -12,14 +12,25 @@ resize.serving-masters-choice(:padding="0")
 <script>
 
 import { servingGetters, servingActions } from '@/vuex/serving/maps';
+import { authGetters } from '@/vuex/auth/maps';
 
 const NAME = 'ServingMastersChoice';
 
 export default {
   name: NAME,
   computed: {
-    items: servingGetters.servingMasters,
+    roles: authGetters.roles,
+    account: authGetters.account,
+    servingMasters: servingGetters.servingMasters,
     current: servingGetters.currentServingMaster,
+    items() {
+      const { Master } = this.roles;
+      const res = this.servingMasters;
+      if (Master) {
+        return res.filter(({ accountId }) => accountId === this.account.id);
+      }
+      return res;
+    },
   },
   methods: {
     setCurrentServingMaster: servingActions.setCurrentServingMaster,

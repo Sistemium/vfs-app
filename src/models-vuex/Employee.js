@@ -12,6 +12,7 @@ export default class Employee extends VFSModel {
       personId: this.attr(null),
       siteId: this.attr(null),
       ts: this.attr(null),
+      accountId: this.attr(null),
     };
   }
 

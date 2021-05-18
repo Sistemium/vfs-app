@@ -32,7 +32,7 @@ const mapContractId = fpMap('currentServiceContractId');
 const mapId = fpMap('id');
 
 // TODO: read from user's roles
-const siteId = '2b1f36e3-8506-451f-9cfa-d62bf8e0aa49';
+// const siteId = '2b1f36e3-8506-451f-9cfa-d62bf8e0aa49';
 
 export async function loadServicePoints(servingMasterId) {
 
@@ -53,7 +53,7 @@ export async function loadServicePoints(servingMasterId) {
   const servicePoints = ServicePoint.query()
     .withAll()
     .whereIdIn(servicePointIds)
-    .where('siteId', siteId)
+    // .where('siteId', siteId)
     .get();
 
   if (servicePoints.length) {
