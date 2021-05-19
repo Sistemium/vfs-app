@@ -2,7 +2,13 @@
 
 .about
 
-  nav-header(:title="title" right-icon="el-icon-refresh" :next="reloadApp")
+  nav-header(
+    :title="title"
+    right-icon="el-icon-refresh"
+    left-icon="rank"
+    :next="reloadApp"
+    :prev="toggleProfileClick"
+  )
 
   img(alt="Vue logo" src="../assets/vfs-drops-192.png")
 
@@ -13,6 +19,7 @@
 
 <script>
 
+import { toggleTabBar, isNative } from 'sistemium-vue/services/native';
 import AccountInfo from '@/components/AccountInfo.vue';
 import CurrentServingMaster from '@/components/CurrentServingMaster.vue';
 
@@ -28,6 +35,11 @@ export default {
   methods: {
     reloadApp() {
       window.location.reload(true);
+    },
+    toggleProfileClick() {
+      if (isNative()) {
+        toggleTabBar();
+      }
     },
   },
   components: {

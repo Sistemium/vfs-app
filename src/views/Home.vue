@@ -13,12 +13,19 @@
 
 <script>
 
+import { hideTabBar, isNative } from 'sistemium-vue/services/native';
 import HelloWorld from '@/components/HelloWorld.vue';
 
 export default {
   name: 'home',
   components: {
     HelloWorld,
+  },
+  created() {
+    if (isNative()) {
+      hideTabBar()
+        .catch(e => this.$debug(e));
+    }
   },
 };
 
