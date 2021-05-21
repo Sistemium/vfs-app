@@ -5,7 +5,7 @@
   template(v-if="isRootState")
 
     nav-header.root-header
-      strong Aptarnavimo taškai
+      strong {{ title }}
       search-input(
         size="mini"
         v-model="searchText"
@@ -29,16 +29,40 @@
 import ServicePointsProto from './ServicePointsProto';
 import ServicePointList from '@/components/ServicePointList.vue';
 import { servingGetters } from '@/vuex/serving/maps';
+import { pausedServicePoints, servingServicePoints } from '@/services/serving';
 
 const NAME = 'ServicePoints';
-// const { debug, error } = log(NAME);
+const STATUSES = {
+  serving: {
+    title: 'Aptarnavimo taškai',
+    listFn: servingServicePoints,
+  },
+  paused: {
+    title: 'Sustabdytas taškai',
+    listFn: pausedServicePoints,
+  },
+};
 
 export default {
 
   methods: {},
 
   computed: {
-    servicePoints: servingGetters.matchingServicePoints,
+    servicePointsAll: servingGetters.matchingServicePoints,
+    servicePoints() {
+      const { listFn } = STATUSES[this.status];
+      return listFn(this.servicePointsAll);
+    },
+    title() {
+      return STATUSES[this.status].title;
+    },
+  },
+
+  props: {
+    status: {
+      type: String,
+      default: 'serving',
+    },
   },
 
   components: {

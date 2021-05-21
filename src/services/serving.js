@@ -81,7 +81,10 @@ async function loadServicePointsRelations(servicePoints) {
 
   // Person
   loadRelations = filter(contracts, serviceContract => {
-    const { customerPersonId, customerPerson } = serviceContract;
+    const {
+      customerPersonId,
+      customerPerson,
+    } = serviceContract;
     return customerPersonId && !customerPerson;
   });
 
@@ -93,7 +96,10 @@ async function loadServicePointsRelations(servicePoints) {
 
   // LegalEntity
   loadRelations = filter(contracts, serviceContract => {
-    const { customerLegalEntityId, customerLegalEntity } = serviceContract;
+    const {
+      customerLegalEntityId,
+      customerLegalEntity,
+    } = serviceContract;
     return customerLegalEntityId && !customerLegalEntity;
   });
 
@@ -208,15 +214,19 @@ export function searchServicePoints(servicePoints, text) {
 
   const re = new RegExp(likeLt(escapeRegExp(text)), 'i');
 
-  const phoneText = text.replace(/\D+/g, '').slice(-8);
+  const phoneText = text.replace(/\D+/g, '')
+    .slice(-8);
 
   const rePhone = new RegExp(likeLt(escapeRegExp(phoneText)), 'i'); // eslint-disable-line
 
-  const contacts = Contact.query().with(['contactMethod']).get();
+  const contacts = Contact.query()
+    .with(['contactMethod'])
+    .get();
 
-  const matchingContacts = filter(contacts, contact => (contact.contactMethod.code === 'phone'
-    && phoneText.length > 0
-    ? rePhone.test(contact.address) : re.test(contact.address)));
+  const filterFn = contact => (contact.contactMethod.code === 'phone'
+  && phoneText.length > 0 ? rePhone.test(contact.address) : re.test(contact.address));
+
+  const matchingContacts = filter(contacts, filterFn);
 
   const matchingContactOwners = matchingContacts.map(contact => contact.ownerXid);
 
@@ -226,7 +236,7 @@ export function searchServicePoints(servicePoints, text) {
     const person = fpGet('serviceContract.customer', servicePoint);
     const contactIds = fpGet('contactIds', servicePoint);
     return (person && matchingContactOwners.includes(person.id))
-        || (contactIds && contactIds.some(c => matchingContactIds.includes(c)));
+      || (contactIds && contactIds.some(c => matchingContactIds.includes(c)));
   };
 
   return filter(servicePoints, servicePointMatcher);
@@ -244,6 +254,24 @@ export function servicePointsTasks(servicePoints, dateB, dateE) {
     const { serviceItems } = servicePoint;
     return find(serviceItems, serviceItem => serviceItem.needServiceBetween(dateB, dateE)
       || serviceItem.serviceBetween(dateB, dateE));
+  });
+
+}
+
+export function pausedServicePoints(servicePoints) {
+
+  return filter(servicePoints, servicePoint => {
+    const { serviceItems } = servicePoint;
+    return find(serviceItems, 'pausedFrom');
+  });
+
+}
+
+export function servingServicePoints(servicePoints) {
+
+  return filter(servicePoints, servicePoint => {
+    const { serviceItems } = servicePoint;
+    return find(serviceItems, ({ pausedFrom }) => !pausedFrom);
   });
 
 }

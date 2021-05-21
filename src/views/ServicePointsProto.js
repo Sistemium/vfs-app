@@ -1,4 +1,3 @@
-import log from 'sistemium-debug';
 import { createNamespacedHelpers } from 'vuex';
 import store from '@/vuex/index';
 
@@ -8,30 +7,36 @@ import { CURRENT_SERVING_MASTER, SEARCH_TEXT } from '@/vuex/serving/getters';
 import CurrentServingMaster from '@/components/CurrentServingMaster.vue';
 import SearchInput from '@/lib/SearchInput.vue';
 
-const { mapActions, mapGetters } = createNamespacedHelpers('serving');
+const {
+  mapActions,
+  mapGetters,
+} = createNamespacedHelpers('serving');
 
 export default function (NAME, detailName) {
-
-  const { debug, error } = log(NAME);
 
   return {
 
     methods: {
       servicePointClick(servicePoint) {
+        const name = `${this.status === 'paused' ? 'Paused' : ''}${detailName}`;
         this.$router.push({
-          name: detailName,
+          name,
           params: { servicePointId: servicePoint.id },
         })
-          .catch(e => error('servicePointClick', e));
+          .catch(e => this.$error('servicePointClick', e));
       },
       backClick() {
-        this.$router.replace({ name: NAME })
-          .catch(e => error('backClick', e));
+        const name = `${this.status === 'paused' ? 'Paused' : ''}${NAME}`;
+        this.$router.replace({ name })
+          .catch(e => this.$error('backClick', e));
       },
     },
 
     computed: {
       isRootState() {
+        if (this.status === 'paused') {
+          return this.$route.name === 'PausedServicePoints';
+        }
         return this.$route.name === NAME;
       },
       searchText: {
@@ -42,7 +47,7 @@ export default function (NAME, detailName) {
 
     async beforeRouteEnter(to, from, next) {
 
-      debug('beforeRouteEnter', to.fullPath, from.fullPath);
+      // this.$debug('beforeRouteEnter', to.fullPath, from.fullPath);
 
       const currentServingMaster = store.getters[`serving/${CURRENT_SERVING_MASTER}`];
 
@@ -58,7 +63,7 @@ export default function (NAME, detailName) {
         await store.dispatch(`serving/${LOAD_SERVICE_POINTS}`, currentServingMaster.id);
         next();
       } catch (e) {
-        error('beforeRouteEnter', e);
+        // this.$error('beforeRouteEnter', e);
         await store.dispatch('routingError', {
           to,
           from,

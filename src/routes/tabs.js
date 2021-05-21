@@ -15,6 +15,10 @@ const tabs = [
     path: 'servicePoints',
     name: 'ServicePoints',
     component: ServicePoints,
+    props: {
+      status: 'serving',
+      // rootState: 'ServicePoints',
+    },
     meta: {
       title: 'Taškai',
       img: 'images/icons8-shop.png',
@@ -28,6 +32,20 @@ const tabs = [
     children: servicePointChildren('Task'),
     meta: {
       title: 'Užduotys',
+      img: 'images/icons8-to_do.png',
+    },
+  },
+  {
+    path: 'paused',
+    name: 'PausedServicePoints',
+    component: ServicePoints,
+    children: servicePointChildren('Paused'),
+    props: {
+      status: 'paused',
+      // rootState: 'PausedServicePoints',
+    },
+    meta: {
+      title: 'Archivas',
       img: 'images/icons8-to_do.png',
     },
   },
