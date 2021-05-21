@@ -1,4 +1,5 @@
 import { createNamespacedHelpers } from 'vuex';
+import log from 'sistemium-debug';
 import store from '@/vuex/index';
 
 import { LOAD_SERVICE_POINTS, SEARCH_TEXT_CHANGE } from '@/vuex/serving/actions';
@@ -13,6 +14,11 @@ const {
 } = createNamespacedHelpers('serving');
 
 export default function (NAME, detailName) {
+
+  const {
+    debug,
+    error,
+  } = log(NAME);
 
   return {
 
@@ -47,7 +53,7 @@ export default function (NAME, detailName) {
 
     async beforeRouteEnter(to, from, next) {
 
-      // this.$debug('beforeRouteEnter', to.fullPath, from.fullPath);
+      debug('beforeRouteEnter', to.fullPath, from.fullPath);
 
       const currentServingMaster = store.getters[`serving/${CURRENT_SERVING_MASTER}`];
 
@@ -63,7 +69,7 @@ export default function (NAME, detailName) {
         await store.dispatch(`serving/${LOAD_SERVICE_POINTS}`, currentServingMaster.id);
         next();
       } catch (e) {
-        // this.$error('beforeRouteEnter', e);
+        error('beforeRouteEnter', e);
         await store.dispatch('routingError', {
           to,
           from,

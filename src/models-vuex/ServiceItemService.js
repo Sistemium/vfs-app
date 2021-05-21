@@ -1,31 +1,26 @@
-import { v4 } from 'uuid';
-import VFSModel from '@/lib/VFSModel';
+// import { v4 } from 'uuid';
+import VFSDataModel from '@/lib/VFSDataModel';
 
-export default class ServiceItemService extends VFSModel {
-  static entity = 'ServiceItemService';
-
-  static fields() {
-    return {
-      cts: this.attr(null),
-      date: this.attr(null),
-      id: this.uid(() => v4()),
-      info: this.attr(null),
-      nextServiceInfo: this.attr(null),
-      serviceItemId: this.attr(null),
-      serviceType: this.attr(null),
-      servingMasterId: this.attr(null),
-      ts: this.attr(null),
-      type: this.attr(null),
-      serviceItem: this.belongsTo('ServiceItem', 'serviceItemId'),
-    };
-  }
-
-  typeIcon() {
-    const { type } = this;
-    return serviceTypeIcon(type);
-  }
-
-}
+export default new VFSDataModel({
+  collection: 'ServiceItemService',
+  schema: {
+    date: String,
+    // id: this.uid(() => v4()),
+    info: String,
+    nextServiceInfo: String,
+    serviceItemId: String,
+    serviceType: String,
+    servingMasterId: String,
+    type: String,
+    // serviceItem: this.belongsTo('ServiceItem', 'serviceItemId'),
+  },
+  methods: {
+    typeIcon(serviceItemService) {
+      const { type } = serviceItemService;
+      return serviceTypeIcon(type);
+    },
+  },
+});
 
 export function serviceTypeIcon(type) {
   switch (type) {

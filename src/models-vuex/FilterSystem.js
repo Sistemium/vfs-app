@@ -1,21 +1,21 @@
-import VFSModel from '@/lib/VFSModel';
+import VFSDataModel from '@/lib/VFSDataModel';
+import FilterSystemType from '@/models-vuex/FilterSystemType';
 
-export default class FilterSystem extends VFSModel {
-  static entity = 'FilterSystem';
-
-  static fields() {
-    return {
-      brandId: this.attr(null),
-      cts: this.attr(null),
-      filterSystemTypeId: this.attr(null),
-      guaranteePeriod: this.attr(null),
-      id: this.attr(null),
-      name: this.attr(null),
-      serviceFrequency: this.attr(null),
-      servicePrice: this.attr(null),
-      smallServicePrice: this.attr(null),
-      ts: this.attr(null),
-      type: this.belongsTo('FilterSystemType', 'filterSystemTypeId'),
-    };
-  }
-}
+export default new VFSDataModel({
+  collection: 'FilterSystem',
+  schema: {
+    brandId: String,
+    filterSystemTypeId: String,
+    guaranteePeriod: String,
+    name: String,
+    serviceFrequency: Number,
+    servicePrice: Number,
+    smallServicePrice: Number,
+    // type: this.belongsTo('FilterSystemType', 'filterSystemTypeId'),
+  },
+  methods: {
+    type({ filterSystemTypeId }) {
+      return FilterSystemType.reactiveGet(filterSystemTypeId);
+    },
+  },
+});

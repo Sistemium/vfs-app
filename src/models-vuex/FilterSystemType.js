@@ -1,18 +1,15 @@
-import VFSModel from '@/lib/VFSModel';
+import VFSDataModel from '@/lib/VFSDataModel';
 
-export default class FilterSystemType extends VFSModel {
-  static entity = 'FilterSystemType';
-
-  static fields() {
-    return {
-      code: this.attr(null),
-      cts: this.attr(null),
-      guaranteePeriod: this.attr(null),
-      id: this.attr(null),
-      name: this.attr(null),
-      serviceFrequency: this.attr(null),
-      ts: this.attr(null),
-      systems: this.hasMany('FilterSystem', 'filterSystemTypeId'),
-    };
-  }
-}
+export default new VFSDataModel({
+  collection: 'FilterSystemType',
+  schema: {
+    code: String,
+    cts: String,
+    guaranteePeriod: String,
+    id: String,
+    name: String,
+    serviceFrequency: String,
+    ts: String,
+    // systems: this.hasMany('FilterSystem', 'filterSystemTypeId'),
+  },
+});

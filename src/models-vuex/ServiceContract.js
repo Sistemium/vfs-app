@@ -1,32 +1,42 @@
-import VFSModel from '@/lib/VFSModel';
+import VFSDataModel from '@/lib/VFSDataModel';
+import Person from '@/models-vuex/Person';
+import LegalEntity from '@/models-vuex/LegalEntity';
 
-export default class ServiceContract extends VFSModel {
-  static entity = 'ServiceContract';
-
-  static fields() {
-    return {
-      cts: this.attr(null),
-      customerLegalEntityId: this.attr(null),
-      customerPersonId: this.attr(null),
-      date: this.attr(null),
-      id: this.attr(null),
-      num: this.attr(null),
-      paymentMethod: this.attr(null),
-      siteId: this.attr(null),
-      ts: this.attr(null),
-      customerLegalEntity: this.belongsTo('LegalEntity', 'customerLegalEntityId'),
-      customerPerson: this.belongsTo('Person', 'customerPersonId'),
-      servicePoints: this.hasMany('ServicePoint', 'currentServiceContractId'),
-    };
-  }
-
-  legalType() {
-    const { customerPersonId, customerLegalEntityId } = this;
-    return (customerPersonId && 'Asmuo') || (customerLegalEntityId && 'Įmonė') || null;
-  }
-
-  get customer() {
-    if (!this.legalType()) return null;
-    return this.legalType() === 'Asmuo' ? this.customerPerson : this.customerLegalEntity;
-  }
-}
+export default new VFSDataModel({
+  collection: 'ServiceContract',
+  schema: {
+    customerLegalEntityId: String,
+    customerPersonId: String,
+    date: String,
+    num: String,
+    paymentMethod: String,
+    siteId: String,
+    // customerLegalEntity: this.belongsTo('LegalEntity', 'customerLegalEntityId'),
+    // customerPerson: this.belongsTo('Person', 'customerPersonId'),
+    // servicePoints: this.hasMany('ServicePoint', 'currentServiceContractId'),
+  },
+  methods: {
+    customerPerson({ customerPersonId }) {
+      return customerPersonId ? Person.reactiveGet(customerPersonId) : null;
+    },
+    customerLegalEntity({ customerLegalEntityId }) {
+      return customerLegalEntityId ? LegalEntity.reactiveGet(customerLegalEntityId) : null;
+    },
+    legalType(serviceContract) {
+      const {
+        customerPersonId,
+        customerLegalEntityId,
+      } = serviceContract;
+      return (customerPersonId && 'Asmuo')
+        || (customerLegalEntityId && 'Įmonė')
+        || null;
+    },
+    customer(serviceContract) {
+      const legalType = this.legalType(serviceContract);
+      if (!legalType) return null;
+      return legalType === 'Asmuo'
+        ? this.customerPerson(serviceContract)
+        : this.customerLegalEntity(serviceContract);
+    },
+  },
+});

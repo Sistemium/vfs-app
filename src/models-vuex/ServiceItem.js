@@ -3,126 +3,133 @@ import filter from 'lodash/filter';
 import maxBy from 'lodash/maxBy';
 import isNumber from 'lodash/isNumber';
 import get from 'lodash/get';
-import VFSModel from '@/lib/VFSModel';
+import VFSDataModel from '@/lib/VFSDataModel';
 import { addMonths } from '@/lib/dates';
+import ServiceItemService from '@/models-vuex/ServiceItemService';
+import FilterSystem from '@/models-vuex/FilterSystem';
 
 export const SERVICE_TYPE_PAUSE = 'pause';
 export const SERVICE_TYPE_FORWARD = 'forward';
 export const SERVICE_TYPE_SERVICE = 'service';
 export const SERVICE_TYPE_OTHER = 'other';
 
-export default class ServiceItem extends VFSModel {
-  static entity = 'ServiceItem';
+export default new VFSDataModel({
+  collection: 'ServiceItem',
+  schema: {
+    additionalServiceInfo: String,
+    currentServiceContractId: String,
+    filterSystemId: String,
+    guaranteePeriod: Number,
+    info: String,
+    installingDate: String,
+    installingMasterId: String,
+    installingPrice: Number,
+    lastServiceDate: Number,
+    lastServiceType: String,
+    nextServiceDate: Number,
+    pausedFrom: String,
+    plannedServiceDate: String,
+    plannedServiceType: String,
+    serviceFrequency: Number,
+    serviceInfo: String,
+    servicePointId: String,
+    servicePrice: Number,
+    servingMasterId: String,
+    smallServicePrice: Number,
+    // servicePoint: this.belongsTo('ServicePoint', 'servicePointId'),
+    // filterSystem: this.belongsTo('FilterSystem', 'filterSystemId'),
+    // servingMaster: this.belongsTo('Employee', 'servingMasterId'),
+    // services: this.hasMany('ServiceItemService', 'serviceItemId'),
+  },
 
-  static fields() {
-    return {
-      additionalServiceInfo: this.attr(null),
-      cts: this.attr(null),
-      currentServiceContractId: this.attr(null),
-      filterSystemId: this.attr(null),
-      guaranteePeriod: this.attr(null),
-      id: this.attr(null),
-      info: this.attr(null),
-      installingDate: this.attr(null),
-      installingMasterId: this.attr(null),
-      installingPrice: this.attr(null),
-      lastServiceDate: this.attr(null),
-      lastServiceType: this.attr(null),
-      nextServiceDate: this.attr(null),
-      pausedFrom: this.attr(null),
-      plannedServiceDate: this.attr(null),
-      plannedServiceType: this.attr(null),
-      serviceFrequency: this.attr(null),
-      serviceInfo: this.attr(null),
-      servicePointId: this.attr(null),
-      servicePrice: this.attr(null),
-      servingMasterId: this.attr(null),
-      smallServicePrice: this.attr(null),
-      ts: this.attr(null),
-      servicePoint: this.belongsTo('ServicePoint', 'servicePointId'),
-      filterSystem: this.belongsTo('FilterSystem', 'filterSystemId'),
-      servingMaster: this.belongsTo('Employee', 'servingMasterId'),
-      services: this.hasMany('ServiceItemService', 'serviceItemId'),
-    };
+  methods: {
 
-  }
+    services({ id: serviceItemId }) {
+      return serviceItemId && ServiceItemService.reactiveFilter({ serviceItemId });
+    },
 
-  static byServingMasterId(servingMasterId) {
-    return this.query()
-      .withAll()
-      .where('servingMasterId', servingMasterId)
-      .limit(1000)
-      .get();
-  }
+    filterSystem({ filterSystemId }) {
+      return ServiceItemService.reactiveGet(filterSystemId);
+    },
 
-  serviceBetween(dateB, dateE) {
-    const { services } = this;
-    return find(services, ({ date }) => dateB <= date && date <= dateE);
-  }
+    byServingMasterId(servingMasterId) {
+      return servingMasterId ? this.reactiveFilter({ servingMasterId }) : [];
+    },
 
-  needServiceBetween(dateB, dateE) {
-    const nextDate = this.nextServiceDateFn();
-    return nextDate <= dateE;
-  }
+    serviceBetween(serviceItem, dateB, dateE) {
+      return find(this.services(serviceItem), ({ date }) => dateB <= date && date <= dateE);
+    },
 
-  nextServiceDateFn() {
+    needServiceBetween(serviceItem, dateB, dateE) {
+      const nextDate = this.nextServiceDateFn(serviceItem);
+      return nextDate <= dateE;
+    },
 
-    const { services, installingDate, pausedFrom } = this;
+    nextServiceDateFn(serviceItem) {
 
-    if (pausedFrom) {
-      return null;
-    }
+      const {
+        installingDate,
+        pausedFrom,
+      } = serviceItem;
 
-    const matchingServices = filter(services, dateAffectingService);
-    const lastService = maxBy(matchingServices, 'date');
-    const { nextServiceDate, date = installingDate, type = 'install' } = lastService || {};
-
-    if (type === SERVICE_TYPE_PAUSE) {
-      return null;
-    }
-
-    if (this.nextServiceDate) {
-      return this.nextServiceDate;
-    }
-
-    switch (type) {
-      case SERVICE_TYPE_FORWARD:
-        return nextServiceDate || addMonths(date, 1);
-      case SERVICE_TYPE_SERVICE:
-      case 'install':
-        return addMonths(date, this.serviceFrequencyFn());
-      default:
+      if (pausedFrom) {
         return null;
-    }
+      }
 
-  }
+      const matchingServices = filter(this.services(serviceItem), dateAffectingService);
+      const lastService = maxBy(matchingServices, 'date');
+      const {
+        nextServiceDate,
+        date = installingDate,
+        type = 'install',
+      } = lastService || {};
 
-  serviceFrequencyFn() {
-    return this.inheritedSystemProp('serviceFrequency');
-  }
+      if (type === SERVICE_TYPE_PAUSE) {
+        return null;
+      }
 
-  guaranteePeriodFn() {
-    return this.inheritedSystemProp('guaranteePeriod');
-  }
+      if (this.nextServiceDate) {
+        return this.nextServiceDate;
+      }
 
-  inheritedSystemProp(name) {
-    const { [name]: value, filterSystem } = this;
+      switch (type) {
+        case SERVICE_TYPE_FORWARD:
+          return nextServiceDate || addMonths(date, 1);
+        case SERVICE_TYPE_SERVICE:
+        case 'install':
+          return addMonths(date, this.serviceFrequencyFn(serviceItem));
+        default:
+          return null;
+      }
 
-    if (isNumber(value)) {
-      return value;
-    }
+    },
 
-    return get(filterSystem, name)
-      || get(filterSystem, `type.${name}`);
-  }
+    serviceFrequencyFn(serviceItem) {
+      return this.inheritedSystemProp(serviceItem, 'serviceFrequency');
+    },
 
-  get guaranteeEnd() {
-    const { installingDate } = this;
-    const gp = this.guaranteePeriodFn();
-    return (gp && installingDate) ? addMonths(installingDate, gp) : null;
-  }
+    guaranteePeriodFn(serviceItem) {
+      return this.inheritedSystemProp(serviceItem, 'guaranteePeriod');
+    },
 
-}
+    inheritedSystemProp(serviceItem, name) {
+      const { [name]: value } = serviceItem;
+      if (isNumber(value)) {
+        return value;
+      }
+      return get(this.filterSystem(serviceItem), name)
+        || get(FilterSystem.type(this.filterSystem(serviceItem)), name);
+    },
+
+    guaranteeEnd(serviceItem) {
+      const { installingDate } = serviceItem;
+      const gp = this.guaranteePeriodFn(serviceItem);
+      return (gp && installingDate) ? addMonths(installingDate, gp) : null;
+    },
+
+  },
+
+});
 
 function dateAffectingService({ type }) {
   return /service|forward|pause/.test(type);

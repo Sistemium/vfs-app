@@ -1,18 +1,13 @@
-import VFSModel from '@/lib/VFSModel';
+import VFSDataModel from '@/lib/VFSDataModel';
 
-export default class ContactMethod extends VFSModel {
-  static entity = 'ContactMethod';
-
-  static fields() {
-    return {
-      code: this.attr(null),
-      cts: this.attr(null),
-      id: this.attr(null),
-      link: this.attr(null),
-      mask: this.attr(null),
-      name: this.attr(null),
-      ts: this.attr(null),
-      validationPattern: this.attr(null),
-    };
-  }
-}
+export default new VFSDataModel({
+  collection: 'ContactMethod',
+  schema: {
+    code: String,
+    link: String,
+    mask: String,
+    name: String,
+    ts: String,
+    validationPattern: String,
+  },
+});

@@ -1,19 +1,12 @@
-import VFSModel from '@/lib/VFSModel';
+import VFSDataModel from '@/lib/VFSDataModel';
 
-export default class Employee extends VFSModel {
-  static entity = 'Employee';
-
-  static fields() {
-    return {
-      cts: this.attr(null),
-      id: this.attr(null),
-      info: this.attr(null),
-      name: this.attr(null),
-      personId: this.attr(null),
-      siteId: this.attr(null),
-      ts: this.attr(null),
-      accountId: this.attr(null),
-    };
-  }
-
-}
+export default new VFSDataModel({
+  collection: 'Employee',
+  schema: {
+    info: String,
+    name: String,
+    personId: String,
+    siteId: String,
+    accountId: String,
+  },
+});
