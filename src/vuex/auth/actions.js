@@ -1,7 +1,8 @@
 import { isNative, getRoles } from 'sistemium-vue/services/native';
 import http from 'axios';
-import VuexORMAxios from '@vuex-orm/plugin-axios';
-import VuexORM from '@vuex-orm/core';
+import { authorizeAxios } from '@/lib/VFSDataModel';
+// import VuexORMAxios from '@vuex-orm/plugin-axios';
+// import VuexORM from '@vuex-orm/core';
 import axiosScriptMessaging from '@/services/axiosScriptMessaging';
 import * as ls from '@/services/localStorage';
 import * as m from './mutations';
@@ -13,7 +14,6 @@ export const AUTH_INIT = 'AUTH_INIT';
 export const LOGOFF = 'LOGOFF';
 export const CLEAR_ERROR = '';
 
-const { API_URL } = process.env;
 
 export default {
 
@@ -37,17 +37,13 @@ export default {
 
     commit(m.SET_AUTHORIZING, token);
 
-    VuexORM.use(VuexORMAxios, {
-      axios: http,
-      baseURL: API_URL || '/api/vfs',
-      headers: {
-        'x-page-size': 1000,
-        authorization: token,
-      },
-    });
+    authorizeAxios(token);
 
     try {
-      const { account, roles } = await (isNative() ? getRoles() : checkRoles(token));
+      const {
+        account,
+        roles,
+      } = await (isNative() ? getRoles() : checkRoles(token));
       ls.setLocalStorageItem(LS_KEY, token);
       commit(m.SET_AUTHORIZED, {
         token,
