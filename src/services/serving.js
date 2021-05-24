@@ -6,6 +6,7 @@ import uniq from 'lodash/uniq';
 import fpGet from 'lodash/fp/get';
 import find from 'lodash/find';
 import log from 'sistemium-debug';
+import orderBy from 'lodash/orderBy';
 
 import { likeLt } from '@/lib/lt';
 import Location from '@/models-vuex/Location';
@@ -37,24 +38,20 @@ const mapId = fpMap('id');
 export async function loadServicePoints(servingMasterId) {
 
   await ServiceItem
-    .fetchOnce({
-      servingMasterId: { '==': servingMasterId },
-    });
+    .fetchOnce({ servingMasterId });
 
   const items = ServiceItem.byServingMasterId(servingMasterId);
 
   // ServicePoint
-  const toLoadRelations = filter(items, ({ servicePoint }) => !servicePoint);
+  const toLoadRelations = filter(items,
+    ({ servicePointId }) => !ServicePoint.getByID(servicePointId));
 
   const servicePointIds = uniq(mapServicePointId(toLoadRelations));
 
   await ServicePoint.findByMany(servicePointIds);
 
-  const servicePoints = ServicePoint.query()
-    .withAll()
-    .whereIdIn(servicePointIds)
-    // .where('siteId', siteId)
-    .get();
+  const servicePoints = ServicePoint.filter({})
+    .filter(({ id }) => servicePointIds.includes(id));
 
   if (servicePoints.length) {
     await loadServicePointsRelations(servicePoints);
@@ -75,17 +72,16 @@ async function loadServicePointsRelations(servicePoints) {
   let loadRelations;
 
   // ServiceContract
-  loadRelations = filter(servicePoints, ({ currentServiceContract }) => !currentServiceContract);
+  loadRelations = filter(servicePoints,
+    ({ currentServiceContractId }) => !ServiceContract.getByID(currentServiceContractId));
+
   const contracts = await ServiceContract
     .findByMany(mapContractId(loadRelations));
 
   // Person
   loadRelations = filter(contracts, serviceContract => {
-    const {
-      customerPersonId,
-      customerPerson,
-    } = serviceContract;
-    return customerPersonId && !customerPerson;
+    const { customerPersonId } = serviceContract;
+    return customerPersonId && !Person.getByID(customerPersonId);
   });
 
   const persons = await Person
@@ -96,11 +92,8 @@ async function loadServicePointsRelations(servicePoints) {
 
   // LegalEntity
   loadRelations = filter(contracts, serviceContract => {
-    const {
-      customerLegalEntityId,
-      customerLegalEntity,
-    } = serviceContract;
-    return customerLegalEntityId && !customerLegalEntity;
+    const { customerLegalEntityId } = serviceContract;
+    return customerLegalEntityId && !LegalEntity.getByID(customerLegalEntityId);
   });
 
   const le = await LegalEntity
@@ -131,46 +124,50 @@ export async function loadCatalogue() {
 }
 
 export function servicePointByIds(ids) {
-  const relations = [
-    'serviceContract',
-    'serviceContract.customerPerson',
-    'serviceContract.customerLegalEntity',
-    'serviceItems',
-    'serviceItems.services',
-    'serviceItems.filterSystem',
-    'serviceItems.filterSystem.type',
-    'location',
-  ];
-  return ServicePoint.query()
-    .with(relations)
-    .whereIdIn(ids)
-    .get();
+  // const relations = [
+  //   'serviceContract',
+  //   'serviceContract.customerPerson',
+  //   'serviceContract.customerLegalEntity',
+  //   'serviceItems',
+  //   'serviceItems.services',
+  //   'serviceItems.filterSystem',
+  //   'serviceItems.filterSystem.type',
+  //   'location',
+  // ];
+  // return ServicePoint.query()
+  //   .with(relations)
+  //   .whereIdIn(ids)
+  //   .get();
+  return ServicePoint.getByMany(ids);
 }
 
 export function serviceItemServiceById(id) {
-  return ServiceItemService.query()
-    .withAll()
-    .find(id);
+  ServiceItemService.reactiveGet(id);
+  // return ServiceItemService.query()
+  //   .withAll()
+  //   .find(id);
 }
 
 export function serviceItemsByServicePointId(servicePointId) {
-  return ServiceItem.query()
-    .with([
-      '*',
-      'filterSystem.type',
-    ])
-    .where('servicePointId', servicePointId)
-    .get();
+  return ServiceItem.reactiveFilter({ servicePointId });
+  // return ServiceItem.query()
+  //   .with([
+  //     '*',
+  //     'filterSystem.type',
+  //   ])
+  //   .where('servicePointId', servicePointId)
+  //   .get();
 }
 
 export function allServingMasters() {
   debug('allServingMasters');
-  const res = Employee.query()
-    .withAll()
-    .orderBy('name')
-    .get();
+  const res = Employee.reactiveFilter();
+  // const res = Employee.query()
+  //   .withAll()
+  //   .orderBy('name')
+  //   .get();
   debug('allServingMasters', res.length);
-  return res;
+  return orderBy(res, 'name');
 }
 
 export async function loadServingMasters() {
@@ -178,26 +175,21 @@ export async function loadServingMasters() {
 }
 
 export function servingMasterById(id) {
-  return id ? Employee.find(id) : null;
+  return Employee.reactiveGet(id);
 }
 
 export async function loadServiceItemService(servicePointId) {
-  const serviceItems = ServiceItem.query()
-    .where('servicePointId', servicePointId)
-    .get();
-  await ServiceItemService.fetchOnce({
-    serviceItemId: { '==': mapId(serviceItems) },
+  const serviceItems = ServiceItem.reactiveFilter({ servicePointId });
+  await ServiceItemService.fetchAll({
+    serviceItemId: { $in: mapId(serviceItems) },
   });
 }
 
 export function servicesByServicePointId(servicePointId) {
-  const serviceItems = ServiceItem.query()
-    .where('servicePointId', servicePointId)
-    .get();
-  return ServiceItemService.query()
-    .withAll()
-    .where('serviceItemId', mapId(serviceItems))
-    .get();
+  const serviceItems = ServiceItem.reactiveFilter({ servicePointId });
+  const ids = mapId(serviceItems);
+  return ServiceItemService.reactiveFilter()
+    .filter(({ serviceItemId }) => ids.contains(serviceItemId));
 }
 
 const servicePointSearchRules = [
@@ -251,9 +243,9 @@ export function searchServicePoints(servicePoints, text) {
 export function servicePointsTasks(servicePoints, dateB, dateE) {
 
   return filter(servicePoints, servicePoint => {
-    const { serviceItems } = servicePoint;
-    return find(serviceItems, serviceItem => serviceItem.needServiceBetween(dateB, dateE)
-      || serviceItem.serviceBetween(dateB, dateE));
+    const serviceItems = ServicePoint.serviceItems(servicePoint);
+    return find(serviceItems, item => ServiceItem.needServiceBetween(item, dateB, dateE)
+      || ServiceItem.serviceBetween(item, dateB, dateE));
   });
 
 }
@@ -261,7 +253,7 @@ export function servicePointsTasks(servicePoints, dateB, dateE) {
 export function pausedServicePoints(servicePoints) {
 
   return filter(servicePoints, servicePoint => {
-    const { serviceItems } = servicePoint;
+    const serviceItems = ServicePoint.serviceItems(servicePoint);
     return find(serviceItems, 'pausedFrom');
   });
 
@@ -270,7 +262,7 @@ export function pausedServicePoints(servicePoints) {
 export function servingServicePoints(servicePoints) {
 
   return filter(servicePoints, servicePoint => {
-    const { serviceItems } = servicePoint;
+    const serviceItems = ServicePoint.serviceItems(servicePoint);
     return find(serviceItems, ({ pausedFrom }) => !pausedFrom);
   });
 

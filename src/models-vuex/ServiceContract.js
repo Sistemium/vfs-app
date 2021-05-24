@@ -2,6 +2,9 @@ import VFSDataModel from '@/lib/VFSDataModel';
 import Person from '@/models-vuex/Person';
 import LegalEntity from '@/models-vuex/LegalEntity';
 
+const CUSTOMER_LEGAL_ENTITY = 'Įmonė';
+const CUSTOMER_PERSON = 'Asmuo';
+
 export default new VFSDataModel({
   collection: 'ServiceContract',
   schema: {
@@ -17,26 +20,33 @@ export default new VFSDataModel({
   },
   methods: {
     customerPerson({ customerPersonId }) {
-      return customerPersonId ? Person.reactiveGet(customerPersonId) : null;
+      return Person.reactiveGet(customerPersonId);
     },
     customerLegalEntity({ customerLegalEntityId }) {
-      return customerLegalEntityId ? LegalEntity.reactiveGet(customerLegalEntityId) : null;
+      return LegalEntity.reactiveGet(customerLegalEntityId);
     },
     legalType(serviceContract) {
       const {
         customerPersonId,
         customerLegalEntityId,
       } = serviceContract;
-      return (customerPersonId && 'Asmuo')
-        || (customerLegalEntityId && 'Įmonė')
+      return (customerPersonId && CUSTOMER_PERSON)
+        || (customerLegalEntityId && CUSTOMER_LEGAL_ENTITY)
         || null;
     },
     customer(serviceContract) {
       const legalType = this.legalType(serviceContract);
-      if (!legalType) return null;
-      return legalType === 'Asmuo'
-        ? this.customerPerson(serviceContract)
-        : this.customerLegalEntity(serviceContract);
+      if (!legalType) {
+        return null;
+      }
+      if (legalType === CUSTOMER_LEGAL_ENTITY) {
+        return this.customerLegalEntity(serviceContract);
+      }
+      const person = this.customerPerson(serviceContract);
+      return person && {
+        ...person,
+        name: Person.name(person),
+      };
     },
   },
 });

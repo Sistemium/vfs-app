@@ -34,6 +34,9 @@ export default new VFSDataModel({
   },
 
   methods: {
+    serviceItems({ id: servicePointId }) {
+      return ServiceItem.reactiveFilter({ servicePointId });
+    },
     isServedBetween(servicePoint, dateB, dateE) {
       const serviceItems = ServiceItem.reactiveFilter(servicePoint);
       return !find(serviceItems, serviceItem => {
@@ -51,8 +54,8 @@ export default new VFSDataModel({
         lng: location.longitude,
       };
     },
-    title({ serviceContractId }) {
-      const contract = ServiceContract.reactiveGet(serviceContractId);
+    title({ currentServiceContractId }) {
+      const contract = ServiceContract.reactiveGet(currentServiceContractId);
       return contract && get(ServiceContract.customer(contract), 'name');
     },
   },

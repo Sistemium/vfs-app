@@ -8,7 +8,7 @@
     v-for="item in serviceItems"
     :key="item.id"
   )
-    h4 {{ item.filterSystem.name }}
+    h4 {{ filterSystemName(item) }}
     service-item-info(
       :service-item="item"
     )
@@ -16,10 +16,11 @@
 </template>
 <script>
 
-import first from 'lodash/first';
 import ServiceItemInfo from '@/components/ServiceItemInfo.vue';
 import ServicePointInfo from '@/components/ServicePointInfo.vue';
 import * as svc from '@/services/serving';
+import ServicePoint from '@/models-vuex/ServicePoint';
+import FilterSystem from '@/models-vuex/FilterSystem';
 
 const NAME = 'ServicePoint';
 
@@ -30,13 +31,20 @@ export default {
       return this.$route.params.servicePointId;
     },
     servicePoint() {
-      return first(svc.servicePointByIds([this.servicePointId]));
+      return ServicePoint.reactiveGet(this.servicePointId);
     },
     serviceItems() {
       return svc.serviceItemsByServicePointId(this.servicePointId);
     },
     serviceItemServices() {
       return svc.servicesByServicePointId(this.servicePointId);
+    },
+  },
+
+  methods: {
+    filterSystemName({ filterSystemId }) {
+      const { name } = FilterSystem.reactiveGet(filterSystemId) || {};
+      return name;
     },
   },
 

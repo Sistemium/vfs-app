@@ -15,6 +15,8 @@
 </template>
 <script>
 
+import ServicePoint from '@/models-vuex/ServicePoint';
+
 export default {
 
   props: {
@@ -24,7 +26,7 @@ export default {
   name: 'ServicePointList',
   methods: {
     title(servicePoint) {
-      return servicePoint.title();
+      return ServicePoint.title(servicePoint);
     },
     onClick(servicePoint) {
       this.$emit('click', servicePoint);

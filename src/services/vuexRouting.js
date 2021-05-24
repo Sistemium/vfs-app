@@ -35,7 +35,7 @@ export async function loadServingMasters(to, from, next) {
 
 }
 
-export async function preLoadCatalogue(to, from, next) {
+export function preLoadCatalogue(to, from, next) {
   loadCatalogue()
     .then(() => next())
     .catch(next);

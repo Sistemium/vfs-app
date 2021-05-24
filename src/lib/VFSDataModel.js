@@ -1,9 +1,11 @@
 import ReactiveModel from 'sistemium-data-vue';
 import chunk from 'lodash/chunk';
 import uniq from 'lodash/uniq';
+import filter from 'lodash/filter';
 import qs from 'qs';
 import axios from 'axios';
 import noop from 'lodash/noop';
+import flatten from 'lodash/flatten';
 
 const OFFSET_HEADER = 'x-offset';
 const { API_URL } = process.env;
@@ -26,17 +28,24 @@ export default class VFSDataModel extends ReactiveModel {
 
   reactiveGet(id) {
     noop(this.ts);
-    return id && super.reactiveGet(id);
+    return id ? super.reactiveGet(id) : null;
   }
 
-  fetchOnce(where) {
+  async fetchOnce(where) {
 
     const key = JSON.stringify(where || {});
-    const { offset = '*' } = this.cachedFetches(key);
+    const { offset } = this.cachedFetches(key);
 
-    return this.fetchAll(where, { headers: { [OFFSET_HEADER]: offset } })
+    // if (offset) {
+    //   return;
+    // }
+
+    await this.fetchAll(where, { headers: { [OFFSET_HEADER]: offset } })
       .then(res => {
-        this.setCachedFetch(key, { offset: res[OFFSET_HEADER] });
+        const lastOffset = res[OFFSET_HEADER];
+        if (lastOffset) {
+          this.setCachedFetch(key, { offset: lastOffset });
+        }
         return res;
       });
 
@@ -51,10 +60,12 @@ export default class VFSDataModel extends ReactiveModel {
 
     const chunks = chunk(uniq(ids), chunkSize);
 
-    await Promise.all(chunks.map(chunkIds => {
+    const res = await Promise.all(chunks.map(chunkIds => {
       const where = { [field]: { $in: chunkIds } };
       return this.findAll(where);
     }));
+
+    return flatten(res);
 
   }
 
@@ -64,6 +75,12 @@ export default class VFSDataModel extends ReactiveModel {
 
   async apiInsert(data) {
     return this.create(data);
+  }
+
+  getByMany(ids) {
+    noop(this.ts);
+    return filter(uniq(ids)
+      .map(id => this.getByID(id)));
   }
 
 }
