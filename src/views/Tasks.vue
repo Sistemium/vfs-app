@@ -42,6 +42,7 @@ import ServicePointList from '@/components/ServicePointList.vue';
 import { servingGetters } from '@/vuex/serving/maps';
 import { SET_SERVING_MONTH } from '@/vuex/serving/actions';
 import { CURRENT_SERVING_MONTH } from '@/vuex/serving/getters';
+import ServicePoint from '@/models-vuex/ServicePoint';
 
 const { mapActions, mapGetters } = createNamespacedHelpers('serving');
 const NAME = 'Tasks';
@@ -63,7 +64,7 @@ export default {
         serviceContract: servicePoint.serviceContract,
         title: servicePoint.title,
         isServed: () => {
-          if (servicePoint.isServedBetween(this.month, `${this.month}-31`)) {
+          if (ServicePoint.isServedBetween(servicePoint, this.month, `${this.month}-31`)) {
             return 'el-icon-circle-check';
           }
           return null;
