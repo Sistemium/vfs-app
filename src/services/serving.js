@@ -142,7 +142,7 @@ export function servicePointByIds(ids) {
 }
 
 export function serviceItemServiceById(id) {
-  ServiceItemService.reactiveGet(id);
+  return ServiceItemService.reactiveGet(id);
   // return ServiceItemService.query()
   //   .withAll()
   //   .find(id);

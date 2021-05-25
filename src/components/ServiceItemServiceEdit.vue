@@ -60,7 +60,7 @@ export default {
         date: addMonths(new Date(), 0),
         type: 'service',
       };
-      return new ServiceItemService(record);
+      return { ...record };
     },
     deleteClick() {
       const { serviceItemServiceId: id } = this;
