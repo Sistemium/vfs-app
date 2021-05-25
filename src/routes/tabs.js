@@ -45,8 +45,8 @@ const tabs = [
       // rootState: 'PausedServicePoints',
     },
     meta: {
-      title: 'Archivas',
-      img: 'images/icons8-to_do.png',
+      title: 'Archyvas',
+      img: 'images/icons8-pause-squared.png',
     },
   },
   {
