@@ -45,11 +45,12 @@ export default new VFSDataModel({
   methods: {
 
     services({ id: serviceItemId }) {
-      return serviceItemId && ServiceItemService.reactiveFilter({ serviceItemId });
+      return serviceItemId && ServiceItemService.reactiveFilter({ serviceItemId })
+        .map(service => ServiceItemService.fullData(service));
     },
 
     filterSystem({ filterSystemId }) {
-      return ServiceItemService.reactiveGet(filterSystemId);
+      return FilterSystem.reactiveGet(filterSystemId);
     },
 
     byServingMasterId(servingMasterId) {

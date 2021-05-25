@@ -19,6 +19,12 @@ export default new VFSDataModel({
       const { type } = serviceItemService;
       return serviceTypeIcon(type);
     },
+    fullData(props) {
+      return props && {
+        ...props,
+        typeIcon: () => this.typeIcon(props),
+      };
+    },
   },
 });
 

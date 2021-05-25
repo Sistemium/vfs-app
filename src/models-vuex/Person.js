@@ -14,7 +14,7 @@ export default new VFSDataModel({
   },
   methods: {
     contacts(person) {
-      return Contact.reactiveFilter({ ownerXid: person.id });
+      return Contact.customerContacts(person);
     },
     name(person) {
       const {

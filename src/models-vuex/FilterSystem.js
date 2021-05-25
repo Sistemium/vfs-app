@@ -14,8 +14,8 @@ export default new VFSDataModel({
     // type: this.belongsTo('FilterSystemType', 'filterSystemTypeId'),
   },
   methods: {
-    type({ filterSystemTypeId }) {
-      return FilterSystemType.reactiveGet(filterSystemTypeId);
+    type(filterSystem) {
+      return filterSystem && FilterSystemType.reactiveGet(filterSystem.filterSystemTypeId);
     },
   },
 });

@@ -20,7 +20,11 @@
 </template>
 <script>
 
+import get from 'lodash/get';
 import NamedContacts from '@/components/NamedContacts.vue';
+import ServiceContract from '@/models-vuex/ServiceContract';
+import Contact from '@/models-vuex/Contact';
+import ServicePoint from '@/models-vuex/ServicePoint';
 
 const NAME = 'ServicePointInfo';
 
@@ -35,18 +39,21 @@ export default {
     },
   },
   computed: {
+    customer() {
+      return this.serviceContract && ServiceContract.customer(this.serviceContract);
+    },
     customerName() {
-      const { serviceContract } = this;
-      return serviceContract.customer.name;
+      return get(this.customer, 'name');
     },
     contacts() {
-      return this.serviceContract.customer.contacts();
+      return this.customer && Contact.customerContacts(this.customer);
     },
     contactPersons() {
-      return this.servicePoint.contactPersons();
+      return ServicePoint.contactPersons(this.servicePoint);
     },
     serviceContract() {
-      return this.servicePoint && this.servicePoint.serviceContract;
+      const { servicePoint } = this;
+      return servicePoint && ServiceContract.reactiveGet(servicePoint.currentServiceContractId);
     },
   },
   components: {

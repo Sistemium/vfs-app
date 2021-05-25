@@ -1,4 +1,5 @@
 import VFSDataModel from '@/lib/VFSDataModel';
+import ContactMethod from '@/models-vuex/ContactMethod';
 
 export default new VFSDataModel({
   collection: 'Contact',
@@ -21,6 +22,17 @@ export default new VFSDataModel({
       }
       const { link } = contactMethod;
       return `${link}${address}`;
+    },
+    customerContacts({ id: ownerXid }) {
+      return this.reactiveFilter({ ownerXid })
+        .map(c => {
+          const res = {
+            ...c,
+            contactMethod: ContactMethod.reactiveGet(c.contactMethodId),
+          };
+          res.href = () => this.href(res);
+          return res;
+        });
     },
   },
 });

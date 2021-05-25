@@ -6,7 +6,7 @@
     span(v-text="serviceItem.filterSystem.name")
     small(v-text="serviceItem.info")
 
-  form-field(label="Kitas aptarnavimas" :text="serviceItem.nextServiceDateFn()")
+  form-field(label="Kitas aptarnavimas" :text="nextServiceDateFn")
   //form-field(label="Sumontuota" :text="serviceItem.installingDate")
   //form-field(label="Aptarnauta" :text="serviceItem.lastServiceDate")
   form-field(label="Garantija iki" :text="serviceItem.guaranteeEnd" empty-text="Nera garantijos")
@@ -34,6 +34,7 @@ import orderBy from 'lodash/orderBy';
 import log from 'sistemium-debug';
 import ServiceItemServicesList from '@/components/ServiceItemServicesList.vue';
 import FormField from '@/components/FormField.vue';
+import ServiceItem from '@/models-vuex/ServiceItem';
 
 const NAME = 'ServiceItemInfo';
 const { debug } = log(NAME);
@@ -42,9 +43,15 @@ export default {
   props: {
     serviceItem: Object,
   },
+  computed: {
+    nextServiceDateFn() {
+      return this.serviceItem && ServiceItem.nextServiceDateFn(this.serviceItem);
+    },
+  },
   methods: {
     services() {
-      const { installingDate, services } = this.serviceItem;
+      const { installingDate } = this.serviceItem;
+      const services = ServiceItem.services(this.serviceItem);
       const res = [...services];
       if (installingDate) {
         res.push({

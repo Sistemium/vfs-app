@@ -45,7 +45,7 @@ export default new VFSDataModel({
       });
     },
     contactPersons({ contactIds }) {
-      return Person.reactiveFilter({ contactIds });
+      return Person.getByMany(contactIds);
     },
     coords({ locationId }) {
       const location = Location.reactiveGet(locationId);

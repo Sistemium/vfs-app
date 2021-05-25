@@ -13,7 +13,7 @@ export default new VFSDataModel({
   },
   methods: {
     contacts(legalEntity) {
-      return Contact.reactiveFilter({ ownerXid: legalEntity.id });
+      return Contact.customerContacts(legalEntity);
     },
   },
 });
