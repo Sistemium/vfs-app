@@ -1,6 +1,6 @@
 <template lang="pug">
 
-mt-tabbar.app-tab-bar(v-model="selected")
+mt-tabbar.app-tab-bar(:value="selected" @input="onClick")
 
   mt-tab-item(v-for="tab in tabs" v-bind:id="tab.name" :key="tab.name")
     img(slot="icon" v-bind:src="tab.meta.img")
@@ -39,9 +39,23 @@ export default {
     return { selected };
   },
 
-  watch: {
-    selected(item) {
-      this.$router.push({ name: item });
+  // watch: {
+  //   selected(item) {
+  //     this.$router.push({ name: item });
+  //   },
+  // },
+
+  methods: {
+    onClick(name) {
+      if (!name || this.$route.name === name) {
+        return;
+      }
+      if (this.selected === name) {
+        this.$router.back();
+      } else {
+        this.$router.push({ name });
+      }
+      this.selected = name;
     },
   },
 
