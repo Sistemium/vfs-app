@@ -51,7 +51,7 @@ export default {
         return;
       }
       if (this.selected === name) {
-        this.$router.back();
+        this.$router.replace({ name });
       } else {
         this.$router.push({ name });
       }
