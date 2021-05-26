@@ -58,5 +58,9 @@ export default new VFSDataModel({
       const contract = ServiceContract.reactiveGet(currentServiceContractId);
       return contract && get(ServiceContract.customer(contract), 'name');
     },
+    customer({ currentServiceContractId }) {
+      const contract = ServiceContract.getByID(currentServiceContractId);
+      return ServiceContract.customer(contract);
+    },
   },
 });

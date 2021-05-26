@@ -4,9 +4,11 @@ import flatten from 'lodash/flatten';
 import fpMap from 'lodash/fp/map';
 import uniq from 'lodash/uniq';
 import fpGet from 'lodash/fp/get';
+import get from 'lodash/get';
 import find from 'lodash/find';
 import log from 'sistemium-debug';
 import orderBy from 'lodash/orderBy';
+// import keyBy from 'lodash/keyBy';
 
 import { likeLt } from '@/lib/lt';
 import Location from '@/models-vuex/Location';
@@ -197,7 +199,8 @@ export function servicesByServicePointId(servicePointId) {
 const servicePointSearchRules = [
   fpGet('address'),
   fpGet('districtName'),
-  fpGet('serviceContract.customer.name'),
+  servicePoint => get(ServicePoint.customer(servicePoint), 'name'),
+  // fpGet('serviceContract.customer.name'),
 ];
 
 export function searchServicePoints(servicePoints, text) {
@@ -207,28 +210,21 @@ export function searchServicePoints(servicePoints, text) {
   }
 
   const re = new RegExp(likeLt(escapeRegExp(text)), 'i');
-
   const phoneText = text.replace(/\D+/g, '')
     .slice(-8);
 
   const rePhone = new RegExp(likeLt(escapeRegExp(phoneText)), 'i'); // eslint-disable-line
-
-  const contacts = Contact.query()
-    .with(['contactMethod'])
-    .get();
-
-  const filterFn = contact => (contact.contactMethod.code === 'phone'
-  && phoneText.length > 0 ? rePhone.test(contact.address) : re.test(contact.address));
-
+  const contacts = Contact.filter();
+  const [{ id: phoneMethodId }] = ContactMethod.filter({ code: 'phone' });
+  const filterFn = phoneText.length > 0 ? filterByPhoneFn : anyAddressFn;
   const matchingContacts = filter(contacts, filterFn);
-
   const matchingContactOwners = matchingContacts.map(contact => contact.ownerXid);
-
   const matchingContactIds = matchingContacts.map(contact => contact.ownerXid);
 
   const contactsRule = servicePoint => {
-    const person = fpGet('serviceContract.customer', servicePoint);
-    const contactIds = fpGet('contactIds', servicePoint);
+    const person = ServicePoint.customer(servicePoint);
+    // fpGet('serviceContract.customer', servicePoint);
+    const { contactIds } = servicePoint;
     return (person && matchingContactOwners.includes(person.id))
       || (contactIds && contactIds.some(c => matchingContactIds.includes(c)));
   };
@@ -238,6 +234,14 @@ export function searchServicePoints(servicePoints, text) {
   function servicePointMatcher(servicePoint) {
     return find(servicePointSearchRules, searcher => re.test(searcher(servicePoint)))
       || contactsRule(servicePoint);
+  }
+
+  function filterByPhoneFn(contact) {
+    return contact.contactMethodId === phoneMethodId && rePhone.test(contact.address);
+  }
+
+  function anyAddressFn(contact) {
+    return re.test(contact.address);
   }
 
 }
