@@ -45,7 +45,7 @@ export default new VFSDataModel({
   methods: {
 
     services({ id: serviceItemId }) {
-      return serviceItemId && ServiceItemService.reactiveFilter({ serviceItemId })
+      return ServiceItemService.reactiveManyByIndex('serviceItemId', serviceItemId)
         .map(service => ServiceItemService.fullData(service));
     },
 
@@ -54,7 +54,7 @@ export default new VFSDataModel({
     },
 
     byServingMasterId(servingMasterId) {
-      return servingMasterId ? this.reactiveFilter({ servingMasterId }) : [];
+      return this.reactiveManyByIndex('servingMasterId', servingMasterId);
     },
 
     serviceBetween(serviceItem, dateB, dateE) {

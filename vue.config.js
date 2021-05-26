@@ -33,7 +33,7 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           // '^/api/vfs': '/api', // uncomment for localhost api
-          '^/api/vfs': '/', // uncomment for vfs.sistemium.com api
+          '^/api': '/', // uncomment for vfs.sistemium.com api
         },
       },
       '/ims': {

@@ -149,7 +149,7 @@ export function serviceItemServiceById(id) {
 }
 
 export function serviceItemsByServicePointId(servicePointId) {
-  return ServiceItem.reactiveFilter({ servicePointId });
+  return ServicePoint.serviceItems({ id: servicePointId });
   // return ServiceItem.query()
   //   .with([
   //     '*',
@@ -179,17 +179,19 @@ export function servingMasterById(id) {
 }
 
 export async function loadServiceItemService(servicePointId) {
-  const serviceItems = ServiceItem.reactiveFilter({ servicePointId });
+  const serviceItems = ServicePoint.serviceItems({ id: servicePointId });
   await ServiceItemService.fetchAll({
     serviceItemId: { $in: mapId(serviceItems) },
   });
 }
 
 export function servicesByServicePointId(servicePointId) {
-  const serviceItems = ServiceItem.reactiveFilter({ servicePointId });
+  const serviceItems = ServiceItem.reactiveManyByIndex('servicePointId', servicePointId);
   const ids = mapId(serviceItems);
-  return ServiceItemService.reactiveFilter()
-    .filter(({ serviceItemId }) => ids.contains(serviceItemId));
+  const res = ids.map(serviceItemId => ServiceItemService.reactiveManyByIndex('serviceItemId', serviceItemId));
+  return flatten(res);
+  // return ServiceItemService.reactiveFilter()
+  //   .filter(({ serviceItemId }) => ids.contains(serviceItemId));
 }
 
 const servicePointSearchRules = [

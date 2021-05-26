@@ -26,19 +26,14 @@ export default class VFSDataModel extends ReactiveModel {
     this.$cachedFetches[key] = data;
   }
 
-  reactiveGet(id) {
-    noop(this.ts);
-    return id ? super.reactiveGet(id) : null;
-  }
-
   async fetchOnce(where) {
 
     const key = JSON.stringify(where || {});
     const { offset } = this.cachedFetches(key);
 
-    // if (offset) {
-    //   return;
-    // }
+    if (offset) {
+      return;
+    }
 
     await this.fetchAll(where, { headers: { [OFFSET_HEADER]: offset } })
       .then(res => {
