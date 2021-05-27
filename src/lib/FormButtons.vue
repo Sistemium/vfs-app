@@ -12,7 +12,7 @@
     type="default" size="small"
     @click="$emit('cancelClick')"
     :disabled="loading"
-  ) Atšaukti
+  ) {{ changed ? 'Atšaukti' : 'Uždaryti' }}
   el-button(
     type="primary" size="small"
     @click="$emit('saveClick')"
