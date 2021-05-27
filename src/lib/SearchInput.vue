@@ -8,41 +8,41 @@
     :size="size"
     placeholder="paieška"
   )
-    el-button(
-      slot="append"
-      icon="el-icon-user"
-      v-if ="contacts"
-      @click="contactDialogVisible = true"
-    )
+    //el-button(
+    //  slot="append"
+    //  icon="el-icon-user"
+    //  v-if ="contacts"
+    //  @click="contactDialogVisible = true"
+    //)
 
-  el-dialog(
-    title="Kontaktai"
-    :visible.sync="contactDialogVisible"
-    :modalAppendToBody="false"
-    width="75%"
-    )
+  //el-dialog(
+  //  title="Kontaktai"
+  //  :visible.sync="contactDialogVisible"
+  //  :modalAppendToBody="false"
+  //  width="75%"
+  //)
 
-      .contacts(v-for="contact in contacts")
+    .contacts(v-for="contact in contacts")
 
-        h3(
-          v-on:click="searchContact(contact.name)"
-        ) {{contact.name}}
+      h3(
+        v-on:click="searchContact(contact.name)"
+      ) {{contact.name}}
 
-        p(
-          v-for="phone in contact.phones"
-          v-on:click="searchContact(phone)"
-          ) {{phone}}
+      p(
+        v-for="phone in contact.phones"
+        v-on:click="searchContact(phone)"
+      ) {{phone}}
 
-        p(
-          v-for="email in contact.emails"
-          v-on:click="searchContact(email)"
-        ) {{email}}
+      p(
+        v-for="email in contact.emails"
+        v-on:click="searchContact(email)"
+      ) {{email}}
 
 </template>
 <script>
 
 import debounce from 'lodash/debounce';
-import { requestFromDevice, isNative } from 'sistemium-vue/services/native';
+// import { requestFromDevice, isNative } from 'sistemium-vue/services/native';
 
 export default {
 
@@ -69,17 +69,19 @@ export default {
   },
 
   methods: {
-    getContacts() {
-      if (!isNative()) return;
-      requestFromDevice('getContacts').then(res => {
-        this.contacts = res
-          .sort((contact1, contact2) => (contact1.name > contact2.name ? 1 : -1));
-      });
-    },
-    searchContact(contact) {
-      this.searchText = contact;
-      this.contactDialogVisible = false;
-    },
+    // TODO: rewrite with cached vuex
+    // getContacts() {
+    //   if (!isNative()) return;
+    //   requestFromDevice('getContacts')
+    //     .then(res => {
+    //       this.contacts = res
+    //         .sort((contact1, contact2) => (contact1.name > contact2.name ? 1 : -1));
+    //     });
+    // },
+    // searchContact(contact) {
+    //   this.searchText = contact;
+    //   this.contactDialogVisible = false;
+    // },
   },
 
   // methods: {
@@ -90,7 +92,7 @@ export default {
 
   created() {
     this.$watch('searchText', debounce(value => this.$emit('input', value), this.debounce));
-    this.getContacts();
+    // this.getContacts();
   },
 
 };
@@ -100,11 +102,11 @@ export default {
 
 @import "../styles/variables";
 
-.contacts{
+.contacts {
 
   text-align: left;
 
-  p{
+  p {
 
     margin-left: $padding;
 
