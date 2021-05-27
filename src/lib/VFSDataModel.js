@@ -6,6 +6,8 @@ import qs from 'qs';
 import axios from 'axios';
 import noop from 'lodash/noop';
 import flatten from 'lodash/flatten';
+import { isNative } from 'sistemium-vue/services/native';
+import axiosScriptMessaging from '@/services/axiosScriptMessaging';
 
 const OFFSET_HEADER = 'x-offset';
 const { API_URL } = process.env;
@@ -82,6 +84,12 @@ export default class VFSDataModel extends ReactiveModel {
 
 export function authorizeAxios(token) {
   VFSDataModel.useAxios(axios.create({
+    ...(isNative() ? nativeConfig() : webConfig(token)),
+  }));
+}
+
+function webConfig(token) {
+  return {
     baseURL: API_URL || '/api',
     headers: {
       'x-page-size': 1000,
@@ -90,5 +98,17 @@ export function authorizeAxios(token) {
     paramsSerializer(params) {
       return qs.stringify(params, { arrayFormat: 'brackets' });
     },
-  }));
+  };
+}
+
+function nativeConfig() {
+  return {
+    adapter: axiosScriptMessaging,
+    transformRequest(data) {
+      return data;
+    },
+    transformResponse(data) {
+      return data;
+    },
+  };
 }

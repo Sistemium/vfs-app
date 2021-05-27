@@ -1,9 +1,6 @@
 import { isNative, getRoles } from 'sistemium-vue/services/native';
 import http from 'axios';
 import { authorizeAxios } from '@/lib/VFSDataModel';
-// import VuexORMAxios from '@vuex-orm/plugin-axios';
-// import VuexORM from '@vuex-orm/core';
-import axiosScriptMessaging from '@/services/axiosScriptMessaging';
 import * as ls from '@/services/localStorage';
 import * as m from './mutations';
 
@@ -22,12 +19,6 @@ export default {
    */
 
   async [AUTH_INIT]({ commit }, accessToken) {
-
-    if (isNative()) {
-
-      http.defaults.adapter = axiosScriptMessaging;
-
-    }
 
     const token = isNative() ? true : accessToken || ls.getLocalStorageItem(LS_KEY);
 
