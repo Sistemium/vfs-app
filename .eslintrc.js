@@ -12,7 +12,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-use-before-define': ['error', {
       functions: false,
-      classes: true
+      classes: true,
     }],
     'padded-blocks': 'off',
     'arrow-parens': ['error', 'as-needed'],
@@ -21,8 +21,8 @@ module.exports = {
       ignorePropertyModificationsFor: [
         'state', // for vuex state
         'acc', // for reduce accumulators
-        'e' // for e.returnvalue
-      ]
+        'e', // for e.returnvalue
+      ],
     }],
   },
   parserOptions: {
