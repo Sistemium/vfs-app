@@ -5,7 +5,7 @@
   nav-header(
     :title="title"
     right-icon="el-icon-refresh"
-    left-icon="rank"
+    :left-icon="leftIcon"
     :next="reloadApp"
     :prev="toggleProfileClick"
   )
@@ -25,6 +25,9 @@ import CurrentServingMaster from '@/components/CurrentServingMaster.vue';
 
 export default {
   computed: {
+    leftIcon() {
+      return isNative() ? 'rank' : '';
+    },
     title() {
       return `VFS mobile v${this.version}`;
     },
