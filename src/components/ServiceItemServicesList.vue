@@ -5,7 +5,7 @@
     v-for="service in services" :key:="service.id"
     @click="$emit('click', service)"
   )
-    i.type(:class="[service.typeIcon(), service.type]")
+    i.type(:class="[service.typeIcon, service.type]")
     .date(v-text="service.date")
     .info(v-text="service.info")
 

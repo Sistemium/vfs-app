@@ -22,21 +22,19 @@ export default new VFSDataModel({
     fullData(props) {
       return props && {
         ...props,
-        typeIcon: () => this.typeIcon(props),
+        typeIcon: serviceTypeIcon(props.type),
       };
     },
   },
 });
 
+const ICONS_MAP = new Map([
+  ['service', 'el-icon-success'],
+  ['pause', 'el-icon-video-pause'],
+  ['forward', 'el-icon-d-arrow-right'],
+  ['other', 'el-icon-info'],
+]);
+
 export function serviceTypeIcon(type) {
-  switch (type) {
-    case 'service':
-      return 'el-icon-success';
-    case 'pause':
-      return 'el-icon-video-pause';
-    case 'forward':
-      return 'el-icon-d-arrow-right';
-    default:
-      return 'el-icon-info';
-  }
+  return ICONS_MAP.get(type) || ICONS_MAP.get('other');
 }

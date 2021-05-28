@@ -58,7 +58,7 @@ export default {
           type: 'install',
           date: installingDate,
           info: 'Sumontuota',
-          typeIcon: () => 'el-icon-s-flag',
+          typeIcon: 'el-icon-s-flag',
         });
       }
       return orderBy(res, ['date'], ['desc']);

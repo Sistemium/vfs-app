@@ -2,7 +2,7 @@
 
 .service-item-service-info
   .service-item-service
-    i.type(:class="[service.typeIcon(), service.type]")
+    i.type(:class="[service.typeIcon, service.type]")
     .date(v-text="service.date")
     .info(v-text="service.info")
 

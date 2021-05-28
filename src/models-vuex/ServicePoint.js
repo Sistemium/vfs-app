@@ -37,9 +37,8 @@ export default new VFSDataModel({
     serviceItems({ id: servicePointId }) {
       return ServiceItem.reactiveManyByIndex('servicePointId', servicePointId);
     },
-    isServedBetween(servicePoint, dateB, dateE) {
-      const serviceItems = this.serviceItems(servicePoint);
-      return !find(serviceItems, serviceItem => {
+    isServedBetween(servicePoint, dateB, dateE, serviceItems) {
+      return !find(serviceItems || this.serviceItems(servicePoint), serviceItem => {
         const need = ServiceItem.needServiceBetween(serviceItem, dateB, dateE);
         return need && !ServiceItem.serviceBetween(serviceItem, dateB, dateE);
       });

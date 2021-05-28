@@ -50,23 +50,23 @@ export default new VFSDataModel({
     },
 
     filterSystem({ filterSystemId }) {
-      return FilterSystem.reactiveGet(filterSystemId);
+      return FilterSystem.getByID(filterSystemId);
     },
 
     byServingMasterId(servingMasterId) {
       return this.reactiveManyByIndex('servingMasterId', servingMasterId);
     },
 
-    serviceBetween(serviceItem, dateB, dateE) {
-      return find(this.services(serviceItem), ({ date }) => dateB <= date && date <= dateE);
+    serviceBetween(serviceItem, dateB, dateE, services) {
+      return find(services || this.services(serviceItem), s => dateB <= s.date && s.date <= dateE);
     },
 
-    needServiceBetween(serviceItem, dateB, dateE) {
-      const nextDate = this.nextServiceDateFn(serviceItem);
+    needServiceBetween(serviceItem, dateB, dateE, services) {
+      const nextDate = this.nextServiceDateFn(serviceItem, services);
       return nextDate <= dateE;
     },
 
-    nextServiceDateFn(serviceItem) {
+    nextServiceDateFn(serviceItem, services) {
 
       const {
         installingDate,
@@ -77,7 +77,7 @@ export default new VFSDataModel({
         return null;
       }
 
-      const matchingServices = filter(this.services(serviceItem), dateAffectingService);
+      const matchingServices = filter(services || this.services(serviceItem), dateAffectingService);
       const lastService = maxBy(matchingServices, 'date');
       const {
         nextServiceDate,
@@ -118,8 +118,8 @@ export default new VFSDataModel({
       if (isNumber(value)) {
         return value;
       }
-      return get(this.filterSystem(serviceItem), name)
-        || get(FilterSystem.type(this.filterSystem(serviceItem)), name);
+      const filterSystem = this.filterSystem(serviceItem);
+      return get(filterSystem, name) || get(FilterSystem.type(filterSystem), name);
     },
 
     guaranteeEnd(serviceItem) {
@@ -133,5 +133,5 @@ export default new VFSDataModel({
 });
 
 function dateAffectingService({ type }) {
-  return /service|forward|pause/.test(type);
+  return type !== SERVICE_TYPE_OTHER;
 }

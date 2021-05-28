@@ -10,7 +10,7 @@
   )
     template(v-slot:right v-if="iconFn")
       .right
-        i(:class="icon(item)")
+        i(:class="item[iconFn]")
 
 </template>
 <script>

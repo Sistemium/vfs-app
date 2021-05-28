@@ -253,12 +253,18 @@ export function searchServicePoints(servicePoints, text) {
 
 export function servicePointsTasks(servicePoints, dateB, dateE) {
 
+  debug('servicePointsTasks', 'start');
+
   const tasks = servicePoints.map(servicePoint => {
     const serviceItems = ServicePoint.serviceItems(servicePoint);
-    const isServed = ServicePoint.isServedBetween(servicePoint, dateB, dateE);
-    const res = isServed || find(serviceItems, item => {
-      const needService = ServiceItem.needServiceBetween(item, dateB, dateE);
-      return needService || ServiceItem.serviceBetween(item, dateB, dateE);
+    const isServed = ServicePoint.isServedBetween(servicePoint, dateB, dateE, serviceItems);
+    const res = find(serviceItems, item => {
+      const services = ServiceItem.services(item);
+      const needService = ServiceItem.needServiceBetween(item, dateB, dateE, services);
+      // if (item.id === '20cd990a-e431-4323-892e-cc90d62f2621') {
+      //   debug('servicePointsTasks', services);
+      // }
+      return needService || ServiceItem.serviceBetween(item, dateB, dateE, services);
     });
     return res && {
       ...servicePoint,
@@ -266,24 +272,38 @@ export function servicePointsTasks(servicePoints, dateB, dateE) {
     };
   });
 
+  debug('servicePointsTasks', tasks.length);
+
   return filter(tasks);
 
 }
 
 export function pausedServicePoints(servicePoints) {
 
-  return filter(servicePoints, servicePoint => {
+  debug('pausedServicePoints', 'start');
+
+  const res = filter(servicePoints, servicePoint => {
     const serviceItems = ServicePoint.serviceItems(servicePoint);
     return find(serviceItems, 'pausedFrom');
   });
+
+  debug('servingServicePoints', res.length);
+
+  return res;
 
 }
 
 export function servingServicePoints(servicePoints) {
 
-  return filter(servicePoints, servicePoint => {
+  debug('servingServicePoints', 'start');
+
+  const res = filter(servicePoints, servicePoint => {
     const serviceItems = ServicePoint.serviceItems(servicePoint);
     return find(serviceItems, ({ pausedFrom }) => !pausedFrom);
   });
+
+  debug('servingServicePoints', res.length);
+
+  return res;
 
 }
