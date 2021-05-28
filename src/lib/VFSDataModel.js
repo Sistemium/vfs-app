@@ -10,7 +10,7 @@ import { isNative } from 'sistemium-vue/services/native';
 import axiosScriptMessaging from '@/services/axiosScriptMessaging';
 
 const OFFSET_HEADER = 'x-offset';
-const { API_URL } = process.env;
+const { VUE_APP_API_URL: API_URL } = process.env;
 
 export default class VFSDataModel extends ReactiveModel {
 

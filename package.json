@@ -19,7 +19,7 @@
     "mint-ui": "^2.2.13",
     "qs": "^6.5.2",
     "register-service-worker": "^1.7.2",
-    "sistemium-data-vue": "^0.2.6",
+    "sistemium-data-vue": "^0.2.7",
     "sistemium-dates": "^1.1.0",
     "sistemium-debug": "^1.0.1",
     "sistemium-vue": "^1.6.0",
