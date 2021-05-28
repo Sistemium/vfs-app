@@ -25,8 +25,8 @@ export default {
     state[g.CURRENT_SERVING_MASTER] = servingMaster ? (servingMaster.id || servingMaster) : null;
   },
 
-  [SET_BUSY](state, busy) {
-    state[g.BUSY] = !!busy;
+  [SET_BUSY](state, busyMessage) {
+    state[g.BUSY] = busyMessage;
   },
 
   [SET_ERROR](state, error) {

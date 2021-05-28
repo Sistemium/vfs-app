@@ -7,6 +7,7 @@ import fpGet from 'lodash/fp/get';
 import get from 'lodash/get';
 import find from 'lodash/find';
 import log from 'sistemium-debug';
+import noop from 'lodash/noop';
 import orderBy from 'lodash/orderBy';
 // import keyBy from 'lodash/keyBy';
 
@@ -37,27 +38,29 @@ const mapId = fpMap('id');
 // TODO: read from user's roles
 // const siteId = '2b1f36e3-8506-451f-9cfa-d62bf8e0aa49';
 
-export async function loadServicePoints(servingMasterId) {
+function onProgressDebug(code) {
+  return message => debug(code, message);
+}
 
+export async function loadServicePoints(servingMasterId, onProgress = onProgressDebug('loadServicePoints')) {
+
+  onProgress('įrenginiai');
   await ServiceItem
     .fetchOnce({ servingMasterId });
 
   const items = ServiceItem.byServingMasterId(servingMasterId);
-
-  // ServicePoint
-  const toLoadRelations = filter(items,
-    ({ servicePointId }) => !ServicePoint.getByID(servicePointId));
-
+  const toLoadRelations = filter(items, i => !ServicePoint.getByID(i.servicePointId));
   const servicePointIds = uniq(mapServicePointId(toLoadRelations));
 
+  onProgress('aptarnavimo taškai');
   await ServicePoint.findByMany(servicePointIds);
 
   const servicePoints = ServicePoint.filter({})
     .filter(({ id }) => servicePointIds.includes(id));
 
   if (servicePoints.length) {
-    await loadServicePointsRelations(servicePoints);
-    // ServiceItemService
+    await loadServicePointsRelations(servicePoints, onProgress);
+    onProgress('aptarnavimo taškai');
     await ServiceItemService
       .findByMany(mapId(items), { field: 'serviceItemId' });
   }
@@ -69,7 +72,7 @@ export function servicePointsByServingMasterId(servingMasterId) {
   return servicePointByIds(mapServicePointId(items));
 }
 
-async function loadServicePointsRelations(servicePoints) {
+async function loadServicePointsRelations(servicePoints, onProgress = noop) {
 
   let loadRelations;
 
@@ -77,6 +80,7 @@ async function loadServicePointsRelations(servicePoints) {
   loadRelations = filter(servicePoints,
     ({ currentServiceContractId }) => !ServiceContract.getByID(currentServiceContractId));
 
+  onProgress('sutartys');
   const contracts = await ServiceContract
     .findByMany(mapContractId(loadRelations));
 
@@ -86,6 +90,7 @@ async function loadServicePointsRelations(servicePoints) {
     return customerPersonId && !Person.getByID(customerPersonId);
   });
 
+  onProgress('asmenys');
   const persons = await Person
     .findByMany(fpMap('customerPersonId')(loadRelations));
   const contactPersonIds = filter(flatten(fpMap('contactIds')(servicePoints)));
@@ -98,10 +103,11 @@ async function loadServicePointsRelations(servicePoints) {
     return customerLegalEntityId && !LegalEntity.getByID(customerLegalEntityId);
   });
 
+  onProgress('įmonės');
   const le = await LegalEntity
     .findByMany(fpMap('customerLegalEntityId')(loadRelations));
 
-  // Contact
+  onProgress('kontaktai');
   await Contact
     .findByMany(mapId(persons), { field: 'ownerXid' });
   await Contact
@@ -109,8 +115,7 @@ async function loadServicePointsRelations(servicePoints) {
   await Contact
     .findByMany(mapId(le), { field: 'ownerXid' });
 
-  // Location
-
+  onProgress('geografinės vietos');
   await Location
     .findByMany(fpMap('locationId')(servicePoints));
 
@@ -248,11 +253,20 @@ export function searchServicePoints(servicePoints, text) {
 
 export function servicePointsTasks(servicePoints, dateB, dateE) {
 
-  return filter(servicePoints, servicePoint => {
+  const tasks = servicePoints.map(servicePoint => {
     const serviceItems = ServicePoint.serviceItems(servicePoint);
-    return find(serviceItems, item => ServiceItem.needServiceBetween(item, dateB, dateE)
-      || ServiceItem.serviceBetween(item, dateB, dateE));
+    const isServed = ServicePoint.isServedBetween(servicePoint, dateB, dateE);
+    const res = isServed || find(serviceItems, item => {
+      const needService = ServiceItem.needServiceBetween(item, dateB, dateE);
+      return needService || ServiceItem.serviceBetween(item, dateB, dateE);
+    });
+    return res && {
+      ...servicePoint,
+      isServed,
+    };
   });
+
+  return filter(tasks);
 
 }
 
