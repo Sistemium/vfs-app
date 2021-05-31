@@ -45,4 +45,12 @@ module.exports = {
       },
     },
   },
+  chainWebpack: config => {
+    if (process.env.SAFARI_MODE) {
+      config
+        .output
+        .filename('[name].[hash].js')
+        .end();
+    }
+  },
 };
