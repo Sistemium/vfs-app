@@ -20,6 +20,7 @@ import { isNative, requestFromDevice } from 'sistemium-vue/services/native';
 import * as ls from '@/services/localStorage';
 import wazeIcon from '@/assets/waze-256.png';
 import googleIcon from '@/assets/google-maps-256.png';
+import ServicePoint from '@/models-vuex/ServicePoint';
 
 const NAME = 'MapNavigation';
 
@@ -48,10 +49,10 @@ export default {
       }
       switch (this.selectedNavigator) {
         case 'Waze':
-          window.open(`https://www.waze.com/ul?ll=${this.model.coords().lat}%2C${this.model.coords().lng}&navigate=yes&zoom=17`);
+          window.open(`https://www.waze.com/ul?ll=${this.coords.lat}%2C${this.coords.lng}&navigate=yes&zoom=17`);
           return;
         default:
-          window.open(`https://www.google.com/maps/dir/?api=1&destination=${this.model.coords().lat}%2C${this.model.coords().lng}`);
+          window.open(`https://www.google.com/maps/dir/?api=1&destination=${this.coords.lat}%2C${this.coords.lng}`);
       }
     },
   },
@@ -63,6 +64,9 @@ export default {
         default:
           return googleIcon;
       }
+    },
+    coords() {
+      return ServicePoint.coords(this.model);
     },
   },
   created() {

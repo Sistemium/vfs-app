@@ -32,6 +32,7 @@ import first from 'lodash/first';
 import DrawerEditor from '@/lib/DrawerEditor';
 import { servicePointByIds } from '@/services/serving';
 import MapNavigation from '@/components/MapNavigation.vue';
+import ServicePoint from '@/models-vuex/ServicePoint';
 
 const NAME = 'ServicePointMap';
 
@@ -60,10 +61,10 @@ export default {
   },
   computed: {
     coords() {
-      return this.model.coords();
+      return this.model && ServicePoint.coords(this.model);
     },
     title() {
-      return this.model.title();
+      return this.model && ServicePoint.title(this.model);
     },
   },
   mixins: [DrawerEditor],
