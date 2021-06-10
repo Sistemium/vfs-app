@@ -44,6 +44,10 @@ export default new VFSDataModel({
 
   methods: {
 
+    serviceSchema(serviceItem) {
+      return this.inheritedSystemProp(serviceItem, 'smallServicePrice') > 0;
+    },
+
     services({ id: serviceItemId }) {
       return ServiceItemService.reactiveManyByIndex('serviceItemId', serviceItemId)
         .map(service => ServiceItemService.fullData(service));

@@ -31,6 +31,7 @@ import ServiceItemService from '@/models-vuex/ServiceItemService';
 import ServiceItemServiceForm from '@/components/ServiceItemServiceForm.vue';
 import { servingGetters } from '@/vuex/serving/maps';
 import { serviceItemServiceById } from '@/services/serving';
+import ServiceItem from '@/models-vuex/ServiceItem';
 
 const NAME = 'ServiceItemServiceEdit';
 
@@ -54,9 +55,13 @@ export default {
   methods: {
     modelInstance(serviceItemServiceId) {
       const { serviceItemId } = this;
+      const serviceItem = ServiceItem.reactiveGet(serviceItemId);
       const record = serviceItemServiceId ? this.modelOrigin : {
         servingMasterId: this.currentServingMaster.id,
         serviceItemId,
+        servicePrice: ServiceItem.inheritedSystemProp(serviceItem, 'servicePrice'),
+        smallServicePrice: ServiceItem.inheritedSystemProp(serviceItem, 'smallServicePrice'),
+        serviceSchema: ServiceItem.serviceSchema(serviceItem),
         date: addMonths(new Date(), 0),
         type: 'service',
       };

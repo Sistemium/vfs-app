@@ -39,6 +39,26 @@ el-form.service-item-service-form(
       value-format="yyyy-MM-dd"
     )
 
+  el-form-item(label="Aptarnavimo tipas" prop="serviceType" v-if="model.serviceSchema")
+    el-select(
+      v-model="model.serviceType"
+      placeholder="Pasirinkite tipą"
+    )
+      el-option(label="Pusmetinis" value="1")
+      el-option(label="Metinis" value="2")
+
+  el-form-item(:label="priceLabel" :prop="priceField")
+    el-input(
+      v-model="model.smallServicePrice"
+      type="number"
+      v-if="priceField==='smallServicePrice'"
+    )
+    el-input(
+      v-model="model.servicePrice"
+      type="number"
+      v-else
+    )
+
   el-form-item(label="Papildomai aptarnavo" prop="info")
     el-input(v-model="model.info" type="textarea")
 
@@ -98,6 +118,16 @@ export default {
   computed: {
     isForward() {
       return this.model.type === 'forward';
+    },
+    priceField() {
+      const {
+        serviceSchema,
+        serviceType,
+      } = this.model;
+      return (serviceSchema && serviceType === '1') ? 'smallServicePrice' : 'servicePrice';
+    },
+    priceLabel() {
+      return 'Aptarnavimo kaina';
     },
   },
 };
