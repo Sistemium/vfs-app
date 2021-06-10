@@ -10,6 +10,7 @@ export default new VFSDataModel({
     firstName: String,
     lastName: String,
     phone: String,
+    notificationAgreement: Object,
     // serviceContracts: this.hasMany('ServiceContract', 'customerPersonId'),
   },
   methods: {

@@ -8,6 +8,7 @@
     small(v-if="servicePoint.name") ({{ servicePoint.name }})
 
   named-contacts.customer(:name="customerName" :contacts="contacts")
+  agreement-state-info(:customer="customer")
   named-contacts(
     v-for="cp in contactPersons" :key="cp.id"
     :name="cp.name" :contacts="cp.contacts()"
@@ -25,6 +26,7 @@ import NamedContacts from '@/components/NamedContacts.vue';
 import ServiceContract from '@/models-vuex/ServiceContract';
 import Contact from '@/models-vuex/Contact';
 import ServicePoint from '@/models-vuex/ServicePoint';
+import AgreementStateInfo from '@/components/AgreementStateInfo.vue';
 
 const NAME = 'ServicePointInfo';
 
@@ -57,6 +59,7 @@ export default {
     },
   },
   components: {
+    AgreementStateInfo,
     NamedContacts,
   },
   name: NAME,
