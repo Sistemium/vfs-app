@@ -11,7 +11,7 @@
       strong {{ title }}
 
   .right
-    mt-button.prev(:plain="true" @click="nextClick" :disabled="!next")
+    mt-button.next(:plain="true" @click="nextClick" :disabled="!next")
       i(v-if="next" :class="rightIcon")
     .badge(v-if="rightBadge")
       mt-badge(type="warning" size="small") {{ rightBadge }}
