@@ -6,7 +6,7 @@
     @confirm="$emit('deleteClick')"
     text="Trinti"
     v-if="!changed"
-    :disabled="loading"
+    :disabled="!deletable || loading"
   )
   el-button(
     type="default" size="small"
@@ -29,6 +29,10 @@ export default {
   props: {
     loading: Boolean,
     changed: Boolean,
+    deletable: {
+      type: Boolean,
+      default: true,
+    },
   },
   name: NAME,
 };
