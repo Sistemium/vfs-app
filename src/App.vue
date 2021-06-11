@@ -27,6 +27,9 @@ export default {
         return 'Autorizacija';
       }
       const { busyServing } = this;
+      if (busyServing === true) {
+        return 'Įkeliami duomenys';
+      }
       if (busyServing) {
         return `Įkeliami ${busyServing}`;
       }
