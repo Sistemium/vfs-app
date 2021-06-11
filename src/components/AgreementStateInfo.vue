@@ -1,7 +1,7 @@
 <template lang="pug">
 
 .agreement-state-info
-  label Duomenų sutikimo busena:
+  label Duomenų sutikimo būsena:
   el-tag(size="mini" :type="type") {{ label }}
 
 </template>
