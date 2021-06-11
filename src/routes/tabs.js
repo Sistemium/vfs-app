@@ -3,6 +3,7 @@ import About from '@/views/About.vue';
 import ServicePoints from '@/views/ServicePoints.vue';
 import Tasks from '@/views/Tasks.vue';
 import ServicePoint from '@/views/ServicePoint.vue';
+import ServiceItemEdit from '@/components/ServiceItemEdit.vue';
 import ServiceItemServiceEdit from '@/components/ServiceItemServiceEdit.vue';
 import ServicePointMap from '@/views/ServicePointMap.vue';
 
@@ -96,7 +97,16 @@ function servicePointChildren(parent) {
           },
         },
         {
-          path: 'edit/:serviceItemServiceId',
+          path: 'itemEdit/:serviceItemId',
+          name: `${parent}ServiceItemEdit`,
+          component: ServiceItemEdit,
+          props: ({ params: { serviceItemId, servicePointId } }) => ({
+            serviceItemId,
+            from: from(servicePointId),
+          }),
+        },
+        {
+          path: 'serviceEdit/:serviceItemServiceId',
           name: `${parent}ServiceItemServiceEdit`,
           component: ServiceItemServiceEdit,
           props: ({ params: { serviceItemServiceId, servicePointId } }) => ({
@@ -105,7 +115,7 @@ function servicePointChildren(parent) {
           }),
         },
         {
-          path: 'create/:serviceItemId',
+          path: 'serviceCreate/:serviceItemId',
           name: `${parent}ServiceItemServiceCreate`,
           component: ServiceItemServiceEdit,
           props: ({ params: { servicePointId, serviceItemId } }) => ({

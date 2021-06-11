@@ -69,11 +69,11 @@ export default {
         return;
       }
       const thisPath = this.$route.path;
-      const path = `${thisPath}/edit/${serviceItemServiceId}`;
+      const path = `${thisPath}/serviceEdit/${serviceItemServiceId}`;
       this.$router.push({ path });
     },
     addServiceClick() {
-      const path = `${this.$route.path}/create/${this.serviceItem.id}`;
+      const path = `${this.$route.path}/serviceCreate/${this.serviceItem.id}`;
       this.$router.push({ path });
     },
   },

@@ -8,7 +8,12 @@
     v-for="item in serviceItems"
     :key="item.id"
   )
-    h4 {{ filterSystemName(item) }}
+    //h4 {{ filterSystemName(item) }}
+    nav-header(
+      :title="filterSystemName(item)"
+      :next="() => serviceItemEdit(item)"
+      right-icon="el-icon-edit"
+    )
     service-item-info(
       :service-item="item"
     )
@@ -45,6 +50,11 @@ export default {
     filterSystemName({ filterSystemId }) {
       const { name } = FilterSystem.reactiveGet(filterSystemId) || {};
       return name;
+    },
+    serviceItemEdit(item) {
+      this.$debug('serviceItemEdit', item);
+      const path = `${this.$route.path}/itemEdit/${item.id}`;
+      this.$router.push({ path });
     },
   },
 
