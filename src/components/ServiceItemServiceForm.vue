@@ -149,11 +149,7 @@ export default {
   font-size: 150%;
 }
 
-</style>
-<style lang="scss">
-@import "../styles/variables";
-
-.service-item-service-form .el-radio-button__inner {
+.service-item-service-form ::v-deep .el-radio-button__inner {
   padding: $padding;
 }
 
