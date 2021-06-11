@@ -30,7 +30,7 @@ import DrawerEditor from '@/lib/DrawerEditor';
 import ServiceItemService, { TYPE_TITLE_MAP } from '@/models-vuex/ServiceItemService';
 import ServiceItemServiceForm from '@/components/ServiceItemServiceForm.vue';
 import { servingGetters } from '@/vuex/serving/maps';
-import { serviceItemServiceById } from '@/services/serving';
+import { serviceItemServiceById, normalizeDataFields } from '@/services/serving';
 import ServiceItem from '@/models-vuex/ServiceItem';
 
 const NAME = 'ServiceItemServiceEdit';
@@ -78,7 +78,8 @@ export default {
       if (this.model.type !== 'forward') {
         this.model.nextServiceDate = null;
       }
-      this.performOperation(() => ServiceItemService.apiInsert(this.model));
+      const data = normalizeDataFields(this.model, ['servicePrice', 'smallServicePrice']);
+      this.performOperation(() => ServiceItemService.apiInsert(data));
     },
   },
   name: NAME,
@@ -98,10 +99,7 @@ export default {
   margin: 0 $margin-right 65px;
 }
 
-</style>
-<style>
-
-.service-item-service-edit .el-drawer__body {
+.service-item-service-edit ::v-deep .el-drawer__body {
   overflow-y: scroll;
 }
 

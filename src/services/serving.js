@@ -9,7 +9,9 @@ import find from 'lodash/find';
 import log from 'sistemium-debug';
 import noop from 'lodash/noop';
 import orderBy from 'lodash/orderBy';
-// import keyBy from 'lodash/keyBy';
+import pick from 'lodash/pick';
+import mapValues from 'lodash/mapValues';
+import isNumber from 'lodash/isNumber';
 
 import { likeLt } from '@/lib/lt';
 import Location from '@/models-vuex/Location';
@@ -306,4 +308,18 @@ export function servingServicePoints(servicePoints) {
 
   return res;
 
+}
+
+export function normalizeInt(val) {
+  if (isNumber(val)) {
+    return val;
+  }
+  return val ? parseInt(val, 0) : null;
+}
+
+export function normalizeDataFields(data = {}, fields = []) {
+  return {
+    ...data,
+    ...mapValues(pick(data, fields), normalizeInt),
+  };
 }
