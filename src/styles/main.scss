@@ -1,6 +1,8 @@
 @import "variables";
 @import "element-ui";
 
+$font: 'SF Text', Helvetica, Arial, sans-serif;
+
 body, html {
   margin: 0;
   overflow: hidden;
@@ -11,9 +13,14 @@ body, html {
 }
 
 #app {
-  font-family: 'SF Text', Helvetica, Arial, sans-serif;
+  font-family: $font;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: $black;
+}
+
+
+input, textarea {
+  font-family: $font;
 }
