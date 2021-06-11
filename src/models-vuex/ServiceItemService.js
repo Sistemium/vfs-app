@@ -38,3 +38,10 @@ const ICONS_MAP = new Map([
 export function serviceTypeIcon(type) {
   return ICONS_MAP.get(type) || ICONS_MAP.get('other');
 }
+
+export const TYPE_TITLE_MAP = new Map([
+  ['service', 'Aptarnavimas'],
+  ['pause', 'Nustabdymas'],
+  ['forward', 'Perkelimas'],
+  ['other', 'Kita veikla'],
+]);

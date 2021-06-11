@@ -1,7 +1,7 @@
 <template lang="pug">
 
 el-drawer.service-item-service-edit(
-  title="Aptarnavimas"
+  :title="title"
   :visible="drawerOpen"
   :before-close="handleClose"
   direction="rtl"
@@ -27,7 +27,7 @@ el-drawer.service-item-service-edit(
 import { addMonths } from 'sistemium-dates/lib/dates';
 import FormButtons from '@/lib/FormButtons.vue';
 import DrawerEditor from '@/lib/DrawerEditor';
-import ServiceItemService from '@/models-vuex/ServiceItemService';
+import ServiceItemService, { TYPE_TITLE_MAP } from '@/models-vuex/ServiceItemService';
 import ServiceItemServiceForm from '@/components/ServiceItemServiceForm.vue';
 import { servingGetters } from '@/vuex/serving/maps';
 import { serviceItemServiceById } from '@/services/serving';
@@ -45,6 +45,9 @@ export default {
     servingMasters: servingGetters.servingMasters,
     modelOrigin() {
       return serviceItemServiceById(this.serviceItemServiceId);
+    },
+    title() {
+      return TYPE_TITLE_MAP.get(this.model.type);
     },
   },
   created() {
