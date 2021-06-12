@@ -10,7 +10,6 @@ el-form.service-item-form(
     el-select(
       v-model="model.filterSystemId"
       placeholder="Pasirinkite filtravimo sistemą"
-      :disabled="true"
     )
       el-option(
         :label="filterSystemName" :value="model.filterSystemId"
