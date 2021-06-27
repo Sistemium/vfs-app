@@ -12,6 +12,8 @@
   form-field(label="Garantija iki" :text="serviceItem.guaranteeEnd" empty-text="Nera garantijos")
   form-field.small(label="Pastaba" :text="serviceItem.additionalServiceInfo")
   form-field.small(label="Kitam aptarnavimui" :text="serviceItem.serviceInfo")
+  form-field.small(label="Aptarnavimo kaina" :text="servicePrice")
+  form-field.small(label="Pusmetinio kaina" :text="smallServicePrice")
 
   template
     .services-header
@@ -46,6 +48,13 @@ export default {
   computed: {
     nextServiceDateFn() {
       return this.serviceItem && ServiceItem.nextServiceDateFn(this.serviceItem);
+    },
+    servicePrice() {
+      return `${ServiceItem.inheritedSystemProp(this.serviceItem, 'servicePrice')} €`;
+    },
+    smallServicePrice() {
+      const res = ServiceItem.inheritedSystemProp(this.serviceItem, 'smallServicePrice');
+      return res ? `${res} €` : null;
     },
   },
   methods: {

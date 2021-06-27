@@ -47,13 +47,18 @@ el-form.service-item-service-form(
       el-option(label="Pusmetinis" value="1")
       el-option(label="Metinis" value="2")
 
-  el-form-item(:label="priceLabel" :prop="priceField")
+  el-form-item(
+    :label="priceLabel" :prop="priceField"
+    v-if="showPrice"
+  )
     el-input(
+      disabled
       v-model="model.smallServicePrice"
       type="number"
       v-if="priceField==='smallServicePrice'"
     )
     el-input(
+      disabled
       v-model="model.servicePrice"
       type="number"
       v-else
@@ -116,6 +121,9 @@ export default {
     serviceTypeIcon,
   },
   computed: {
+    showPrice() {
+      return this.model.servicePrice || this.model.smallServicePrice;
+    },
     isForward() {
       return this.model.type === 'forward';
     },
