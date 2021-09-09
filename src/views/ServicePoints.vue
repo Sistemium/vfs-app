@@ -4,9 +4,13 @@
 
   template(v-if="isRootState")
 
-    nav-header.root-header
+    nav-header.root-header(
+      :next="menuClick"
+      right-icon="el-icon-menu"
+    )
       strong {{ title }}
       search-input(
+        slot="bottom"
         size="mini"
         v-model="searchText"
       )
@@ -38,14 +42,12 @@ const STATUSES = {
     listFn: servingServicePoints,
   },
   paused: {
-    title: 'Sustabdytas taškai',
+    title: 'Sustabdyti taškai',
     listFn: pausedServicePoints,
   },
 };
 
 export default {
-
-  methods: {},
 
   computed: {
     servicePointsAll: servingGetters.matchingServicePoints,
@@ -65,6 +67,12 @@ export default {
     },
   },
 
+  methods: {
+    menuClick() {
+      this.$debug('menuClick');
+    },
+  },
+
   components: {
     ServicePointList,
   },
@@ -79,22 +87,5 @@ export default {
 <style scoped lang="scss">
 
 @import "../styles/servicePointsProto";
-
-</style>
-<style lang="scss">
-
-.service-points .root-header {
-
-  justify-content: stretch;
-
-  .left, .right {
-    display: none;
-  }
-
-  .title {
-    flex: 1;
-  }
-
-}
 
 </style>

@@ -88,9 +88,8 @@ export default {
 .nav-header {
 
   background: $gray-background;
-  padding: 2px 2px 3px;
+  padding: $padding;
   text-align: center;
-  min-height: 45px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -114,6 +113,9 @@ export default {
       display: block;
     }
 
+  }
+
+  .left, .right {
   }
 
   .prev, .next {

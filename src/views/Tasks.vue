@@ -18,6 +18,7 @@
         )
       search-input(
         size="mini"
+        slot="bottom"
         v-model="searchText"
       )
 
@@ -44,7 +45,10 @@ import { SET_SERVING_MONTH } from '@/vuex/serving/actions';
 import { CURRENT_SERVING_MONTH } from '@/vuex/serving/getters';
 // import ServicePoint from '@/models-vuex/ServicePoint';
 
-const { mapActions, mapGetters } = createNamespacedHelpers('serving');
+const {
+  mapActions,
+  mapGetters,
+} = createNamespacedHelpers('serving');
 const NAME = 'Tasks';
 
 export default {
@@ -88,26 +92,21 @@ export default {
   }
 }
 
-</style>
-<style lang="scss">
-
-@import "../styles/variables";
-
 .service-points .root-header {
 
-  justify-content: stretch;
+  //justify-content: stretch;
 
-  .left, .right {
+  ::v-deep .left, ::v-deep .right {
     display: none;
   }
 
-  .title {
+  ::v-deep .title {
     flex: 1;
   }
 
   .month-picker {
     margin-left: $margin-right;
-    max-width: 100px;
+    max-width: 120px;
 
     .el-input__prefix {
       top: -4px;
