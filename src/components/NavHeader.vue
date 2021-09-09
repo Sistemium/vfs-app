@@ -2,19 +2,21 @@
 
 .nav-header
 
-  .left
-    mt-button.prev(:plain="true" @click="prevClick" :disabled="!prev")
-      i(v-if="prev" :class="leftIconClass")
+  .top
+    .left
+      mt-button.prev(:plain="true" @click="prevClick" :disabled="!prev")
+        i(v-if="prev" :class="leftIconClass")
 
-  .title
-    slot
-      strong {{ title }}
+    .title
+      slot
+        strong {{ title }}
 
-  .right
-    mt-button.next(:plain="true" @click="nextClick" :disabled="!next")
-      i(v-if="next" :class="rightIcon")
-    .badge(v-if="rightBadge")
-      mt-badge(type="warning" size="small") {{ rightBadge }}
+    .right
+      mt-button.next(:plain="true" @click="nextClick" :disabled="!next")
+        i(v-if="next" :class="rightIcon")
+      .badge(v-if="rightBadge")
+        mt-badge(type="warning" size="small") {{ rightBadge }}
+  slot(name="bottom")
 
 </template>
 <script>
@@ -72,17 +74,26 @@ export default {
 
 }
 
+.top {
+  position: relative;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+
+  & + * {
+    margin-top: 6px;
+  }
+}
+
 .nav-header {
 
   background: $gray-background;
-
-  //margin-bottom: 7px;
   padding: 2px 2px 3px;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   text-align: center;
+  min-height: 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 
   .title {
 
@@ -115,8 +126,9 @@ export default {
     color: $primary-color;
   }
 
-  .totals > * + * {
-    margin-left: $margin-right;
+  .mint-button {
+    height: 35px;
+    padding: 0;
   }
 
 }
