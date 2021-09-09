@@ -50,7 +50,8 @@ export default {
       return this.serviceItem && ServiceItem.nextServiceDateFn(this.serviceItem);
     },
     servicePrice() {
-      return `${ServiceItem.inheritedSystemProp(this.serviceItem, 'servicePrice')} €`;
+      const price = ServiceItem.inheritedSystemProp(this.serviceItem, 'servicePrice');
+      return price ? `${price} €` : 'Nenustatyta';
     },
     smallServicePrice() {
       const res = ServiceItem.inheritedSystemProp(this.serviceItem, 'smallServicePrice');
