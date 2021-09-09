@@ -6,6 +6,7 @@ import ServicePoint from '@/views/ServicePoint.vue';
 import ServiceItemEdit from '@/components/ServiceItemEdit.vue';
 import ServiceItemServiceEdit from '@/components/ServiceItemServiceEdit.vue';
 import ServicePointMap from '@/views/ServicePointMap.vue';
+import ViewSettingsPage from '@/views/ViewSettingsPage.vue';
 
 // import log from 'sistemium-debug';
 
@@ -80,6 +81,14 @@ function servicePointChildren(parent) {
   });
 
   return [
+    {
+      path: 'settings',
+      name: 'ViewSettings',
+      component: ViewSettingsPage,
+      meta: {
+        title: 'Nustatymai',
+      },
+    },
     {
       path: ':servicePointId',
       name: `${parent}ServicePoint`,

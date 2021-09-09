@@ -15,7 +15,7 @@
         v-model="searchText"
       )
 
-  nav-header(v-else title="Aptarnavimo taškas" :prev="backClick")
+  nav-header(v-else :title="childTitle" :prev="backClick")
 
   .list
     service-point-list(
@@ -58,6 +58,9 @@ export default {
     title() {
       return STATUSES[this.status].title;
     },
+    childTitle() {
+      return this.$route.meta.title || 'Aptarnavimo taškas';
+    },
   },
 
   props: {
@@ -69,7 +72,7 @@ export default {
 
   methods: {
     menuClick() {
-      this.$debug('menuClick');
+      this.$router.push({ name: 'ViewSettings' });
     },
   },
 
