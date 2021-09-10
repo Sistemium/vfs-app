@@ -8,9 +8,10 @@
     :title="title(item)"
     @click="onClick(item)"
   )
-    template(v-slot:right v-if="iconFn")
+    template(v-slot:right)
       .right
-        i(:class="item[iconFn]")
+        i(v-if="iconFn && item[iconFn]" :class="item[iconFn]")
+        small(v-else) {{ nextServiceDate(item) }}
 
 </template>
 <script>
@@ -34,6 +35,9 @@ export default {
     icon(servicePoint) {
       return this.iconFn && servicePoint[this.iconFn]();
     },
+    nextServiceDate(servicePoint) {
+      return ServicePoint.nextServiceDate(servicePoint);
+    },
   },
 
 };
@@ -48,6 +52,9 @@ export default {
   color: green;
   i {
     font-size: 150%;
+  }
+  small {
+    font-family: monospace;
   }
 }
 </style>

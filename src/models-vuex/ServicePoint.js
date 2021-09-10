@@ -1,5 +1,6 @@
 import get from 'lodash/get';
 import find from 'lodash/find';
+import min from 'lodash/min';
 import VFSDataModel from '@/lib/VFSDataModel';
 import Person from '@/models-vuex/Person';
 import ServiceItem from '@/models-vuex/ServiceItem';
@@ -60,6 +61,11 @@ export default new VFSDataModel({
     customer({ currentServiceContractId }) {
       const contract = ServiceContract.getByID(currentServiceContractId);
       return ServiceContract.customer(contract);
+    },
+    nextServiceDate(servicePoint) {
+      const items = this.serviceItems(servicePoint);
+      const dates = items.map(item => ServiceItem.nextServiceDateFn(item));
+      return min(dates);
     },
   },
 });

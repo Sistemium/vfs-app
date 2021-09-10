@@ -72,7 +72,8 @@ export default {
 
   methods: {
     menuClick() {
-      this.$router.push({ name: 'ViewSettings' });
+      const path = `${this.$route.path}/settings`;
+      this.$router.push(path);
     },
   },
 

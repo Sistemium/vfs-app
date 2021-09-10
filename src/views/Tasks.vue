@@ -5,6 +5,8 @@
   template(v-if="isRootState")
 
     nav-header.root-header(
+      :next="menuClick"
+      right-icon="el-icon-menu"
     )
       strong
         span Užduotys
@@ -55,7 +57,12 @@ export default {
   // data() {
   //   return { month: null };
   // },
-  methods: {},
+  methods: {
+    menuClick() {
+      const path = `${this.$route.path}/settings`;
+      this.$router.push(path);
+    },
+  },
   computed: {
     servicePoints: servingGetters.matchingServiceTasks,
     month: {
@@ -93,12 +100,6 @@ export default {
 }
 
 .service-points .root-header {
-
-  //justify-content: stretch;
-
-  ::v-deep .left, ::v-deep .right {
-    display: none;
-  }
 
   ::v-deep .title {
     flex: 1;

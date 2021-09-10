@@ -11,9 +11,14 @@ export const SET_CURRENT_SERVICE_POINT = 'SET_CURRENT_SERVICE_POINT';
 export const SET_CURRENT_SERVING_MASTER = 'SET_CURRENT_SERVING_MASTER';
 export const SEARCH_TEXT_CHANGE = 'SEARCH_TEXT_CHANGE';
 export const SET_SERVING_MONTH = 'SET_SERVING_MONTH';
+export const SET_POINTS_SORTING = 'SET_POINTS_SORTING';
 // const THROW_ERROR = 'error';
 
 export default {
+
+  [SET_POINTS_SORTING]({ commit }, sorting) {
+    commit(m.SET_POINTS_SORTING, sorting);
+  },
 
   [SET_SERVING_MONTH]({ commit }, month) {
     commit(SET_SERVING_MONTH, month);

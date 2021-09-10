@@ -10,6 +10,7 @@ export const servingActions = mapActions({
   setCurrentServicePoint: a.SET_CURRENT_SERVICE_POINT,
   loadServicePoints: a.LOAD_SERVICE_POINTS,
   setServingMonth: a.SET_SERVING_MONTH,
+  setPointsSorting: a.SET_POINTS_SORTING,
 });
 
 export const servingGetters = mapGetters({
@@ -21,4 +22,5 @@ export const servingGetters = mapGetters({
   matchingServicePoints: g.MATCHING_SERVICE_POINTS,
   matchingServiceTasks: g.MATCHING_SERVICE_TASKS,
   servingMonth: g.CURRENT_SERVING_MONTH,
+  pointsSorting: g.POINTS_SORTING,
 });

@@ -1,5 +1,5 @@
+import orderBy from 'lodash/orderBy';
 import * as servicePoints from '@/services/serving';
-import { orderByAddress } from '@/lib/fp';
 
 export const SERVICE_POINTS = 'ServicePoints';
 export const MATCHING_SERVICE_POINTS = 'MatchingServicePoints';
@@ -11,8 +11,13 @@ export const SERVING_MASTERS = 'ServingMasters';
 export const SEARCH_TEXT = 'searchText';
 export const BUSY = 'busy';
 export const ERROR = 'error';
+export const POINTS_SORTING = 'pointsSorting';
 
 export default {
+
+  [POINTS_SORTING](state) {
+    return state[POINTS_SORTING];
+  },
 
   [CURRENT_SERVING_MONTH](state) {
     return state[CURRENT_SERVING_MONTH];
@@ -38,9 +43,12 @@ export default {
     return servicePoints.allServingMasters();
   },
 
-  [SERVICE_POINTS](state) {
+  [SERVICE_POINTS](state, getters) {
     const masterId = state[CURRENT_SERVING_MASTER];
-    return orderByAddress(servicePoints.servicePointsByServingMasterId(masterId));
+    const sorting = getters[POINTS_SORTING];
+    const { fn } = servicePoints.POINTS_SORTING_OPTIONS.get(sorting);
+    const points = servicePoints.servicePointsByServingMasterId(masterId);
+    return orderBy(points, fn);
   },
 
   [CURRENT_SERVICE_POINT](state) {

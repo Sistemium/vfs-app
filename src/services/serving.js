@@ -28,17 +28,30 @@ import FilterSystemType from '@/models-vuex/FilterSystemType';
 import ContactMethod from '@/models-vuex/ContactMethod';
 import Employee from '@/models-vuex/Employee';
 import FilterSystem from '@/models-vuex/FilterSystem';
+import { orderByAddress, mapId } from '@/lib/fp';
 
 const { debug } = log('serving');
 
-debug('init');
-
 const mapServicePointId = fpMap('servicePointId');
 const mapContractId = fpMap('currentServiceContractId');
-const mapId = fpMap('id');
 
-// TODO: read from user's roles
-// const siteId = '2b1f36e3-8506-451f-9cfa-d62bf8e0aa49';
+export const POINTS_SORTING_OPTIONS = new Map([
+  ['address', {
+    fn: orderByAddress,
+    label: 'Adresas',
+  }],
+  ['customer', {
+    fn: point => {
+      const customer = ServicePoint.customer(point);
+      return customer && customer.name;
+    },
+    label: 'Klientas',
+  }],
+  ['serviceDate', {
+    fn: point => ServicePoint.nextServiceDate(point),
+    label: 'Sekančio aptarnavimo data',
+  }],
+]);
 
 function onProgressDebug(code) {
   return message => debug(code, message);
@@ -67,6 +80,10 @@ export async function loadServicePoints(servingMasterId, onProgress = onProgress
       .findByMany(mapId(items), { field: 'serviceItemId' });
   }
 
+}
+
+export function sortByServiceDate(servicePoints) {
+  return orderBy(servicePoints, point => ServicePoint.nextServiceDateFn(point));
 }
 
 export function servicePointsByServingMasterId(servingMasterId) {

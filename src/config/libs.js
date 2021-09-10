@@ -5,6 +5,8 @@ import Vue from 'vue';
 import MintButton from 'mint-ui/packages/button';
 import MintTabBar from 'mint-ui/packages/tabbar';
 import MintTabItem from 'mint-ui/packages/tab-item';
+// import { Picker } from 'mint-ui';
+import { Radio } from 'mint-ui';
 
 import 'mint-ui/lib/style.css';
 
@@ -20,6 +22,7 @@ import './sistemium';
 Vue.component(MintButton.name, MintButton);
 Vue.component(MintTabBar.name, MintTabBar);
 Vue.component(MintTabItem.name, MintTabItem);
+Vue.component(Radio.name, Radio);
 
 Vue.component(NavHeader.name, NavHeader);
 Vue.component(ItemsList.name, ItemsList);

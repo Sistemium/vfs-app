@@ -18,6 +18,7 @@ export default {
       [g.SERVING_MASTERS]: [],
       [g.CURRENT_SERVICE_POINT]: null,
       [g.CURRENT_SERVING_MASTER]: null,
+      [g.POINTS_SORTING]: 'address',
       [g.BUSY]: '',
       [g.ERROR]: null,
     };

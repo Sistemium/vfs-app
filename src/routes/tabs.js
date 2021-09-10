@@ -83,7 +83,7 @@ function servicePointChildren(parent) {
   return [
     {
       path: 'settings',
-      name: 'ViewSettings',
+      name: `${parent}ViewSettings`,
       component: ViewSettingsPage,
       meta: {
         title: 'Nustatymai',
