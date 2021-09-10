@@ -53,7 +53,7 @@ export default {
   [SERVICE_POINTS](state, getters) {
     const masterId = state[CURRENT_SERVING_MASTER];
     const sorting = getters[POINTS_SORTING];
-    const { fn } = servicePoints.POINTS_SORTING_OPTIONS.get(sorting);
+    const { fn = a => a } = servicePoints.POINTS_SORTING_OPTIONS.get(sorting) || {};
     const points = servicePoints.servicePointsByServingMasterId(masterId);
     return orderBy(points, fn);
   },

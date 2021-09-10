@@ -1,3 +1,4 @@
+import * as ls from '@/services/localStorage';
 import * as g from './getters';
 
 export const SET_CURRENT_SERVING_MASTER = set(g.CURRENT_SERVING_MASTER);
@@ -12,10 +13,12 @@ export const SET_SERVING_MONTH = 'SET_SERVING_MONTH';
 export default {
 
   [SET_SHOW_DONE_TASKS](state, data) {
+    ls.setLocalStorageValue(g.SHOW_DONE_TASKS, data);
     state[g.SHOW_DONE_TASKS] = data;
   },
 
   [SET_POINTS_SORTING](state, data) {
+    ls.setLocalStorageValue(g.POINTS_SORTING, data);
     state[g.POINTS_SORTING] = data;
   },
 
