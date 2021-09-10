@@ -6,7 +6,7 @@
 
     nav-header.root-header(
       :next="menuClick"
-      right-icon="el-icon-menu"
+      right-icon="el-icon-setting"
     )
       strong {{ title }}
       search-input(
