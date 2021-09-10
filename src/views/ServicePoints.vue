@@ -5,7 +5,7 @@
   template(v-if="isRootState")
 
     nav-header.root-header(
-      :next="menuClick"
+      :next="settingsClick"
       right-icon="el-icon-setting"
     )
       strong {{ title }}
@@ -58,9 +58,6 @@ export default {
     title() {
       return STATUSES[this.status].title;
     },
-    childTitle() {
-      return this.$route.meta.title || 'Aptarnavimo taškas';
-    },
   },
 
   props: {
@@ -70,12 +67,7 @@ export default {
     },
   },
 
-  methods: {
-    menuClick() {
-      const path = `${this.$route.path}/settings`;
-      this.$router.push(path);
-    },
-  },
+  methods: {},
 
   components: {
     ServicePointList,

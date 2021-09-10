@@ -23,6 +23,11 @@ export default function (NAME, detailName) {
   return {
 
     methods: {
+      settingsClick() {
+        const path = `${this.$route.path}/settings`;
+        this.$router.push(path)
+          .catch(e => this.$error('settingsClick', e));
+      },
       servicePointClick(servicePoint) {
         const name = `${this.status === 'paused' ? 'Paused' : ''}${detailName}`;
         this.$router.push({
@@ -48,6 +53,9 @@ export default function (NAME, detailName) {
       searchText: {
         ...mapGetters({ get: SEARCH_TEXT }),
         ...mapActions({ set: SEARCH_TEXT_CHANGE }),
+      },
+      childTitle() {
+        return this.$route.meta.title || 'Aptarnavimo taškas';
       },
     },
 

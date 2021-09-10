@@ -5,7 +5,7 @@
   template(v-if="isRootState")
 
     nav-header.root-header(
-      :next="menuClick"
+      :next="settingsClick"
       right-icon="el-icon-setting"
     )
       strong
@@ -24,7 +24,7 @@
         v-model="searchText"
       )
 
-  nav-header(v-else title="Aptarnavimo taškas" :prev="backClick")
+  nav-header(v-else :title="childTitle" :prev="backClick")
 
   .list
     service-point-list(
@@ -54,15 +54,7 @@ const {
 const NAME = 'Tasks';
 
 export default {
-  // data() {
-  //   return { month: null };
-  // },
-  methods: {
-    menuClick() {
-      const path = `${this.$route.path}/settings`;
-      this.$router.push(path);
-    },
-  },
+  methods: {},
   computed: {
     servicePoints: servingGetters.matchingServiceTasks,
     month: {
