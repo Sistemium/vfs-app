@@ -19,6 +19,7 @@ export default {
       [g.CURRENT_SERVICE_POINT]: null,
       [g.CURRENT_SERVING_MASTER]: null,
       [g.POINTS_SORTING]: 'address',
+      [g.SHOW_DONE_TASKS]: true,
       [g.BUSY]: '',
       [g.ERROR]: null,
     };

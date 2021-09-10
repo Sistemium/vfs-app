@@ -12,8 +12,13 @@ export const SEARCH_TEXT = 'searchText';
 export const BUSY = 'busy';
 export const ERROR = 'error';
 export const POINTS_SORTING = 'pointsSorting';
+export const SHOW_DONE_TASKS = 'showDoneTasks';
 
 export default {
+
+  [SHOW_DONE_TASKS](state) {
+    return state[SHOW_DONE_TASKS];
+  },
 
   [POINTS_SORTING](state) {
     return state[POINTS_SORTING];
@@ -31,8 +36,10 @@ export default {
     const month = getters[CURRENT_SERVING_MONTH];
     const dateB = `${month}-01`;
     const dateE = `${month}-31`;
+    const showDone = getters[SHOW_DONE_TASKS];
     const data = servicePoints.servicePointsTasks(getters[SERVICE_POINTS], dateB, dateE);
-    return servicePoints.searchServicePoints(data, getters[SEARCH_TEXT]);
+    const filtered = showDone ? data : data.filter(({ isServed }) => !isServed);
+    return servicePoints.searchServicePoints(filtered, getters[SEARCH_TEXT]);
   },
 
   [SEARCH_TEXT](state) {

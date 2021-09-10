@@ -2,15 +2,20 @@ import { createNamespacedHelpers } from 'vuex';
 
 import * as g from './getters';
 import * as a from './actions';
+import * as m from './mutations';
 
-const { mapActions, mapGetters } = createNamespacedHelpers('serving');
+const { mapActions, mapGetters, mapMutations } = createNamespacedHelpers('serving');
+
+export const servingMutations = mapMutations({
+  setPointsSorting: m.SET_POINTS_SORTING,
+  setShowDoneTasks: m.SET_SHOW_DONE_TASKS,
+});
 
 export const servingActions = mapActions({
   setCurrentServingMaster: a.SET_CURRENT_SERVING_MASTER,
   setCurrentServicePoint: a.SET_CURRENT_SERVICE_POINT,
   loadServicePoints: a.LOAD_SERVICE_POINTS,
   setServingMonth: a.SET_SERVING_MONTH,
-  setPointsSorting: a.SET_POINTS_SORTING,
 });
 
 export const servingGetters = mapGetters({
@@ -23,4 +28,5 @@ export const servingGetters = mapGetters({
   matchingServiceTasks: g.MATCHING_SERVICE_TASKS,
   servingMonth: g.CURRENT_SERVING_MONTH,
   pointsSorting: g.POINTS_SORTING,
+  showDoneTasks: g.SHOW_DONE_TASKS,
 });

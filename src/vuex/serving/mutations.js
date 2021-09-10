@@ -6,9 +6,14 @@ export const SET_BUSY = set(g.BUSY);
 export const SET_ERROR = set(g.ERROR);
 export const SET_SEARCH_TEXT = set(g.SEARCH_TEXT);
 export const SET_POINTS_SORTING = set(g.POINTS_SORTING);
+export const SET_SHOW_DONE_TASKS = set(g.SHOW_DONE_TASKS);
 export const SET_SERVING_MONTH = 'SET_SERVING_MONTH';
 
 export default {
+
+  [SET_SHOW_DONE_TASKS](state, data) {
+    state[g.SHOW_DONE_TASKS] = data;
+  },
 
   [SET_POINTS_SORTING](state, data) {
     state[g.POINTS_SORTING] = data;
