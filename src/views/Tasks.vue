@@ -101,20 +101,11 @@ export default {
 
 .service-points .root-header {
 
-  ::v-deep .title {
-    flex: 1;
-  }
-
   .month-picker {
     margin-left: $margin-right;
     max-width: 120px;
-
-    .el-input__prefix {
-      top: -4px;
-    }
-
-    .el-input__inner {
-      padding-right: 0;
+    ::v-deep .el-input__icon {
+      line-height: 32px;
     }
   }
 
