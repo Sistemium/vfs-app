@@ -1,5 +1,6 @@
 import log from 'sistemium-debug';
 import store from '@/vuex/store';
+import { authorizeAxios } from '@/lib/VFSDataModel';
 
 const { debug } = log('vuex');
 
@@ -24,3 +25,11 @@ store.subscribeAction({
   },
 
 });
+
+const unsubscribe = store.subscribe(mutation => {
+  debug('mutation', mutation.type);
+  if (mutation.type === 'auth/SET_AUTHORIZED') {
+    unsubscribe();
+    authorizeAxios(mutation.payload.token);
+  }
+}, { prepend: true });
