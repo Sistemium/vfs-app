@@ -13,7 +13,7 @@
 
 <script>
 
-import { hideTabBar, isNative } from 'sistemium-vue/services/native';
+import { hideTabBar, isNative } from '@bit/sistemium.vue.services.native';
 import HelloWorld from '@/components/HelloWorld.vue';
 
 export default {

@@ -1,4 +1,4 @@
-const LS_KEY = 'vfsm';
+const { VUE_APP_LS_PREFIX = 'stv' } = process.env;
 
 export function setLocalStorageItem(key, value) {
   return localStorage.setItem(keyName(key), value);
@@ -9,7 +9,7 @@ export function getLocalStorageItem(key) {
 }
 
 function keyName(key) {
-  return `${LS_KEY}.${key}`;
+  return `${VUE_APP_LS_PREFIX}.${key}`;
 }
 
 export function setLocalStorageValue(key, value) {

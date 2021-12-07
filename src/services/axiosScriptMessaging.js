@@ -1,4 +1,4 @@
-import { requestFromDevice } from 'sistemium-vue/services/native';
+import { requestFromDevice } from '@bit/sistemium.vue.services.native';
 import log from 'sistemium-debug';
 import settle from 'axios/lib/core/settle';
 import mapValues from 'lodash/mapValues';

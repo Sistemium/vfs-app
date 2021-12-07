@@ -1,6 +1,5 @@
-import { isNative, getRoles } from 'sistemium-vue/services/native';
+import { isNative, getRoles } from '@bit/sistemium.vue.services.native';
 import http from 'axios';
-import { authorizeAxios } from '@/lib/VFSDataModel';
 import * as ls from '@/services/localStorage';
 import * as m from './mutations';
 
@@ -27,8 +26,6 @@ export default {
     }
 
     commit(m.SET_AUTHORIZING, token);
-
-    authorizeAxios(token);
 
     try {
       const {

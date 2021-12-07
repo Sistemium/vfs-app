@@ -6,7 +6,7 @@ import qs from 'qs';
 import axios from 'axios';
 import noop from 'lodash/noop';
 import flatten from 'lodash/flatten';
-import { isNative } from 'sistemium-vue/services/native';
+import { isNative } from '@bit/sistemium.vue.services.native';
 import axiosScriptMessaging from '@/services/axiosScriptMessaging';
 
 const OFFSET_HEADER = 'x-offset';

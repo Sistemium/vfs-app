@@ -8,6 +8,9 @@
     "nomanifest": "npx vue-cli-service build --skip-plugins pwa,workbox"
   },
   "dependencies": {
+    "@bit/sistemium.vue.mixins.debug": "^0.0.1",
+    "@bit/sistemium.vue.resize": "^0.0.4",
+    "@bit/sistemium.vue.services.native": "^0.0.1",
     "axios": "^0.21.1",
     "core-js": "^3.12.1",
     "dayjs": "^1.10.4",
@@ -19,7 +22,6 @@
     "sistemium-data-vue": "^0.2.7",
     "sistemium-dates": "^1.1.0",
     "sistemium-debug": "^1.0.1",
-    "sistemium-vue": "^1.6.0",
     "uuid": "latest",
     "vue": "^2.6.12",
     "vue-router": "^3.5.1",
@@ -41,5 +43,10 @@
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-pug": "^1.0.7",
     "vue-template-compiler": "^2.6.12"
+  },
+  "bit": {
+    "env": {},
+    "componentsDefaultDirectory": "components/{name}",
+    "packageManager": "npm"
   }
 }

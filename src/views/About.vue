@@ -19,7 +19,7 @@
 
 <script>
 
-import { toggleTabBar, isNative } from 'sistemium-vue/services/native';
+import { toggleTabBar, isNative } from '@bit/sistemium.vue.services.native';
 import AccountInfo from '@/components/AccountInfo.vue';
 import CurrentServingMaster from '@/components/CurrentServingMaster.vue';
 

@@ -16,7 +16,7 @@ el-dropdown.map-navigation(
 </template>
 <script>
 
-import { isNative, requestFromDevice } from 'sistemium-vue/services/native';
+import { isNative, requestFromDevice } from '@bit/sistemium.vue.services.native';
 import * as ls from '@/services/localStorage';
 import wazeIcon from '@/assets/waze-256.png';
 import googleIcon from '@/assets/google-maps-256.png';

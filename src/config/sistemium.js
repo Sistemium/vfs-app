@@ -1,5 +1,2 @@
-import Vue from 'vue';
-import Resize from 'sistemium-vue/components/Resize.vue';
-import 'sistemium-vue/mixins/debug';
-
-Vue.component(Resize.name, Resize);
+import '@bit/sistemium.vue.mixins.debug';
+import '@bit/sistemium.vue.resize/Resize';
