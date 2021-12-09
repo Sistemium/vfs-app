@@ -13,5 +13,38 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "sistemium.vue/vuex/auth@0.0.4": {
+        "files": [
+            {
+                "relativePath": "src/vuex/auth/actions.js",
+                "test": false,
+                "name": "actions.js"
+            },
+            {
+                "relativePath": "src/vuex/auth/getters.js",
+                "test": false,
+                "name": "getters.js"
+            },
+            {
+                "relativePath": "src/vuex/auth/index.js",
+                "test": false,
+                "name": "index.js"
+            },
+            {
+                "relativePath": "src/vuex/auth/maps.js",
+                "test": false,
+                "name": "maps.js"
+            },
+            {
+                "relativePath": "src/vuex/auth/mutations.js",
+                "test": false,
+                "name": "mutations.js"
+            }
+        ],
+        "mainFile": "src/vuex/auth/index.js",
+        "trackDir": "src/vuex/auth",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "version": "14.8.8"
 }

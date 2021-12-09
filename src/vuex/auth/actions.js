@@ -1,6 +1,6 @@
 import { isNative, getRoles } from '@bit/sistemium.vue.services.native';
 import http from 'axios';
-import * as ls from '@/services/localStorage';
+import * as ls from '../../services/localStorage';
 import * as m from './mutations';
 
 
@@ -8,8 +8,8 @@ const LS_KEY = 'authorization';
 
 export const AUTH_INIT = 'AUTH_INIT';
 export const LOGOFF = 'LOGOFF';
-export const CLEAR_ERROR = '';
-
+export const CLEAR_ERROR = 'CLEAR_ERROR';
+export const LOG_ACCOUNT = 'LOG_ACCOUNT';
 
 export default {
 
@@ -29,14 +29,19 @@ export default {
 
     try {
       const {
+        id: gotToken,
         account,
         roles,
       } = await (isNative() ? getRoles() : checkRoles(token));
       ls.setLocalStorageItem(LS_KEY, token);
       commit(m.SET_AUTHORIZED, {
-        token,
+        token: gotToken,
         account,
         roles,
+      });
+      commit(m.SAVE_ACCOUNT, {
+        authorization: gotToken,
+        account,
       });
     } catch (err) {
       commit(m.SET_NOT_AUTHORIZED, err);
@@ -47,6 +52,22 @@ export default {
 
   },
 
+  async [LOG_ACCOUNT]({ dispatch }, account) {
+
+    if (!account) {
+      throw new Error('Account to log in must be not empty');
+    }
+
+    const token = m.getSavedAuthorization(account);
+
+    if (!token) {
+      throw new Error('No saved account info');
+    }
+
+    await dispatch(AUTH_INIT, token);
+
+  },
+
   /*
   Clean up
    */
@@ -54,11 +75,14 @@ export default {
   [LOGOFF]({ commit }) {
     commit(m.SET_AUTHORIZED, {});
     localStorage.removeItem(LS_KEY);
+    m.clearSavedAccounts();
+    // commit(m.AUTHORIZED, { account: false, roles: false });
   },
 
   [CLEAR_ERROR]({ commit }) {
     commit(m.SET_NOT_AUTHORIZED, null);
   },
+
 
 };
 

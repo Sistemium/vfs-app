@@ -11,11 +11,14 @@ export default {
 
   state() {
     return {
+      id: undefined,
+      busy: false,
       [g.ROLES]: null,
       error: null,
       [g.ACCOUNT]: null,
       [g.IS_AUTHORIZING]: false,
       [g.ACCESS_TOKEN]: null,
+      savedAccounts: [],
     };
   },
 
