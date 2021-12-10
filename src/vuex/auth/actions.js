@@ -10,6 +10,8 @@ export const AUTH_INIT = 'AUTH_INIT';
 export const LOGOFF = 'LOGOFF';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 export const LOG_ACCOUNT = 'LOG_ACCOUNT';
+export const AUTH_REQUEST = 'AUTH_REQUEST';
+export const AUTH_REQUEST_CONFIRM = 'AUTH_REQUEST_CONFIRM';
 
 export default {
 
@@ -49,6 +51,41 @@ export default {
     }
 
     return true;
+
+  },
+
+  /*
+  Request phone authorization code
+   */
+
+  [AUTH_REQUEST]({ commit }, { value, input: phone }) {
+
+    commit(m.PHA_AUTH_TOKEN, {});
+    commit(m.SET_AUTHORIZING, phone);
+
+    const res = login(`8${value}`)
+      .then(id => commit(m.PHA_AUTH_TOKEN, { id, phone }));
+
+    res.catch(() => commit(m.SET_NOT_AUTHORIZED, 'Неизвестный номер'));
+
+    return res;
+
+  },
+
+  /*
+  Confirm phone authorization code
+   */
+
+  [AUTH_REQUEST_CONFIRM]({ state, dispatch, commit }, { value: code }) {
+
+    commit(m.SET_AUTHORIZING, code);
+
+    const res = confirm(code, state[m.PHA_AUTH_TOKEN].id)
+      .then(({ accessToken }) => dispatch(AUTH_INIT, accessToken));
+
+    res.catch(() => commit(m.SET_NOT_AUTHORIZED, 'Неправильный пароль'));
+
+    return res;
 
   },
 
@@ -96,5 +133,35 @@ async function checkRoles(token) {
     headers: { authorization: token },
   })
     .then(res => res.data);
+
+}
+
+
+async function login(phone) {
+
+  const config = {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  };
+
+  return http.post(process.env.VUE_APP_PHA_AUTH_URL, `mobileNumber=${phone}`, config)
+    .then(res => res.data.ID);
+
+}
+
+async function confirm(code, id) {
+
+  const params = { ID: id, smsCode: code };
+  const config = {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    transformRequest: [data => {
+      const str = Object.keys(data)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`);
+      return str.join('&');
+    }],
+  };
+
+  const { data } = await http.post(process.env.VUE_APP_PHA_AUTH_URL, params, config);
+
+  return data;
 
 }

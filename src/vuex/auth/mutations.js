@@ -8,6 +8,7 @@ export const SET_AUTHORIZING = set(g.IS_AUTHORIZING);
 export const SET_AUTHORIZED = set('AUTHORIZED');
 export const SET_NOT_AUTHORIZED = set('NOT_AUTHORIZED');
 export const SAVE_ACCOUNT = 'SAVE_ACCOUNT';
+export const PHA_AUTH_TOKEN = 'PHA_AUTH_TOKEN';
 
 const LS_KEY_ACCOUNTS = 'accounts';
 
@@ -16,6 +17,11 @@ export default {
   [SET_AUTHORIZING](state, token) {
     Vue.set(state, g.IS_AUTHORIZING, token || false);
     state.error = null;
+  },
+
+  [PHA_AUTH_TOKEN](state, id) {
+    notBusy(state);
+    state[PHA_AUTH_TOKEN] = id;
   },
 
   [SET_AUTHORIZED](state, { token, account, roles }) {
