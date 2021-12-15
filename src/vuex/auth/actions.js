@@ -21,7 +21,11 @@ export default {
 
   async [AUTH_INIT]({ commit }, accessToken) {
 
-    const token = isNative() ? true : accessToken || ls.getLocalStorageItem(LS_KEY);
+    const token = isNative() ? true : (
+      accessToken
+      || ls.getSessionStorageItem(LS_KEY)
+      || ls.getLocalStorageItem(LS_KEY)
+    );
 
     if (!token) {
       return false;
@@ -30,21 +34,27 @@ export default {
     commit(m.SET_AUTHORIZING, token);
 
     try {
+
       const {
         id: gotToken,
         account,
         roles,
       } = await (isNative() ? getRoles() : checkRoles(token));
-      ls.setLocalStorageItem(LS_KEY, token);
+
+      ls.setLocalStorageItem(LS_KEY, gotToken);
+      ls.setSessionStorageItem(LS_KEY, gotToken);
+
       commit(m.SET_AUTHORIZED, {
         token: gotToken,
         account,
         roles,
       });
+
       commit(m.SAVE_ACCOUNT, {
         authorization: gotToken,
         account,
       });
+
     } catch (err) {
       commit(m.SET_NOT_AUTHORIZED, err);
       return false;
@@ -58,13 +68,19 @@ export default {
   Request phone authorization code
    */
 
-  [AUTH_REQUEST]({ commit }, { value, input: phone }) {
+  [AUTH_REQUEST]({ commit }, {
+    value,
+    input: phone
+  }) {
 
     commit(m.PHA_AUTH_TOKEN, {});
     commit(m.SET_AUTHORIZING, phone);
 
     const res = login(`8${value}`)
-      .then(id => commit(m.PHA_AUTH_TOKEN, { id, phone }));
+      .then(id => commit(m.PHA_AUTH_TOKEN, {
+        id,
+        phone
+      }));
 
     res.catch(() => commit(m.SET_NOT_AUTHORIZED, 'Неизвестный номер'));
 
@@ -76,7 +92,11 @@ export default {
   Confirm phone authorization code
    */
 
-  [AUTH_REQUEST_CONFIRM]({ state, dispatch, commit }, { value: code }) {
+  [AUTH_REQUEST_CONFIRM]({
+                           state,
+                           dispatch,
+                           commit
+                         }, { value: code }) {
 
     commit(m.SET_AUTHORIZING, code);
 
@@ -150,7 +170,10 @@ async function login(phone) {
 
 async function confirm(code, id) {
 
-  const params = { ID: id, smsCode: code };
+  const params = {
+    ID: id,
+    smsCode: code
+  };
   const config = {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     transformRequest: [data => {

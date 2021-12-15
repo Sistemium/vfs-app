@@ -8,6 +8,14 @@ export function getLocalStorageItem(key) {
   return localStorage.getItem(keyName(key));
 }
 
+export function setSessionStorageItem(key, value) {
+  return sessionStorage.setItem(keyName(key), value);
+}
+
+export function getSessionStorageItem(key) {
+  return sessionStorage.getItem(keyName(key));
+}
+
 function keyName(key) {
   return `${VUE_APP_LS_PREFIX}.${key}`;
 }
