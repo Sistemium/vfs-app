@@ -145,10 +145,6 @@ export default {
 
 async function checkRoles(token) {
 
-  await new Promise(resolve => {
-    setTimeout(resolve, 1000);
-  });
-
   return http.get(process.env.VUE_APP_PHA_ROLES_URL, {
     headers: { authorization: token },
   })

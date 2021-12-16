@@ -13,7 +13,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "sistemium.vue/vuex/auth@0.0.7": {
+    "sistemium.vue/vuex/auth@0.0.8": {
         "files": [
             {
                 "relativePath": "src/vuex/auth/actions.js",
