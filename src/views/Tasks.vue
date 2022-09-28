@@ -40,11 +40,11 @@
 <script>
 
 import { createNamespacedHelpers } from 'vuex';
-import ServicePointsProto from './ServicePointsProto';
 import ServicePointList from '@/components/ServicePointList.vue';
 import { servingGetters } from '@/vuex/serving/maps';
 import { SET_SERVING_MONTH } from '@/vuex/serving/actions';
 import { CURRENT_SERVING_MONTH } from '@/vuex/serving/getters';
+import ServicePointsProto from './ServicePointsProto';
 // import ServicePoint from '@/models-vuex/ServicePoint';
 
 const {

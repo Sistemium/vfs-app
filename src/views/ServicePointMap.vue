@@ -1,29 +1,29 @@
 <template lang="pug">
 
-  el-drawer.service-point-map(
-    :title="title"
-    :visible="drawerOpen"
-    :before-close="handleClose"
-    direction="rtl"
-    :wrapper-closable="false"
-    size="100%"
-    :append-to-body="true"
-    ref="drawer"
+el-drawer.service-point-map(
+  :title="title"
+  :visible="drawerOpen"
+  :before-close="handleClose"
+  direction="rtl"
+  :wrapper-closable="false"
+  size="100%"
+  :append-to-body="true"
+  ref="drawer"
+)
+
+  .topBar
+
+    .address {{ model.address }}
+
+    map-navigation(:model="model")
+
+  GmapMap(
+    :center="coords"
+    :zoom="16"
+    :options="mapOptions"
+    v-if="coords"
   )
-
-    .topBar
-
-      .address {{ model.address }}
-
-      map-navigation(:model="model")
-
-    GmapMap(
-      :center="coords"
-      :zoom="16"
-      :options="mapOptions"
-      v-if="coords"
-    )
-      GmapMarker(:position="coords")
+    GmapMarker(:position="coords")
 
 </template>
 <script>

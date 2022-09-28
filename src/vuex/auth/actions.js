@@ -3,7 +3,6 @@ import http from 'axios';
 import * as ls from '../../services/localStorage';
 import * as m from './mutations';
 
-
 const LS_KEY = 'authorization';
 
 export const AUTH_INIT = 'AUTH_INIT';
@@ -70,7 +69,7 @@ export default {
 
   [AUTH_REQUEST]({ commit }, {
     value,
-    input: phone
+    input: phone,
   }) {
 
     commit(m.PHA_AUTH_TOKEN, {});
@@ -79,7 +78,7 @@ export default {
     const res = login(`8${value}`)
       .then(id => commit(m.PHA_AUTH_TOKEN, {
         id,
-        phone
+        phone,
       }));
 
     res.catch(() => commit(m.SET_NOT_AUTHORIZED, 'Неизвестный номер'));
@@ -93,10 +92,10 @@ export default {
    */
 
   [AUTH_REQUEST_CONFIRM]({
-                           state,
-                           dispatch,
-                           commit
-                         }, { value: code }) {
+    state,
+    dispatch,
+    commit,
+  }, { value: code }) {
 
     commit(m.SET_AUTHORIZING, code);
 
@@ -140,7 +139,6 @@ export default {
     commit(m.SET_NOT_AUTHORIZED, null);
   },
 
-
 };
 
 async function checkRoles(token) {
@@ -151,7 +149,6 @@ async function checkRoles(token) {
     .then(res => res.data);
 
 }
-
 
 async function login(phone) {
 
@@ -168,7 +165,7 @@ async function confirm(code, id) {
 
   const params = {
     ID: id,
-    smsCode: code
+    smsCode: code,
   };
   const config = {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

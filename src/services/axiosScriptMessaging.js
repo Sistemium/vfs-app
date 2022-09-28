@@ -21,7 +21,7 @@ const OP_TYPES = new Map([
   ['deleteOne', 'destroy'],
 ]);
 
-export default async function (config) {
+export default async function axiosScriptMessaging(config) {
 
   let data;
   let status = 200;

@@ -1,8 +1,8 @@
 import debounce from 'lodash/debounce';
 import * as ls from '@/services/localStorage';
 import * as svc from '@/services/serving';
-import * as m from './mutations';
 import * as g from '@/vuex/serving/getters';
+import * as m from './mutations';
 
 export const LOAD_SERVICE_POINTS = 'LOAD_SERVICE_POINTS';
 export const LOAD_SERVING_MASTERS = 'LOAD_SERVING_MASTERS';

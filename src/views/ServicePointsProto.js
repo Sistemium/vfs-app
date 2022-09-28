@@ -13,7 +13,7 @@ const {
   mapGetters,
 } = createNamespacedHelpers('serving');
 
-export default function (NAME, detailName) {
+export default function ServicePointsProto(NAME, detailName) {
 
   const {
     debug,

@@ -96,8 +96,10 @@ async function loadServicePointsRelations(servicePoints, onProgress = noop) {
   let loadRelations;
 
   // ServiceContract
-  loadRelations = filter(servicePoints,
-    ({ currentServiceContractId }) => !ServiceContract.getByID(currentServiceContractId));
+  loadRelations = filter(
+    servicePoints,
+    ({ currentServiceContractId }) => !ServiceContract.getByID(currentServiceContractId),
+  );
 
   onProgress('sutartys');
   const contracts = await ServiceContract
@@ -331,7 +333,7 @@ export function normalizeInt(val) {
   if (isNumber(val)) {
     return val;
   }
-  return val ? parseInt(val, 0) : null;
+  return val ? parseInt(val, 10) : null;
 }
 
 export function normalizeDataFields(data = {}, fields = []) {

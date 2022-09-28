@@ -30,10 +30,10 @@
 </template>
 <script>
 
-import ServicePointsProto from './ServicePointsProto';
 import ServicePointList from '@/components/ServicePointList.vue';
 import { servingGetters } from '@/vuex/serving/maps';
 import { pausedServicePoints, servingServicePoints } from '@/services/serving';
+import ServicePointsProto from './ServicePointsProto';
 
 const NAME = 'ServicePoints';
 const STATUSES = {
