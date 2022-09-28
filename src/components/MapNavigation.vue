@@ -89,15 +89,12 @@ export default {
     max-height: 30px;
   }
 
-  ::v-deep {
+  ::v-deep(.el-button-group) {
+    display: flex;
+  }
 
-    .el-button-group {
-      display: flex;
-    }
-
-    .el-button {
-      padding: $padding / 2;
-    }
+  ::v-deep(.el-button0) {
+    padding: $padding / 2;
   }
 
 }

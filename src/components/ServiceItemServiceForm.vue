@@ -157,7 +157,7 @@ export default {
   font-size: 150%;
 }
 
-.service-item-service-form ::v-deep .el-radio-button__inner {
+.service-item-service-form ::v-deep(.el-radio-button__inner) {
   padding: $padding;
 }
 

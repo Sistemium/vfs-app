@@ -99,7 +99,7 @@ export default {
   margin: 0 $margin-right 65px;
 }
 
-.service-item-service-edit ::v-deep .el-drawer__body {
+.service-item-service-edit ::v-deep(.el-drawer__body) {
   overflow-y: scroll;
 }
 

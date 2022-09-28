@@ -96,7 +96,7 @@ export default {
   .month-picker {
     margin-left: $margin-right;
     max-width: 120px;
-    ::v-deep .el-input__icon {
+    ::v-deep(.el-input__icon) {
       line-height: 32px;
     }
   }

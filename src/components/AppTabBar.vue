@@ -65,7 +65,7 @@ export default {
 <style scoped>
 
 @media (max-height: 414px) and (orientation: landscape) {
-  .app-tab-bar >>> .mint-tab-item-icon {
+  .app-tab-bar ::v-deep(.mint-tab-item-icon) {
     display: none;
   }
 }
