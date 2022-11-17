@@ -35,7 +35,7 @@ export default {
     try {
 
       const {
-        id: gotToken,
+        id: gotToken = token,
         account,
         roles,
       } = await (isNative() ? getRoles() : checkRoles(token));
