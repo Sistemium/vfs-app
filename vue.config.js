@@ -28,6 +28,7 @@ module.exports = defineConfig({
     plugins,
   },
   devServer: {
+    // port: 8890,
     allowedHosts: 'all',
     proxy: {
       '/api': {
