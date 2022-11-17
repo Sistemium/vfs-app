@@ -41,7 +41,7 @@ export function serviceTypeIcon(type) {
 
 export const TYPE_TITLE_MAP = new Map([
   ['service', 'Aptarnavimas'],
-  ['pause', 'Nustabdymas'],
+  ['pause', 'Sustabdymas'],
   ['forward', 'Perkelimas'],
   ['other', 'Kita veikla'],
 ]);
