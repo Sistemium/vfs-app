@@ -13,7 +13,7 @@
     "@bit/sistemium.vue.services.native": "^0.0.1",
     "axios": "^0.27.2",
     "dayjs": "^1.11.3",
-    "element-ui": "^2.15.9",
+    "element-ui": "^2.15.12",
     "lodash": "^4.17.21",
     "mint-ui": "^2.2.13",
     "qs": "^6.11.0",
@@ -77,7 +77,12 @@
         }
       ],
       "vue/multi-word-component-names": "off",
-      "no-multiple-empty-lines": ["error", { "max": 2 }]
+      "no-multiple-empty-lines": [
+        "error",
+        {
+          "max": 2
+        }
+      ]
     },
     "overrides": [
       {
