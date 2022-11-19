@@ -1,5 +1,6 @@
 const fs = require('fs');
 const chalk = require('chalk');
+const lodash = require('lodash');
 
 class STMManifestPlugin {
 
@@ -15,10 +16,22 @@ class STMManifestPlugin {
 
     compiler.hooks.done.tap('Custom Manifest', stats => {
 
-      const { assets, compiler: { outputPath } } = stats.compilation;
+      const {
+        assets,
+        compiler: { outputPath },
+      } = stats.compilation;
 
-      const assetsManifest = Object.keys(assets)
-        .map(name => name);
+      const assetsManifest = [
+        'CACHE MANIFEST',
+        '',
+        'CACHE:',
+        ...lodash.orderBy(Object.keys(assets)),
+        '',
+        'NETWORK:',
+        '*',
+        '',
+        `# hash: ${new Date()}`,
+      ];
 
       try {
         const filePath = `${outputPath}/${fileName}`;
