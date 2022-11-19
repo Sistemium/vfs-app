@@ -15,6 +15,7 @@ module.exports = defineConfig({
     'sistemium-debug',
     'sistemium-dates',
   ],
+  publicPath: '',
   pluginOptions: {
     // i18n: {
     //   locale: 'lt',
