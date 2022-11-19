@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "lint": "vue-cli-service lint",
-    "nomanifest": "npx vue-cli-service build --skip-plugins pwa,workbox"
+    "build": "npx vue-cli-service build --no-module --skip-plugins pwa,workbox"
   },
   "dependencies": {
     "@bit/sistemium.vue.mixins.debug": "^0.0.1",
