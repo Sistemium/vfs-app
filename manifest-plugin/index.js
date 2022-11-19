@@ -30,7 +30,7 @@ class STMManifestPlugin {
         'NETWORK:',
         '*',
         '',
-        `# hash: ${new Date()}`,
+        `# hash: ${(new Date()).toJSON()}`,
       ];
 
       try {
