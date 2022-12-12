@@ -11,6 +11,8 @@ export default new VFSDataModel({
   collection: 'ServicePoint',
   schema: {
     address: String,
+    addressInfo: String,
+    sortAddress: String,
     apartment: String,
     contactIds: [String],
     currentServiceContractId: String,

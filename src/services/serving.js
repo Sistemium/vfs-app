@@ -28,7 +28,7 @@ import FilterSystemType from '@/models-vuex/FilterSystemType';
 import ContactMethod from '@/models-vuex/ContactMethod';
 import Employee from '@/models-vuex/Employee';
 import FilterSystem from '@/models-vuex/FilterSystem';
-import { orderByAddress, mapId } from '@/lib/fp';
+import { orderByAddress, mapId, sort } from '@/lib/fp';
 
 const { debug } = log('serving');
 
@@ -41,14 +41,15 @@ export const POINTS_SORTING_OPTIONS = new Map([
     label: 'Adresas',
   }],
   ['customer', {
-    fn: point => {
-      const customer = ServicePoint.customer(point);
-      return customer && customer.name;
-    },
+    fn: points => sort(points)
+      .asc(point => {
+        const customer = ServicePoint.customer(point);
+        return customer && customer.name;
+      }),
     label: 'Klientas',
   }],
   ['serviceDate', {
-    fn: point => ServicePoint.nextServiceDate(point),
+    fn: points => orderBy(points, point => ServicePoint.nextServiceDate(point)),
     label: 'Sekančio aptarnavimo data',
   }],
 ]);

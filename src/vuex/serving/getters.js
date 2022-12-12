@@ -1,4 +1,3 @@
-import orderBy from 'lodash/orderBy';
 import * as servicePoints from '@/services/serving';
 
 export const SERVICE_POINTS = 'ServicePoints';
@@ -55,7 +54,7 @@ export default {
     const sorting = getters[POINTS_SORTING];
     const { fn = a => a } = servicePoints.POINTS_SORTING_OPTIONS.get(sorting) || {};
     const points = servicePoints.servicePointsByServingMasterId(masterId);
-    return orderBy(points, fn);
+    return fn(points);
   },
 
   [CURRENT_SERVICE_POINT](state) {
