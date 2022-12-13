@@ -4,7 +4,7 @@ import { createNewSortInstance } from 'fast-sort';
 
 export const sort = createNewSortInstance({
   comparer: new Intl.Collator('lt', {
-    numeric: true,
+    numeric: false,
     sensitivity: 'base',
   }).compare,
 });
