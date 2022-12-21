@@ -5,7 +5,7 @@
   .address.field(@click="locationClick")
     i.el-icon-location-information
     span {{ servicePoint.address }}
-    small(v-if="servicePoint.name") ({{ servicePoint.name }})
+    strong(v-if="servicePoint.name") ({{ servicePoint.name }})
 
   named-contacts.customer(:name="customerName" :contacts="contacts")
   agreement-state-info(:customer="customer")
@@ -74,9 +74,10 @@ export default {
   @extend %form;
 }
 
-small {
-  font-size: 75%;
+strong {
+  font-weight: normal;
   color: $gray;
+  margin-left: $padding;
 }
 
 .address.field {

@@ -4,7 +4,7 @@
   list-item(
     v-for="item in servicePoints"
     :key="item.id"
-    :gray="item.address"
+    :gray="`${item.address}${item.name?' ('+item.name+')':''}`"
     :title="title(item)"
     @click="onClick(item)"
   )
