@@ -3,6 +3,7 @@ import * as servicePoints from '@/services/serving';
 export const SERVICE_POINTS = 'ServicePoints';
 export const MATCHING_SERVICE_POINTS = 'MatchingServicePoints';
 export const MATCHING_SERVICE_TASKS = 'MATCHING_SERVICE_TASKS';
+export const MATCHING_SERVED = 'MATCHING_SERVED';
 export const CURRENT_SERVICE_POINT = 'currentServicePoint';
 export const CURRENT_SERVING_MASTER = 'currentServingMaster';
 export const CURRENT_SERVING_MONTH = 'currentServingMonth';
@@ -39,6 +40,14 @@ export default {
     const data = servicePoints.servicePointsTasks(getters[SERVICE_POINTS], dateB, dateE);
     const filtered = showDone ? data : data.filter(({ isServed }) => !isServed);
     return servicePoints.searchServicePoints(filtered, getters[SEARCH_TEXT]);
+  },
+
+  [MATCHING_SERVED](state, getters) {
+    const month = getters[CURRENT_SERVING_MONTH];
+    const dateB = `${month}-01`;
+    const dateE = `${month}-31`;
+    const data = servicePoints.servicePointsServed(getters[SERVICE_POINTS], dateB, dateE);
+    return servicePoints.searchServicePoints(data, getters[SEARCH_TEXT]);
   },
 
   [SEARCH_TEXT](state) {

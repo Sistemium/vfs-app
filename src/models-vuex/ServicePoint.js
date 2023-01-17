@@ -46,6 +46,20 @@ export default new VFSDataModel({
         return need && !ServiceItem.serviceBetween(serviceItem, dateB, dateE);
       });
     },
+    dateWasServedBetween(servicePoint, dateB, dateE, serviceItems) {
+      let res = null;
+      const found = find(
+        serviceItems || this.serviceItems(servicePoint),
+        serviceItem => {
+          const service = ServiceItem.serviceBetween(serviceItem, dateB, dateE);
+          if (service) {
+            res = service.date;
+          }
+          return service;
+        },
+      );
+      return found && res;
+    },
     contactPersons({ contactIds }) {
       return Person.getByMany(contactIds);
     },

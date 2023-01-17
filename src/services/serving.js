@@ -300,6 +300,25 @@ export function servicePointsTasks(servicePoints, dateB, dateE) {
 
 }
 
+export function servicePointsServed(servicePoints, dateB, dateE) {
+
+  debug('servicePointsServed', 'start');
+
+  const served = servicePoints.map(servicePoint => {
+    const serviceItems = ServicePoint.serviceItems(servicePoint);
+    const servedDate = ServicePoint.dateWasServedBetween(servicePoint, dateB, dateE, serviceItems);
+    return servedDate && {
+      ...servicePoint,
+      servedDate,
+    };
+  });
+
+  debug('servicePointsServed', served.length);
+
+  return filter(served);
+
+}
+
 export function pausedServicePoints(servicePoints) {
 
   debug('pausedServicePoints', 'start');

@@ -26,6 +26,7 @@ export const servingGetters = mapGetters({
   busy: g.BUSY,
   matchingServicePoints: g.MATCHING_SERVICE_POINTS,
   matchingServiceTasks: g.MATCHING_SERVICE_TASKS,
+  matchingServed: g.MATCHING_SERVED,
   servingMonth: g.CURRENT_SERVING_MONTH,
   pointsSorting: g.POINTS_SORTING,
   showDoneTasks: g.SHOW_DONE_TASKS,

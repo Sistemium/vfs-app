@@ -23,6 +23,7 @@ export default {
   props: {
     servicePoints: Array,
     iconFn: String,
+    rightProp: String,
   },
   name: 'ServicePointList',
   methods: {
@@ -36,7 +37,9 @@ export default {
       return this.iconFn && servicePoint[this.iconFn]();
     },
     nextServiceDate(servicePoint) {
-      return ServicePoint.nextServiceDate(servicePoint);
+      return this.rightProp
+        ? servicePoint[this.rightProp]
+        : ServicePoint.nextServiceDate(servicePoint);
     },
   },
 
@@ -50,9 +53,11 @@ export default {
 .right {
   padding: 0 $padding;
   color: green;
+
   i {
     font-size: 150%;
   }
+
   small {
     font-family: monospace;
   }

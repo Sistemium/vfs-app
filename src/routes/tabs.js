@@ -31,10 +31,26 @@ const tabs = [
     path: 'tasks',
     name: 'Tasks',
     component: Tasks,
+    props: {
+      status: 'tasks',
+    },
     children: servicePointChildren('Task'),
     meta: {
       title: 'Užduotys',
       img: 'images/icons8-to_do.png',
+    },
+  },
+  {
+    path: 'served',
+    name: 'ServedServicePoints',
+    component: Tasks,
+    props: {
+      status: 'served',
+    },
+    children: servicePointChildren('Served'),
+    meta: {
+      title: 'Atlikta',
+      img: 'images/icons8-task-completed-96.png',
     },
   },
   {

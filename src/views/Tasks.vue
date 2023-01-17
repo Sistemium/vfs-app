@@ -9,7 +9,7 @@
       right-icon="el-icon-setting"
     )
       strong
-        span Užduotys
+        span {{ title }}
         el-date-picker.month-picker(
           v-model="month"
           type="month"
@@ -31,6 +31,7 @@
       :style="isRootState ? '' : 'width:0'"
       :service-points="tasks"
       icon-fn="isServed"
+      :right-prop="rightProp"
       @click="servicePointClick"
     )
 
@@ -54,9 +55,25 @@ const {
 const NAME = 'Tasks';
 
 export default {
+  props: {
+    status: {
+      type: String,
+      default: 'tasks',
+    },
+  },
   methods: {},
   computed: {
-    servicePoints: servingGetters.matchingServiceTasks,
+    rightProp() {
+      return this.status === 'served' ? 'servedDate' : null;
+    },
+    title() {
+      return this.status === 'tasks' ? 'Užduotys' : 'Aptarnauti';
+    },
+    servicePoints() {
+      return this.status === 'tasks'
+        ? servingGetters.matchingServiceTasks.call(this)
+        : servingGetters.matchingServed.call(this);
+    },
     month: {
       ...mapGetters({ get: CURRENT_SERVING_MONTH }),
       ...mapActions({ set: SET_SERVING_MONTH }),
@@ -96,6 +113,7 @@ export default {
   .month-picker {
     margin-left: $margin-right;
     max-width: 120px;
+
     ::v-deep(.el-input__icon) {
       line-height: 32px;
     }

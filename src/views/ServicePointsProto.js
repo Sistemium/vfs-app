@@ -29,7 +29,7 @@ export default function ServicePointsProto(NAME, detailName) {
           .catch(e => this.$error('settingsClick', e));
       },
       servicePointClick(servicePoint) {
-        const name = `${this.status === 'paused' ? 'Paused' : ''}${detailName}`;
+        const name = this.detailName;
         this.$router.push({
           name,
           params: { servicePointId: servicePoint.id },
@@ -37,16 +37,31 @@ export default function ServicePointsProto(NAME, detailName) {
           .catch(e => this.$error('servicePointClick', e));
       },
       backClick() {
-        const name = `${this.status === 'paused' ? 'Paused' : ''}${NAME}`;
+        const name = this.backName;
         this.$router.replace({ name })
           .catch(e => this.$error('backClick', e));
       },
     },
 
     computed: {
+      backName() {
+        if (this.status === 'served') {
+          return 'ServedServicePoints';
+        }
+        return `${this.status === 'paused' ? 'Paused' : ''}${NAME}`;
+      },
+      detailName() {
+        if (this.status === 'served') {
+          return 'ServedServicePoint';
+        }
+        return `${this.status === 'paused' ? 'Paused' : ''}${detailName}`;
+      },
       isRootState() {
         if (this.status === 'paused') {
           return this.$route.name === 'PausedServicePoints';
+        }
+        if (this.status === 'served') {
+          return this.$route.name === 'ServedServicePoints';
         }
         return this.$route.name === NAME;
       },
