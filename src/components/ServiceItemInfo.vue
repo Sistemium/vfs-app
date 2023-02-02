@@ -9,7 +9,7 @@
   form-field(label="Kitas aptarnavimas" :text="nextServiceDateFn")
   //form-field(label="Sumontuota" :text="serviceItem.installingDate")
   //form-field(label="Aptarnauta" :text="serviceItem.lastServiceDate")
-  form-field(label="Garantija iki" :text="serviceItem.guaranteeEnd" empty-text="Nera garantijos")
+  form-field(label="Garantija iki" :text="guaranteeEnd" empty-text="Nera garantijos")
   form-field.small(label="Pastaba" :text="serviceItem.additionalServiceInfo")
   form-field.small(label="Kitam aptarnavimui" :text="serviceItem.serviceInfo")
   form-field.small(label="Aptarnavimo kaina" :text="servicePrice")
@@ -46,6 +46,9 @@ export default {
     serviceItem: Object,
   },
   computed: {
+    guaranteeEnd() {
+      return ServiceItem.guaranteeEnd(this.serviceItem);
+    },
     nextServiceDateFn() {
       return this.serviceItem && ServiceItem.nextServiceDateFn(this.serviceItem);
     },
