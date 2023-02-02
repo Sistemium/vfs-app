@@ -11,7 +11,7 @@
   agreement-state-info(:customer="customer")
   named-contacts(
     v-for="cp in contactPersons" :key="cp.id"
-    :name="cp.name" :contacts="cp.contacts()"
+    :name="cp.name" :contacts="cp.contacts"
   )
 
   .contract.field(v-if="serviceContract")
@@ -27,6 +27,7 @@ import ServiceContract from '@/models-vuex/ServiceContract';
 import Contact from '@/models-vuex/Contact';
 import ServicePoint from '@/models-vuex/ServicePoint';
 import AgreementStateInfo from '@/components/AgreementStateInfo.vue';
+import Person from '@/models-vuex/Person';
 
 const NAME = 'ServicePointInfo';
 
@@ -51,7 +52,12 @@ export default {
       return this.customer && Contact.customerContacts(this.customer);
     },
     contactPersons() {
-      return ServicePoint.contactPersons(this.servicePoint);
+      return ServicePoint.contactPersons(this.servicePoint)
+        .map(person => ({
+          ...person,
+          name: Person.name(person),
+          contacts: Contact.customerContacts(person),
+        }));
     },
     serviceContract() {
       const { servicePoint } = this;
