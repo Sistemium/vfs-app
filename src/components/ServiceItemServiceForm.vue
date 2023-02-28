@@ -26,6 +26,7 @@ el-form.service-item-service-form(
       placeholder="Spauskite kad pasirinkti"
       format="yyyy-MM-dd"
       value-format="yyyy-MM-dd"
+      :picker-options="pickerOptions"
     )
 
   el-form-item(label="Perkelti į" prop="nextServiceDate" v-if="isForward")
@@ -37,6 +38,7 @@ el-form.service-item-service-form(
       placeholder="Spauskite kad pasirinkti"
       format="yyyy-MM-dd"
       value-format="yyyy-MM-dd"
+      :picker-options="pickerOptions"
     )
 
   el-form-item(label="Aptarnavimo tipas" prop="serviceType" v-if="model.serviceSchema")
@@ -110,6 +112,7 @@ export default {
   data() {
     return {
       rules,
+      pickerOptions: { firstDayOfWeek: 1 },
       // item: {},
     };
   },
