@@ -177,15 +177,9 @@ export function serviceItemServiceById(id) {
   //   .find(id);
 }
 
-export function serviceItemsByServicePointId(servicePointId) {
-  return ServicePoint.serviceItems({ id: servicePointId });
-  // return ServiceItem.query()
-  //   .with([
-  //     '*',
-  //     'filterSystem.type',
-  //   ])
-  //   .where('servicePointId', servicePointId)
-  //   .get();
+export function serviceItemsByServicePointId(servicePointId, servingMasterId) {
+  const res = ServicePoint.serviceItems({ id: servicePointId });
+  return servingMasterId ? res.filter(item => item.servingMasterId === servingMasterId) : res;
 }
 
 export function allServingMasters() {

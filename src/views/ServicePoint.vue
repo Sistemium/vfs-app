@@ -26,12 +26,14 @@ import ServicePointInfo from '@/components/ServicePointInfo.vue';
 import * as svc from '@/services/serving';
 import ServicePoint from '@/models-vuex/ServicePoint';
 import FilterSystem from '@/models-vuex/FilterSystem';
+import { servingGetters } from '@/vuex/serving/maps';
 
 const NAME = 'ServicePoint';
 
 export default {
 
   computed: {
+    currentServingMaster: servingGetters.currentServingMaster,
     servicePointId() {
       return this.$route.params.servicePointId;
     },
@@ -39,7 +41,7 @@ export default {
       return ServicePoint.reactiveGet(this.servicePointId);
     },
     serviceItems() {
-      return svc.serviceItemsByServicePointId(this.servicePointId);
+      return svc.serviceItemsByServicePointId(this.servicePointId, this.currentServingMaster.id);
     },
     serviceItemServices() {
       return svc.servicesByServicePointId(this.servicePointId);
