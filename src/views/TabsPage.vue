@@ -50,7 +50,7 @@ export default {
 }
 
 .tab-content {
-  overflow-y: scroll;
+  overflow-y: auto;
   flex: 1;
   -webkit-overflow-scrolling: touch;
 }
