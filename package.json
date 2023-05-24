@@ -12,6 +12,7 @@
     "@bit/sistemium.vue.resize": "^0.0.4",
     "@bit/sistemium.vue.services.native": "^0.0.1",
     "axios": "^0.27.2",
+    "caniuse-lite": "^1.0.30001489",
     "dayjs": "^1.11.3",
     "element-ui": "^2.15.12",
     "fast-sort": "^3.2.0",
