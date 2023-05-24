@@ -1,4 +1,5 @@
 <template lang="pug">
+// eslint-disable vue/no-mutating-props
 
 el-form.service-item-form(
   :rules="rules"
@@ -49,28 +50,26 @@ el-form.service-item-form(
     el-input(v-model="model.additionalServiceInfo" type="textarea")
 
 </template>
-<script>
+<script setup lang="ts">
 
 import get from 'lodash/get';
 import FilterSystem from '@/models-vuex/FilterSystem';
+import { computed, ref } from 'vue';
+import type { ServiceItem } from '@/types/Serving';
 
-export default {
-  name: 'ServiceItemForm',
-  data() {
-    return {
-      rules: {},
-    };
-  },
-  props: {
-    model: Object,
-    defaults: Object,
-  },
-  computed: {
-    filterSystemName() {
-      return this.model && get(FilterSystem.reactiveGet(this.model.filterSystemId), 'name');
-    },
-  },
-};
+const rules = ref({});
+
+const props = defineProps<{
+  model: ServiceItem;
+  defaults: {
+    servicePrice?: number;
+    smallServicePrice?: number;
+    serviceFrequency?: number;
+  };
+}>();
+
+const filterSystemName = computed(() => props.model
+  && get(FilterSystem.reactiveGet(props.model.filterSystemId), 'name'));
 
 </script>
 <style scoped lang="scss">
