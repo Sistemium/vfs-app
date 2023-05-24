@@ -22,9 +22,9 @@
     "sistemium-dates": "^1.1.0",
     "sistemium-debug": "^1.0.1",
     "uuid": "latest",
-    "vue": "^2.6.14",
+    "vue": "^2.7.14",
     "vue-i18n": "^8.26.3",
-    "vue-router": "^3.5.4",
+    "vue-router": "^3.6.5",
     "vue-router-multiguard": "^1.0.3",
     "vue2-google-maps": "^0.10.7",
     "vuex": "^3.6.2"
@@ -37,8 +37,8 @@
     "@vue/cli-plugin-eslint": "~5.0.6",
     "@vue/cli-plugin-router": "~5.0.6",
     "@vue/cli-plugin-unit-mocha": "~5.0.6",
-    "@vue/cli-plugin-vuex": "~5.0.6",
-    "@vue/cli-service": "~5.0.6",
+    "@vue/cli-plugin-vuex": "~5.0.8",
+    "@vue/cli-service": "~5.0.8",
     "@vue/eslint-config-airbnb": "^6.0.0",
     "@vue/test-utils": "^1.3.0",
     "chai": "^4.3.6",
@@ -50,7 +50,7 @@
     "sass": "^1.52.3",
     "sass-loader": "^12.6.0",
     "vue-cli-plugin-pug": "~2.0.0",
-    "vue-template-compiler": "^2.6.14"
+    "vue-template-compiler": "^2.7.14"
   },
   "eslintConfig": {
     "root": true,
