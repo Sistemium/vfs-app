@@ -2,7 +2,8 @@
 
 .service-item-services-list
   .service-item-service.list-item(
-    v-for="service in services" :key:="service.id"
+    v-for="service in services"
+    :key="service.id"
     @click="$emit('click', service)"
   )
     i.type(:class="[service.typeIcon, service.type]")

@@ -1,4 +1,5 @@
 <template lang="pug">
+// eslint-disable vue/no-mutating-props
 
 el-form.service-item-service-form(
   :rules="rules"
@@ -57,7 +58,7 @@ el-form.service-item-service-form(
       disabled
       v-model="model.smallServicePrice"
       type="number"
-      v-if="priceField==='smallServicePrice'"
+      v-if="priceField === 'smallServicePrice'"
     )
     el-input(
       disabled

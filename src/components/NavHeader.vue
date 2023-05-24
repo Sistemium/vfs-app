@@ -25,7 +25,7 @@
 
 export default {
 
-  name: 'nav-header',
+  name: 'NavHeader',
 
   props: {
     leftIcon: {

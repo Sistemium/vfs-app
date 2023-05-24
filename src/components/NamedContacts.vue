@@ -8,11 +8,17 @@
     contact-info(:contact="mainEmail" v-if="mainEmail")
 
   .contacts(v-if="contacts.length")
-    contact-info(v-for="contact in phones" :key="contacts.id" :contact="contact")
     contact-info(
-      v-for="contact in emails" :key="contacts.id" :contact="contact"
-      v-if="!mainEmail"
+      v-for="contact in phones"
+      :key="contact.id"
+      :contact="contact"
     )
+    template(v-if="!mainEmail")
+      contact-info(
+        v-for="contact in emails"
+        :key="contact.id"
+        :contact="contact"
+      )
 
 
 </template>
