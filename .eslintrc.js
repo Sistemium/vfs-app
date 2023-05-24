@@ -9,6 +9,7 @@ module.exports = {
     'vue/setup-compiler-macros': true,
   },
   extends: [
+    '@vue/typescript',
     'plugin:vue/essential',
     'plugin:vue-pug/vue3-recommended',
     '@vue/eslint-config-airbnb',
@@ -50,5 +51,8 @@ module.exports = {
     ...createAliasSetting({
       '@': `${path.resolve(__dirname, './src')}`,
     }),
+  },
+  parserOptions: {
+    parser: '@typescript-eslint/parser',
   },
 };
