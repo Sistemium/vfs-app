@@ -11,6 +11,7 @@
     //h4 {{ filterSystemName(item) }}
     nav-header(
       :title="filterSystemName(item)"
+      :subtitle="item.info"
       :next="() => serviceItemEdit(item)"
       right-icon="el-icon-edit"
     )

@@ -15,6 +15,12 @@ el-form.service-item-form(
         :label="filterSystemName" :value="model.filterSystemId"
       )
 
+  el-form-item(label="Pastaba" prop="info")
+    el-input(
+      v-model="model.info"
+      type="text"
+    )
+
   el-form-item(label="Aptarnavimo kaina" prop="servicePrice")
     el-input(
       v-model="model.servicePrice"

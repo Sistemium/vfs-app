@@ -10,6 +10,8 @@
     .title
       slot
         strong {{ title }}
+        .subtitle(v-if="subtitle")
+          small {{ subtitle }}
 
     .right
       mt-button.next(:plain="true" @click="nextClick" :disabled="!next")
@@ -31,6 +33,7 @@ export default {
       default: 'arrow-left',
     },
     title: String,
+    subtitle: String,
     prev: Function,
     next: Function,
     rightBadge: String,
@@ -93,6 +96,10 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+
+  .subtitle {
+    color: $gray;
+  }
 
   .title {
 
