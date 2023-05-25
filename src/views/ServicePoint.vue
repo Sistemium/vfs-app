@@ -44,9 +44,6 @@ export default {
     serviceItems() {
       return svc.serviceItemsByServicePointId(this.servicePointId, this.currentServingMaster.id);
     },
-    serviceItemServices() {
-      return svc.servicesByServicePointId(this.servicePointId);
-    },
   },
 
   methods: {
