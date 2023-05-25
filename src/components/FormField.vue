@@ -5,6 +5,7 @@
     label {{ text ? label : emptyText }}
     //label {{ label }}
   span(v-text="text" v-if="text")
+  slot
 
 </template>
 <script>
