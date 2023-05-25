@@ -1,7 +1,7 @@
 require('@rushstack/eslint-patch/modern-module-resolution');
 
-const path = require('node:path');
-const createAliasSetting = require('@vue/eslint-config-airbnb/createAliasSetting');
+// const path = require('node:path');
+// const createAliasSetting = require('@vue/eslint-config-airbnb/createAliasSetting');
 
 module.exports = {
   root: true,
@@ -13,13 +13,11 @@ module.exports = {
     'plugin:vue/essential',
     'plugin:vue-pug/vue3-recommended',
     '@vue/eslint-config-typescript',
-    // '@vue/eslint-config-prettier/skip-formatting',
+    '@vue/eslint-config-prettier/skip-formatting',
 
   ],
   rules: {
     'vue/no-unused-vars': 'error',
-    // 'vue/script-setup-uses-vars': 2,
-    // 'import/no-unresolved': 'error',
     'import/prefer-default-export': 'off',
     'padded-blocks': 'off',
     'vue/html-self-closing': 'off',
@@ -50,9 +48,9 @@ module.exports = {
     ],
   },
   settings: {
-    ...createAliasSetting({
-      '@': `${path.resolve(__dirname, './src')}`,
-    }),
+    // ...createAliasSetting({
+    //   '@': `${path.resolve(__dirname, './src')}`,
+    // }),
   },
   parserOptions: {
     parser: '@typescript-eslint/parser',
