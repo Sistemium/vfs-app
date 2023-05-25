@@ -38,10 +38,12 @@ export interface ServiceItemService extends ApiModel {
   serviceItemId: string;
   servingMasterId: string;
   date: string;
+  nextServiceDate?: string;
   info?: string;
   nextServiceInfo?: string;
   serviceType?: '0' | '1';
   type: SERVICE_TYPE;
+  typeIcon?: string;
 }
 
 export interface ServicePointData extends ApiModel {

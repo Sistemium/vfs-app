@@ -44,4 +44,5 @@ export const TYPE_TITLE_MAP = new Map([
   ['pause', 'Sustabdymas'],
   ['forward', 'Perkelimas'],
   ['other', 'Kita veikla'],
+  ['install', 'Montavimas'],
 ]);
