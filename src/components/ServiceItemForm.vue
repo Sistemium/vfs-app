@@ -55,12 +55,12 @@ el-form.service-item-form(
 import get from 'lodash/get';
 import FilterSystem from '@/models-vuex/FilterSystem';
 import { computed, ref } from 'vue';
-import type { ServiceItem } from '@/types/Serving';
+import type { ServiceItemData } from '@/types/Serving';
 
 const rules = ref({});
 
 const props = defineProps<{
-  model: ServiceItem;
+  model: ServiceItemData;
   defaults: {
     servicePrice?: number;
     smallServicePrice?: number;

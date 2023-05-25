@@ -50,12 +50,12 @@ import ServiceItemServicesList from '@/components/ServiceItemServicesList.vue';
 import ServiceItemServicesInfo from '@/components/ServiceItemServicesInfo.vue';
 import FormField from '@/components/FormField.vue';
 import ServiceItem from '@/models-vuex/ServiceItem';
-import type { ServiceItem as ServiceItemType } from '@/types/Serving';
+import type { ServiceItemData } from '@/types/Serving';
 
 const { debug } = log('ServiceItemInfo');
 
 const props = defineProps<{
-  serviceItem: ServiceItemType;
+  serviceItem: ServiceItemData;
 }>();
 
 const collapsed = ref(true);
