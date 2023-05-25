@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/prettierrc",
+  "semi": true,
+  "tabWidth": 2,
+  "singleQuote": true,
+  "jsxSingleQuote": false,
+  "printWidth": 100,
+  "trailingComma": "es5",
+  "arrowParens": "avoid",
+  "pugWrapAttributesThreshold": 1,
+  "pugAttributeSeparator": "none",
+  "pugFramework": "vue"
+}
