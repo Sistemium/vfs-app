@@ -1,4 +1,4 @@
-<template lang="pug">
+<template lang='pug'>
 
 .service-item-info(v-if="serviceItem")
   //.filter-system
@@ -20,8 +20,18 @@
       mt-button.add-service(size="small" type="primary" @click="addServiceClick")
         i.el-icon-circle-plus-outline
       h4 Aptarnavimo istorija
+      mt-button.expand(
+        size="small"
+        @click="collapsed = !collapsed"
+      )
+        i(:class="collapsed ? 'el-icon-more' : 'el-icon-d-caret'")
     .services(v-if="services().length")
+      service-item-services-info(
+        v-if='collapsed'
+        :services='services()'
+      )
       service-item-services-list(
+        v-else
         :service-item-services="services()"
         @click="onItemServiceClick"
       )
@@ -30,75 +40,74 @@
   router-view
 
 </template>
-<script>
+<script setup lang='ts'>
 
 import orderBy from 'lodash/orderBy';
+import { computed, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router/composables';
 import log from 'sistemium-debug';
 import ServiceItemServicesList from '@/components/ServiceItemServicesList.vue';
+import ServiceItemServicesInfo from '@/components/ServiceItemServicesInfo.vue';
 import FormField from '@/components/FormField.vue';
 import ServiceItem from '@/models-vuex/ServiceItem';
+import type { ServiceItem as ServiceItemType } from '@/types/Serving';
 
-const NAME = 'ServiceItemInfo';
-const { debug } = log(NAME);
+const { debug } = log('ServiceItemInfo');
 
-export default {
-  props: {
-    serviceItem: Object,
-  },
-  computed: {
-    guaranteeEnd() {
-      return ServiceItem.guaranteeEnd(this.serviceItem);
-    },
-    nextServiceDateFn() {
-      return this.serviceItem && ServiceItem.nextServiceDateFn(this.serviceItem);
-    },
-    servicePrice() {
-      const price = ServiceItem.inheritedSystemProp(this.serviceItem, 'servicePrice');
-      return price ? `${price} €` : 'Nenustatyta';
-    },
-    smallServicePrice() {
-      const res = ServiceItem.inheritedSystemProp(this.serviceItem, 'smallServicePrice');
-      return res ? `${res} €` : null;
-    },
-  },
-  methods: {
-    services() {
-      const { installingDate } = this.serviceItem;
-      const services = ServiceItem.services(this.serviceItem);
-      const res = [...services];
-      if (installingDate) {
-        res.push({
-          type: 'install',
-          date: installingDate,
-          info: 'Sumontuota',
-          typeIcon: 'el-icon-s-flag',
-        });
-      }
-      return orderBy(res, ['date'], ['desc']);
-    },
-    onItemServiceClick({ id: serviceItemServiceId }) {
-      debug(serviceItemServiceId);
-      if (!serviceItemServiceId) {
-        return;
-      }
-      const thisPath = this.$route.path;
-      const path = `${thisPath}/serviceEdit/${serviceItemServiceId}`;
-      this.$router.push({ path });
-    },
-    addServiceClick() {
-      const path = `${this.$route.path}/serviceCreate/${this.serviceItem.id}`;
-      this.$router.push({ path });
-    },
-  },
-  components: {
-    FormField,
-    ServiceItemServicesList,
-  },
-  name: NAME,
-};
+const props = defineProps<{
+  serviceItem: ServiceItemType;
+}>();
+
+const collapsed = ref(true);
+const route = useRoute();
+const router = useRouter();
+
+const guaranteeEnd = computed(() => ServiceItem.guaranteeEnd(props.serviceItem));
+const nextServiceDateFn = computed(() => props.serviceItem
+  && ServiceItem.nextServiceDateFn(props.serviceItem));
+
+const servicePrice = computed(() => {
+  const price = ServiceItem.inheritedSystemProp(props.serviceItem, 'servicePrice');
+  return price ? `${price} €` : 'Nenustatyta';
+});
+
+const smallServicePrice = computed(() => {
+  const res = ServiceItem.inheritedSystemProp(props.serviceItem, 'smallServicePrice');
+  return res ? `${res} €` : null;
+});
+
+function services() {
+  const { installingDate } = props.serviceItem;
+  const data = ServiceItem.services(props.serviceItem);
+  const res = [...data];
+  if (installingDate) {
+    res.push({
+      type: 'install',
+      date: installingDate,
+      info: 'Sumontuota',
+      typeIcon: 'el-icon-s-flag',
+    });
+  }
+  return orderBy(res, ['date'], ['desc']);
+}
+
+function onItemServiceClick({ id: serviceItemServiceId }) {
+  debug(serviceItemServiceId);
+  if (!serviceItemServiceId) {
+    return;
+  }
+  const thisPath = route.path;
+  const path = `${thisPath}/serviceEdit/${serviceItemServiceId}`;
+  router.push({ path });
+}
+
+function addServiceClick() {
+  const path = `${route.path}/serviceCreate/${props.serviceItem.id}`;
+  router.push({ path });
+}
 
 </script>
-<style scoped lang="scss">
+<style scoped lang='scss'>
 
 @import "../styles/forms";
 
@@ -127,15 +136,16 @@ small {
 .services-header {
   display: flex;
   align-items: center;
-  padding-right: 27px;
+
+  > button {
+    width: auto;
+    display: block;
+    padding: 4px;
+    height: auto;
+  }
 }
 
 .add-service {
-  width: auto;
-  display: block;
-  padding: 4px;
-  height: auto;
-
   i {
     font-size: 130%;
     //color: $blue;
