@@ -31,7 +31,7 @@ import Employee from '@/models-vuex/Employee';
 import FilterSystem from '@/models-vuex/FilterSystem';
 import { orderByAddress, mapId, sort } from '@/lib/fp';
 import type { ServicePointData, ServiceItemData, ServiceContractData } from '@/types/Serving';
-import type { ContactData, ContactMethodData } from "@/types/Contacting";
+import type { ContactData, ContactMethodData } from '@/types/Contacting';
 
 const { debug } = log('serving');
 
