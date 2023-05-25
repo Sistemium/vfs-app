@@ -12,7 +12,9 @@ module.exports = {
     '@vue/typescript',
     'plugin:vue/essential',
     'plugin:vue-pug/vue3-recommended',
-    '@vue/eslint-config-airbnb',
+    '@vue/eslint-config-typescript',
+    // '@vue/eslint-config-prettier/skip-formatting',
+
   ],
   rules: {
     'vue/no-unused-vars': 'error',
