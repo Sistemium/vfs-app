@@ -6,6 +6,7 @@ import uniq from 'lodash/uniq';
 import fpGet from 'lodash/fp/get';
 import get from 'lodash/get';
 import find from 'lodash/find';
+// @ts-ignore
 import log from 'sistemium-debug';
 import noop from 'lodash/noop';
 import orderBy from 'lodash/orderBy';
@@ -29,6 +30,8 @@ import ContactMethod from '@/models-vuex/ContactMethod';
 import Employee from '@/models-vuex/Employee';
 import FilterSystem from '@/models-vuex/FilterSystem';
 import { orderByAddress, mapId, sort } from '@/lib/fp';
+import type { ServicePointData, ServiceItemData, ServiceContractData } from '@/types/Serving';
+import type { ContactData, ContactMethodData } from "@/types/Contacting";
 
 const { debug } = log('serving');
 
@@ -43,27 +46,30 @@ export const POINTS_SORTING_OPTIONS = new Map([
   ['customer', {
     fn: points => sort(points)
       .asc(point => {
+        // @ts-ignore
         const customer = ServicePoint.customer(point);
         return customer && customer.name;
       }),
     label: 'Klientas',
   }],
   ['serviceDate', {
+    // @ts-ignore
     fn: points => orderBy(points, point => ServicePoint.nextServiceDate(point)),
     label: 'Sekančio aptarnavimo data',
   }],
 ]);
 
-function onProgressDebug(code) {
-  return message => debug(code, message);
+function onProgressDebug(code: string) {
+  return (message: string) => debug(code, message);
 }
 
-export async function loadServicePoints(servingMasterId, onProgress = onProgressDebug('loadServicePoints')) {
+export async function loadServicePoints(servingMasterId: string, onProgress = onProgressDebug('loadServicePoints')) {
 
   onProgress('įrenginiai');
   await ServiceItem
     .fetchOnce({ servingMasterId });
 
+  // @ts-ignore
   const items = ServiceItem.byServingMasterId(servingMasterId);
   const toLoadRelations = filter(items, i => !ServicePoint.getByID(i.servicePointId));
   const servicePointIds = uniq(mapServicePointId(toLoadRelations));
@@ -71,7 +77,7 @@ export async function loadServicePoints(servingMasterId, onProgress = onProgress
   onProgress('aptarnavimo taškai');
   await ServicePoint.findByMany(servicePointIds);
 
-  const servicePoints = ServicePoint.filter({})
+  const servicePoints = (ServicePoint.filter({}) as ServicePointData[])
     .filter(({ id }) => servicePointIds.includes(id));
 
   if (servicePoints.length) {
@@ -83,16 +89,18 @@ export async function loadServicePoints(servingMasterId, onProgress = onProgress
 
 }
 
-export function sortByServiceDate(servicePoints) {
+export function sortByServiceDate(servicePoints: ServicePointData[]) {
+  // @ts-ignore
   return orderBy(servicePoints, point => ServicePoint.nextServiceDateFn(point));
 }
 
-export function servicePointsByServingMasterId(servingMasterId) {
+export function servicePointsByServingMasterId(servingMasterId: string) {
+  // @ts-ignore
   const items = ServiceItem.byServingMasterId(servingMasterId);
   return servicePointByIds(mapServicePointId(items));
 }
 
-async function loadServicePointsRelations(servicePoints, onProgress = noop) {
+async function loadServicePointsRelations(servicePoints: ServicePointData[], onProgress = noop) {
 
   let loadRelations;
 
@@ -107,7 +115,7 @@ async function loadServicePointsRelations(servicePoints, onProgress = noop) {
     .findByMany(mapContractId(loadRelations));
 
   // Person
-  loadRelations = filter(contracts, serviceContract => {
+  loadRelations = filter(contracts, (serviceContract: ServiceContractData) => {
     const { customerPersonId } = serviceContract;
     return customerPersonId && !Person.getByID(customerPersonId);
   });
@@ -120,7 +128,7 @@ async function loadServicePointsRelations(servicePoints, onProgress = noop) {
     .findByMany(contactPersonIds);
 
   // LegalEntity
-  loadRelations = filter(contracts, serviceContract => {
+  loadRelations = filter(contracts, (serviceContract: ServiceContractData) => {
     const { customerLegalEntityId } = serviceContract;
     return customerLegalEntityId && !LegalEntity.getByID(customerLegalEntityId);
   });
@@ -152,7 +160,7 @@ export async function loadCatalogue() {
     .fetchOnce();
 }
 
-export function servicePointByIds(ids) {
+export function servicePointByIds(ids: string[]) {
   // const relations = [
   //   'serviceContract',
   //   'serviceContract.customerPerson',
@@ -170,15 +178,16 @@ export function servicePointByIds(ids) {
   return ServicePoint.getByMany(ids);
 }
 
-export function serviceItemServiceById(id) {
+export function serviceItemServiceById(id: string) {
   return ServiceItemService.reactiveGet(id);
   // return ServiceItemService.query()
   //   .withAll()
   //   .find(id);
 }
 
-export function serviceItemsByServicePointId(servicePointId, servingMasterId) {
-  const res = ServicePoint.serviceItems({ id: servicePointId });
+export function serviceItemsByServicePointId(servicePointId: string, servingMasterId: string) {
+  // @ts-ignore
+  const res = ServicePoint.serviceItems({ id: servicePointId }) as ServiceItemData[];
   return servingMasterId ? res.filter(item => item.servingMasterId === servingMasterId) : res;
 }
 
@@ -197,18 +206,19 @@ export async function loadServingMasters() {
   await Employee.fetchOnce();
 }
 
-export function servingMasterById(id) {
+export function servingMasterById(id: string) {
   return Employee.reactiveGet(id);
 }
 
-export async function loadServiceItemService(servicePointId) {
+export async function loadServiceItemService(servicePointId: string) {
+  // @ts-ignore
   const serviceItems = ServicePoint.serviceItems({ id: servicePointId });
   await ServiceItemService.fetchAll({
     serviceItemId: { $in: mapId(serviceItems) },
   });
 }
 
-export function servicesByServicePointId(servicePointId) {
+export function servicesByServicePointId(servicePointId: string) {
   const serviceItems = ServiceItem.reactiveManyByIndex('servicePointId', servicePointId);
   const ids = mapId(serviceItems);
   const res = ids.map(serviceItemId => ServiceItemService.reactiveManyByIndex('serviceItemId', serviceItemId));
@@ -220,11 +230,12 @@ export function servicesByServicePointId(servicePointId) {
 const servicePointSearchRules = [
   fpGet('address'),
   fpGet('districtName'),
-  servicePoint => get(ServicePoint.customer(servicePoint), 'name'),
+  // @ts-ignore
+  (servicePoint: ServicePointData) => get(ServicePoint.customer(servicePoint), 'name'),
   // fpGet('serviceContract.customer.name'),
 ];
 
-export function searchServicePoints(servicePoints, text) {
+export function searchServicePoints(servicePoints: ServicePointData[], text: string) {
 
   if (!text) {
     return servicePoints;
@@ -236,13 +247,14 @@ export function searchServicePoints(servicePoints, text) {
 
   const rePhone = new RegExp(likeLt(escapeRegExp(phoneText)), 'i'); // eslint-disable-line
   const contacts = Contact.filter();
-  const [{ id: phoneMethodId }] = ContactMethod.filter({ code: 'phone' });
+  const [{ id: phoneMethodId }] = ContactMethod.filter({ code: 'phone' }) as ContactMethodData[];
   const filterFn = phoneText.length > 0 ? filterByPhoneFn : anyAddressFn;
-  const matchingContacts = filter(contacts, filterFn);
+  const matchingContacts = filter(contacts, filterFn) as ContactData[];
   const matchingContactOwners = matchingContacts.map(contact => contact.ownerXid);
   const matchingContactIds = matchingContacts.map(contact => contact.ownerXid);
 
-  const contactsRule = servicePoint => {
+  const contactsRule = (servicePoint: ServicePointData) => {
+    // @ts-ignore
     const person = ServicePoint.customer(servicePoint);
     // fpGet('serviceContract.customer', servicePoint);
     const { contactIds } = servicePoint;
@@ -252,34 +264,36 @@ export function searchServicePoints(servicePoints, text) {
 
   return filter(servicePoints, servicePointMatcher);
 
-  function servicePointMatcher(servicePoint) {
+  function servicePointMatcher(servicePoint: ServicePointData) {
     return find(servicePointSearchRules, searcher => re.test(searcher(servicePoint)))
       || contactsRule(servicePoint);
   }
 
-  function filterByPhoneFn(contact) {
+  function filterByPhoneFn(contact: ContactData) {
     return contact.contactMethodId === phoneMethodId && rePhone.test(contact.address);
   }
 
-  function anyAddressFn(contact) {
+  function anyAddressFn(contact: ContactData) {
     return re.test(contact.address);
   }
 
 }
 
-export function servicePointsTasks(servicePoints, dateB, dateE) {
+export function servicePointsTasks(servicePoints: ServicePointData[], dateB: string, dateE: string) {
 
   debug('servicePointsTasks', 'start');
 
-  const tasks = servicePoints.map(servicePoint => {
+  const tasks = servicePoints.map((servicePoint: ServicePointData) => {
+    // @ts-ignore
     const serviceItems = ServicePoint.serviceItems(servicePoint);
+    // @ts-ignore
     const isServed = ServicePoint.isServedBetween(servicePoint, dateB, dateE, serviceItems);
     const res = find(serviceItems, item => {
+      // @ts-ignore
       const services = ServiceItem.services(item);
+      // @ts-ignore
       const needService = ServiceItem.needServiceBetween(item, dateB, dateE, services);
-      // if (item.id === '20cd990a-e431-4323-892e-cc90d62f2621') {
-      //   debug('servicePointsTasks', services);
-      // }
+      // @ts-ignore
       return needService || ServiceItem.serviceBetween(item, dateB, dateE, services);
     });
     return res && {
@@ -294,12 +308,14 @@ export function servicePointsTasks(servicePoints, dateB, dateE) {
 
 }
 
-export function servicePointsServed(servicePoints, dateB, dateE) {
+export function servicePointsServed(servicePoints: ServicePointData[], dateB: string, dateE: string) {
 
   debug('servicePointsServed', 'start');
 
-  const served = servicePoints.map(servicePoint => {
+  const served = servicePoints.map((servicePoint: ServicePointData) => {
+    // @ts-ignore
     const serviceItems = ServicePoint.serviceItems(servicePoint);
+    // @ts-ignore
     const servedDate = ServicePoint.dateWasServedBetween(servicePoint, dateB, dateE, serviceItems);
     return servedDate && {
       ...servicePoint,
@@ -313,11 +329,12 @@ export function servicePointsServed(servicePoints, dateB, dateE) {
 
 }
 
-export function pausedServicePoints(servicePoints) {
+export function pausedServicePoints(servicePoints: ServicePointData[]) {
 
   debug('pausedServicePoints', 'start');
 
   const res = filter(servicePoints, servicePoint => {
+    // @ts-ignore
     const serviceItems = ServicePoint.serviceItems(servicePoint);
     return find(serviceItems, 'pausedFrom');
   });
@@ -328,11 +345,12 @@ export function pausedServicePoints(servicePoints) {
 
 }
 
-export function servingServicePoints(servicePoints) {
+export function servingServicePoints(servicePoints: ServicePointData[]) {
 
   debug('servingServicePoints', 'start');
 
   const res = filter(servicePoints, servicePoint => {
+    // @ts-ignore
     const serviceItems = ServicePoint.serviceItems(servicePoint);
     return find(serviceItems, ({ pausedFrom }) => !pausedFrom);
   });
@@ -343,7 +361,7 @@ export function servingServicePoints(servicePoints) {
 
 }
 
-export function normalizeInt(val) {
+export function normalizeInt(val?: number | string): number | null {
   if (isNumber(val)) {
     return val;
   }
