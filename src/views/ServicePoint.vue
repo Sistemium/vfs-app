@@ -94,4 +94,8 @@ h4 {
 
 }
 
+.service-item + .service-item {
+  margin-top: $margin-top * 2;
+}
+
 </style>
