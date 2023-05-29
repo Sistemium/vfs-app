@@ -34,7 +34,7 @@ export interface ServiceItemData extends ApiModel {
 
 }
 
-export interface ServiceItemService extends ApiModel {
+export interface ServiceItemServiceData extends ApiModel {
   serviceItemId: string;
   servingMasterId: string;
   date: string;

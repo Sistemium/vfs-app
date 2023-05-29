@@ -29,12 +29,18 @@
       service-item-services-info(
         v-if='collapsed'
         :services='services()'
+        @click="onItemServiceClick"
       )
       service-item-services-list(
         v-else
         :service-item-services="services()"
         @click="onItemServiceClick"
       )
+      .more(
+        v-if='collapsed'
+      )
+        a(@click='collapsed = false')
+         small rodyti daugiau ...
     .empty(v-else) Nera duomenų
 
   router-view
@@ -150,6 +156,13 @@ small {
     font-size: 130%;
     //color: $blue;
     font-weight: bold;
+  }
+}
+
+.more {
+  text-align: center;
+  a small {
+    color: $primary-color;
   }
 }
 
