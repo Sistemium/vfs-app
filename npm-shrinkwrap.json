@@ -1,12 +1,12 @@
 {
   "name": "vfs-app",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "lockfileVersion": 3,
   "requires": true,
   "packages": {
     "": {
       "name": "vfs-app",
-      "version": "0.2.6",
+      "version": "0.2.7",
       "dependencies": {
         "@bit/sistemium.vue.mixins.debug": "^0.0.1",
         "@bit/sistemium.vue.resize": "^0.0.4",
