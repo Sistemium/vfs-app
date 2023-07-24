@@ -26,6 +26,9 @@ export default new VFSDataModel({
       return LegalEntity.reactiveGet(customerLegalEntityId);
     },
     legalType(serviceContract) {
+      if (!serviceContract) {
+        return null;
+      }
       const {
         customerPersonId,
         customerLegalEntityId,
